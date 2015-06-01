@@ -1,0 +1,68 @@
+<include file="Public:header" />
+
+<script type="text/javascript" src="/AmaAdmin/js/custom/forms.js"></script>
+<include file="Public:menu" />
+<div class="centercontent">
+	<div class="pageheader notab">
+            <h1 class="pagetitle">按摩师</h1>
+            <span class="pagedesc">此页面用于添加按摩师</span>
+    </div><!--pageheader-->
+    <div id="contentwrapper" class="contentwrapper">
+    	<div id="basicform" class="subcontent">
+    				<div class="contenttitle2">
+                        <h3>添加按摩师</h3>
+                    </div><!--contenttitle-->
+
+                    <form id="pform" class="stdform" action="" method="post" enctype="multipart/form-data">
+                    	<p>
+                        	<label>按摩师名</label>
+                            <span class="field"><input type="text" name="name" id="name" value="{$info.name}" class="mediuminput" /></span>
+                            <small class="desc">请输入按摩师名.</small>
+                        </p>
+                        
+                        <p>
+                        	<label>按摩师图片</label>
+                            <span class="field"><input type="file" name="newimg" /> <img src="/{$info.img}" width="100"></span>
+                            <small class="desc">按摩师图片.</small><input type="hidden" name="img" value="{$info.img}" />
+                        </p>
+                        <p>
+                        	<label>按摩性别</label>
+                            <span class="field">
+                            	<input type="radio" name="sex" <eq name="info.sex" value="1">checked="checked"</eq> value="1" /> 男 &nbsp; &nbsp;
+                            	<input type="radio" name="sex" <eq name="info.sex" value="2">checked="checked"</eq> value="2" /> 女 &nbsp; &nbsp;
+                            </span>
+                        </p>
+                        <p>
+                        	<label>按摩师级别</label>
+                            <span class="field">
+                                <select name="level" class="uniformselect">
+                                    <option value="高级" <eq name="info.level" value="高级">selected=""</eq> >高级</option>
+                                    <option value="特级" <eq name="info.level" value="特级">selected=""</eq>>特级</option>
+                                    <option value="专家" <eq name="info.level" value="专家">selected=""</eq>>专家</option>
+                                </select>
+                            </span>
+                        </p>
+                        <p>
+                        	<label>工作经验</label>
+                        	<span class="field">
+                        		<textarea cols="80" rows="5" name="content" id="content" class="longinput">{$info.content}</textarea>
+                        	</span>
+                        </p>
+                        <p>
+                            <label>平台订单数量</label>
+                            <span class="field">
+                                <input type="text" name="ordernum" id="ordernum" value="{$info.ordernum}" class="mediuminput" />
+                            </span>
+                        </p>
+                        <p>
+                            
+                        </p>
+                        <p class="stdformbutton">
+                        	<button class="submit radius2">提交修改</button><input type="hidden" name="id" value="{$info.id}" />
+                            <input type="reset" class="reset radius2" value="重置表单" />
+                        </p>
+                    </form>
+    	</div>
+    </div>
+</div>
+<include file="Public:footer" />

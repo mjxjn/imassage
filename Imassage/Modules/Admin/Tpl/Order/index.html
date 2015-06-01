@@ -1,0 +1,250 @@
+<include file="Public:header" />
+<style type="text/css">
+	.dataTables_paginate a{
+		border: 1px solid #ccc;
+        padding: 5px 7px;
+        margin-left: 5px;
+        font-weight: bold;
+        background: #fcfcfc;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
+        font-size: 11px;
+        -moz-box-shadow: 1px 1px 2px #ddd;
+        -webkit-box-shadow: 1px 1px 2px #ddd;
+        box-shadow: 1px 1px 2px #ddd;
+		
+	}
+	.dataTables_paginate .current{
+		border: 1px solid #F0882C;
+        background: #F0882C;
+        color: #fff;
+        padding: 5px 7px;
+        margin-left: 5px;
+        font-weight: bold;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
+        font-size: 11px;
+	}
+</style>
+<include file="Public:menu" />
+<div class="centercontent tables">
+    
+        <div class="pageheader notab">
+            <h1 class="pagetitle">订单列表</h1>
+            <span class="pagedesc">全部订单列表</span>
+            <ul class="hornav">
+                <li class="current"><a href="#all">全部订单</a></li>
+                <li><a href="#unfinish">未完成订单</a></li>
+            </ul>
+        </div><!--pageheader-->
+        
+        <div id="contentwrapper" class="contentwrapper">
+        	<div id="all" class="subcontent">
+        		<table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+                    <colgroup>
+                        <col class="con0" />
+                        <col class="con1" />
+                        <col class="con0" />
+                        <col class="con1" />
+                        <col class="con0" />
+                        <col class="con1" />
+                        <col class="con0" />
+                        <col class="con1" />
+                        <col class="con0" />
+                        <col class="con1" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th class="head0">ID</th>
+                            <th class="head1">用户名</th>
+                            <th class="head0">电话</th>
+                            <th class="head1">服务项目</th>
+                            <th class="head0">按摩师</th>
+                            <th class="head1">人数</th>
+                            <th class="head0">预约时间</th>
+                            <th class="head1">支付状态</th>
+                            <th class="head0">订单金额</th>
+                            <th class="head1">操作</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th class="head0">ID</th>
+                            <th class="head1">用户名</th>
+                            <th class="head0">电话</th>
+                            <th class="head1">服务项目</th>
+                            <th class="head0">按摩师</th>
+                            <th class="head1">人数</th>
+                            <th class="head0">预约时间</th>
+                            <th class="head1">支付状态</th>
+                            <th class="head0">订单金额</th>
+                            <th class="head1">操作</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                    <volist name="list" id="vo">
+                        <tr>
+                            <td>{$vo.id}</td>
+                            <td>{$vo.name}</td>
+                            <td class="center">{$vo.phone}</td>
+                            <td>{$vo.title}</td>
+                            <td>{$vo.blindman}</td>
+                            <td>{$vo.num}</td>
+                            <td>{$vo.starttime|date="y-m-d H:i",###}</td>
+                            <td>{$vo.status|payStatus}</td>
+                            <td>{$vo.total|incPrc}</td>
+                            <td class="center">
+                            <ul class="buttonlist">
+                            	<li><a href="javascript:view({$vo.id})" class="btn btn_info"><span>订单详情</span></a></li>
+                                <if condition="$vo.status eq 1">
+                                <li><a href="__URL__/changeOrder?id={$vo.id}&status=1" class="btn btn_orange btn_trash" onclick="return confirm('是否取消订单');"><span>取消订单</span></a></li>
+                                </if>
+                                <if condition="$vo.status eq 2">
+                                <li><a href="__URL__/changeOrder?id={$vo.id}&status=2" class="btn btn_archive" onclick="return confirm('是否确认订单');"><span>确认订单</span></a></li>
+                                </if>
+                                <if condition="$vo.status eq 3">
+                                <li><a href="__URL__/changeOrder?id={$vo.id}&status=3" class="btn btn_orange btn_trash" onclick="return confirm('是否完成按摩');"><span>服务完成</span></a></li>
+                                </if>
+                                <if condition="$vo.status eq 4">
+                                <li><a href="__URL__/changeOrder?id={$vo.id}&status=4" class="btn btn_archive" onclick="return confirm('是否确认订单');"><span>订单完成</span></a></li>
+                                </if>
+                                <if condition="$vo.status eq 6">
+                                <li><a href="__URL__/changeOrder?id={$vo.id}&status=5" class="btn btn_orange btn_trash" onclick="return confirm('确定同意退款');"><span>同意退款</span></a></li>
+                                <li><a href="__URL__/changeOrder?id={$vo.id}&status=6" class="btn btn_archive" onclick="return confirm('不同意退款');"><span>不同意退款</span></a></li>
+                                </if>
+                            </ul>
+                            </td>
+                        </tr>
+                    </volist>
+                    </tbody>
+                </table>
+                
+                <div class="dataTables_paginate paging_full_numbers" id="dyntable_paginate">{$page}</div>
+        	</div>
+        	<div id="unfinish" class="subcontent" style="display: none">
+        		<table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+                    <colgroup>
+                        <col class="con0" />
+                        <col class="con1" />
+                        <col class="con0" />
+                        <col class="con1" />
+                        <col class="con0" />
+                        <col class="con1" />
+                        <col class="con0" />
+                        <col class="con1" />
+                        <col class="con0" />
+                        <col class="con1" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th class="head0">ID</th>
+                            <th class="head1">用户名</th>
+                            <th class="head0">电话</th>
+                            <th class="head1">服务项目</th>
+                            <th class="head0">按摩师</th>
+                            <th class="head1">人数</th>
+                            <th class="head0">预约时间</th>
+                            <th class="head1">支付状态</th>
+                            <th class="head0">订单金额</th>
+                            <th class="head1">操作</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th class="head0">ID</th>
+                            <th class="head1">用户名</th>
+                            <th class="head0">电话</th>
+                            <th class="head1">服务项目</th>
+                            <th class="head0">按摩师</th>
+                            <th class="head1">人数</th>
+                            <th class="head0">预约时间</th>
+                            <th class="head1">支付状态</th>
+                            <th class="head0">订单金额</th>
+                            <th class="head1">操作</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                    <volist name="unlist" id="vo">
+                        <tr>
+                            <td>{$vo.id}</td>
+                            <td>{$vo.name}</td>
+                            <td class="center">{$vo.phone}</td>
+                            <td>{$vo.title}</td>
+                            <td>{$vo.blindman}</td>
+                            <td>{$vo.num}</td>
+                            <td>{$vo.starttime|date="y-m-d H:i",###}</td>
+                            <td>{$vo.status|payStatus}</td>
+                            <td>{$vo.total|incPrc}</td>
+                            <td class="center">
+                            <ul class="buttonlist">
+                                <li><a href="javascript:view({$vo.id})" class="btn btn_info"><span>订单详情</span></a></li>
+                                <if condition="$vo.status eq 1">
+                                <li><a href="__URL__/changeOrder?id={$vo.id}&status=1" class="btn btn_orange btn_trash" onclick="return confirm('是否取消订单');"><span>取消订单</span></a></li>
+                                </if>
+                                <if condition="$vo.status eq 2">
+                                <li><a href="__URL__/changeOrder?id={$vo.id}&status=2" class="btn btn_archive" onclick="return confirm('是否确认订单');"><span>确认订单</span></a></li>
+                                </if>
+                                <if condition="$vo.status eq 3">
+                                <li><a href="__URL__/changeOrder?id={$vo.id}&status=3" class="btn btn_orange btn_trash" onclick="return confirm('是否完成按摩');"><span>服务完成</span></a></li>
+                                </if>
+                                <if condition="$vo.status eq 4">
+                                <li><a href="__URL__/changeOrder?id={$vo.id}&status=4" class="btn btn_archive" onclick="return confirm('是否确认订单');"><span>订单完成</span></a></li>
+                                </if>
+                                <if condition="$vo.status eq 6">
+                                <li><a href="__URL__/changeOrder?id={$vo.id}&status=5" class="btn btn_orange btn_trash" onclick="return confirm('确定同意退款');"><span>同意退款</span></a></li>
+                                <li><a href="__URL__/changeOrder?id={$vo.id}&status=6" class="btn btn_archive" onclick="return confirm('不同意退款');"><span>不同意退款</span></a></li>
+                                </if>
+                            </ul>
+                            </td>
+                        </tr>
+                    </volist>
+                    </tbody>
+                </table>
+        	</div>
+        </div><!--contentwrapper-->
+
+</div><!-- centercontent -->
+<include file="Public:footer" />
+<script text="javascript/text">
+    function view(id){
+        var text = "";
+        jQuery.ajax({
+                    type:'post',        
+                    url:'/index.php/admin/Order/view',    
+                    data:"id="+id,    
+                    cache:false,    
+                    dataType:'json',
+                    success:function(data){
+                        if (data.status == 1) {
+                            text = "用户名：" + data.data.name + "\n\r";
+                            if (data.data.coupons == null) {
+                                text += "优惠券：" + "没有使用" + "\n\r";
+                            }else{
+                                text += "优惠券：" + data.data.coupons + "(" + (data.data.coupons_price/100) + ")" + "\n\r";
+                            };
+                            
+                            text += "按摩单价：" + (data.data.price/100) + "\n\r";
+                            text += "人数：" + (data.data.num) + "\n\r";
+                            text += "按摩总价：" + (data.data.total/100) + "\n\r";
+                            text += "地址：" + (data.data.address) + "\n\r";
+                            text += "下单时间：" + getLocalTime(data.data.addtime) + "\n\r";
+                            if(data.data.updatetime != null){
+                                text += "订单更新时间：" + getLocalTime(data.data.updatetime) + "\n\r";
+                            }
+                            if(data.data.updatetime != null){
+                                text += "订单完成时间：" + getLocalTime(data.data.endtime) + "\n\r";
+                            }
+                            alert(text);
+                        }else{
+                            alert("数据错误！");
+                        };
+                    }
+                });
+    }
+
+    function getLocalTime(nS) {     
+       return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:d{1,2}$/,' ');     
+    } 
+</script>
