@@ -68,4 +68,18 @@ function payStatus($key){
 	}
 	return $status;
 }
+
+//评论是否显示
+function isShow($s){
+	if ($s == 0) {
+		$status = "隐藏";
+	}else{
+		$status = "显示";
+	}
+	return $status;
+}
+
+function getTime(){
+	return time();
+}
 ?>
