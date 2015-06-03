@@ -97,35 +97,13 @@
         </div><!--headerwidget-->
         
     </div><!--header-->
-<style type="text/css">
-	.dataTables_paginate a{
-		border: 1px solid #ccc;
-        padding: 5px 7px;
-        margin-left: 5px;
-        font-weight: bold;
-        background: #fcfcfc;
-        -moz-border-radius: 2px;
-        -webkit-border-radius: 2px;
-        border-radius: 2px;
-        font-size: 11px;
-        -moz-box-shadow: 1px 1px 2px #ddd;
-        -webkit-box-shadow: 1px 1px 2px #ddd;
-        box-shadow: 1px 1px 2px #ddd;
-		
-	}
-	.dataTables_paginate .current{
-		border: 1px solid #F0882C;
-        background: #F0882C;
-        color: #fff;
-        padding: 5px 7px;
-        margin-left: 5px;
-        font-weight: bold;
-        -moz-border-radius: 2px;
-        -webkit-border-radius: 2px;
-        border-radius: 2px;
-        font-size: 11px;
-	}
-</style>
+<script type="text/javascript" src="/AmaAdmin/js/custom/dashboard.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function(){
+    jQuery( "#endtime" ).datepicker();
+})
+</script>
+<script type="text/javascript" src="/AmaAdmin/js/custom/forms.js"></script>
     <div class="vernav2 iconmenu">
     	<ul>
             <li><a href="#product" class="addons">服务管理</a>
@@ -163,65 +141,62 @@
         <a class="togglemenu"></a>
         <br /><br />
     </div><!--leftmenu-->
-<div class="centercontent tables">
-    
-        <div class="pageheader notab">
-            <h1 class="pagetitle">服务</h1>
-            <span class="pagedesc">按摩服务列表</span>
-            
-        </div><!--pageheader-->
-        
-        <div id="contentwrapper" class="contentwrapper">
+<div class="centercontent">
+	<div class="pageheader notab">
+            <h1 class="pagetitle">优惠券</h1>
+            <span class="pagedesc">此页面用于添加优惠券</span>
+    </div><!--pageheader-->
+    <div id="contentwrapper" class="contentwrapper">
+    	<div id="basicform" class="subcontent">
+    				<div class="contenttitle2">
+                        <h3>添加优惠券</h3>
+                    </div><!--contenttitle-->
+
+                    <form id="pform" class="stdform" action="" method="post">
+                    	<p>
+                        	<label>优惠券标题</label>
+                            <span class="field"><input type="text" name="name" id="name" class="mediuminput" /></span>
+                            <small class="desc">请输入优惠券标题.</small>
+                        </p>
                         
-                <div class="contenttitle2">
-                	<h3>服务列表</h3>
-                </div><!--contenttitle-->
-                	
-                <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
-                    <colgroup>
-                        <col class="con0" />
-                        <col class="con1" />
-                        <col class="con0" />
-                        <col class="con1" />
-                        <col class="con0" />
-                    </colgroup>
-                    <thead>
-                        <tr>
-                            <th class="head0">ID</th>
-                            <th class="head1">标题</th>
-                            <th class="head0">最低价格</th>
-                            <th class="head1">服务时间</th>
-                            <th class="head0">操作</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th class="head0">ID</th>
-                            <th class="head1">标题</th>
-                            <th class="head0">最低价格</th>
-                            <th class="head1">服务时间</th>
-                            <th class="head0">操作</th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                    <?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><tr>
-                            <td><?php echo ($vo["id"]); ?></td>
-                            <td><?php echo ($vo["title"]); ?></td>
-                            <td class="center"><?php echo (incprc($vo["price"])); ?>元</td>
-                            <td class="center"><?php echo ($vo["timelong"]); ?>分钟</td>
-                            <td class="center">
-                            <ul class="buttonlist">
-                            	<li><a href="###" class="btn btn3 btn_world"></a></li>
-                            	<li><a href="__URL__/edit?id=<?php echo ($vo["id"]); ?>" class="btn btn3 btn_pencil"></a></li>
-                            	<li><a href="__URL__/del?id=<?php echo ($vo["id"]); ?>" class="btn btn3 btn_orange btn_trash"></a></li>
-                            </ul>
-                            </td>
-                        </tr><?php endforeach; endif; else: echo "" ;endif; ?>
-                    </tbody>
-                </table>
-                
-                <div class="dataTables_paginate paging_full_numbers" id="dyntable_paginate"><?php echo ($page); ?></div>
-        </div>
+                        <p>
+                        	<label>优惠券金额</label>
+                            <span class="field">
+                                <select name="price" class="uniformselect">
+                                    <option value="5" selected="">5元</option>
+                                    <option value="10">10元</option>
+                                    <option value="20">20元</option>
+                                    <option value="50">50元</option>
+                                    <option value="100">100元</option>
+                                </select>
+                            </span>
+                        </p>
+                        <p>
+                        	<label>最低人数限制</label>
+                        	<span class="field">
+                        		<input type="text" name="minnum" id="minnum" value="1" class="mediuminput"/>
+                        	</span>
+                        </p>
+                        <p>
+                            <label>最低使用金额</label>
+                            <span class="field">
+                                <input type="text" name="minprice" id="minprice" value="100" class="mediuminput" />
+                            </span>
+                            <small class="desc">单位“元”.</small>
+                        </p>
+                        <p>
+                            <label>到期时间</label>
+                            <span class="field">
+                                <input type="text" name="endtime" id="endtime" />
+                            </span>
+                        </p>
+                        <p class="stdformbutton">
+                        	<button class="submit radius2">提交添加</button>
+                            <input type="reset" class="reset radius2" value="重置表单" />
+                        </p>
+                    </form>
+    	</div>
+    </div>
 </div>
 </div><!--bodywrapper-->
 

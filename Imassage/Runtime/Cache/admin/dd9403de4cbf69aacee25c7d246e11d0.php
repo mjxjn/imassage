@@ -166,19 +166,16 @@
 <div class="centercontent tables">
     
         <div class="pageheader notab">
-            <h1 class="pagetitle">服务</h1>
-            <span class="pagedesc">按摩服务列表</span>
-            
+            <h1 class="pagetitle">优惠券列表</h1>
+            <span class="pagedesc">查看发放优惠券</span>
         </div><!--pageheader-->
         
         <div id="contentwrapper" class="contentwrapper">
-                        
-                <div class="contenttitle2">
-                	<h3>服务列表</h3>
-                </div><!--contenttitle-->
-                	
-                <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+        	<div id="all" class="subcontent">
+        		<table cellpadding="0" cellspacing="0" border="0" class="stdtable">
                     <colgroup>
+                        <col class="con0" />
+                        <col class="con1" />
                         <col class="con0" />
                         <col class="con1" />
                         <col class="con0" />
@@ -188,18 +185,22 @@
                     <thead>
                         <tr>
                             <th class="head0">ID</th>
-                            <th class="head1">标题</th>
-                            <th class="head0">最低价格</th>
-                            <th class="head1">服务时间</th>
+                            <th class="head1">优惠券名</th>
+                            <th class="head0">金额</th>
+                            <th class="head1">最少人数</th>
+                            <th class="head0">最低金额</th>
+                            <th class="head1">到期时间</th>
                             <th class="head0">操作</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th class="head0">ID</th>
-                            <th class="head1">标题</th>
-                            <th class="head0">最低价格</th>
-                            <th class="head1">服务时间</th>
+                            <th class="head1">优惠券名</th>
+                            <th class="head0">金额</th>
+                            <th class="head1">最少人数</th>
+                            <th class="head0">最低金额</th>
+                            <th class="head1">到期时间</th>
                             <th class="head0">操作</th>
                         </tr>
                     </tfoot>
@@ -207,13 +208,15 @@
                     <?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><tr>
                             <td><?php echo ($vo["id"]); ?></td>
                             <td><?php echo ($vo["title"]); ?></td>
-                            <td class="center"><?php echo (incprc($vo["price"])); ?>元</td>
-                            <td class="center"><?php echo ($vo["timelong"]); ?>分钟</td>
+                            <td class="center"><?php echo (incprc($vo["price"])); ?></td>
+                            <td><?php echo ($vo["minnum"]); ?></td>
+                            <td><?php echo (incprc($vo["minprice"])); ?></td>
+                            <td><?php echo (date("Y-m-d",$vo["endtime"])); ?></td>
                             <td class="center">
                             <ul class="buttonlist">
-                            	<li><a href="###" class="btn btn3 btn_world"></a></li>
-                            	<li><a href="__URL__/edit?id=<?php echo ($vo["id"]); ?>" class="btn btn3 btn_pencil"></a></li>
-                            	<li><a href="__URL__/del?id=<?php echo ($vo["id"]); ?>" class="btn btn3 btn_orange btn_trash"></a></li>
+                                <li><a href="__URL__/view?id=<?php echo ($vo["id"]); ?>" class="btn  btn_world"><span>生成优惠券</span></a></li>
+                            	<li><a href="__URL__/edit?id=<?php echo ($vo["id"]); ?>" class="btn  btn_archive"><span>发放优惠券</span></a></li>
+                                <li><a href="__URL__/del?id=<?php echo ($vo["id"]); ?>" class="btn  btn_orange btn_trash"><span>删除</span></a></li>
                             </ul>
                             </td>
                         </tr><?php endforeach; endif; else: echo "" ;endif; ?>
@@ -221,6 +224,7 @@
                 </table>
                 
                 <div class="dataTables_paginate paging_full_numbers" id="dyntable_paginate"><?php echo ($page); ?></div>
+        	</div>
         </div>
 </div>
 </div><!--bodywrapper-->

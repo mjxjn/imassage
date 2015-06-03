@@ -166,61 +166,68 @@
 <div class="centercontent tables">
     
         <div class="pageheader notab">
-            <h1 class="pagetitle">服务</h1>
-            <span class="pagedesc">按摩服务列表</span>
-            
+            <h1 class="pagetitle">优惠券详细列表</h1>
+            <span class="pagedesc">查看发放优惠券详细信息</span>
         </div><!--pageheader-->
         
         <div id="contentwrapper" class="contentwrapper">
-                        
-                <div class="contenttitle2">
-                	<h3>服务列表</h3>
-                </div><!--contenttitle-->
-                	
-                <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+        	<div id="all" class="subcontent">
+
+                <div class="overviewhead">
+                    <form id="pform" class="stdform" action="" method="post">
+                    <div class="overviewselect" style="margin-left:20px">
+                        <button class="btn btn_orange btn_search radius50"><span>生成优惠券</span></button>
+                    </div>
+                    生成数量: &nbsp;<input type="text" name="num" id="num" class="mediuminput" /> &nbsp; &nbsp;
+                    </form>
+                </div><!--overviewhead-->
+                <br clear="all">
+
+        		<table cellpadding="0" cellspacing="0" border="0" class="stdtable">
                     <colgroup>
                         <col class="con0" />
                         <col class="con1" />
                         <col class="con0" />
                         <col class="con1" />
                         <col class="con0" />
+                        
                     </colgroup>
                     <thead>
                         <tr>
                             <th class="head0">ID</th>
-                            <th class="head1">标题</th>
-                            <th class="head0">最低价格</th>
-                            <th class="head1">服务时间</th>
-                            <th class="head0">操作</th>
+                            <th class="head1">编码</th>
+                            <th class="head0">会员id</th>
+                            <th class="head1">会员名</th>
+                            <th class="head0">使用时间</th>
+                            
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th class="head0">ID</th>
-                            <th class="head1">标题</th>
-                            <th class="head0">最低价格</th>
-                            <th class="head1">服务时间</th>
-                            <th class="head0">操作</th>
+                            <th class="head1">编码</th>
+                            <th class="head0">会员id</th>
+                            <th class="head1">会员名</th>
+                            <th class="head0">使用时间</th>
+                            
                         </tr>
                     </tfoot>
                     <tbody>
                     <?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><tr>
                             <td><?php echo ($vo["id"]); ?></td>
-                            <td><?php echo ($vo["title"]); ?></td>
-                            <td class="center"><?php echo (incprc($vo["price"])); ?>元</td>
-                            <td class="center"><?php echo ($vo["timelong"]); ?>分钟</td>
+                            <td><?php echo ($vo["code"]); ?></td>
+                            <td class="center"><?php echo ($vo["uid"]); ?></td>
+                            <td><?php echo ($vo["name"]); ?></td>
+                            <td><?php echo ($vo["usetime"]); ?></td>
                             <td class="center">
-                            <ul class="buttonlist">
-                            	<li><a href="###" class="btn btn3 btn_world"></a></li>
-                            	<li><a href="__URL__/edit?id=<?php echo ($vo["id"]); ?>" class="btn btn3 btn_pencil"></a></li>
-                            	<li><a href="__URL__/del?id=<?php echo ($vo["id"]); ?>" class="btn btn3 btn_orange btn_trash"></a></li>
-                            </ul>
+                            
                             </td>
                         </tr><?php endforeach; endif; else: echo "" ;endif; ?>
                     </tbody>
                 </table>
                 
                 <div class="dataTables_paginate paging_full_numbers" id="dyntable_paginate"><?php echo ($page); ?></div>
+        	</div>
         </div>
 </div>
 </div><!--bodywrapper-->

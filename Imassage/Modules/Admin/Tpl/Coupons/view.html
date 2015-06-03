@@ -1,0 +1,101 @@
+<include file="Public:header" />
+<style type="text/css">
+	.dataTables_paginate a{
+		border: 1px solid #ccc;
+        padding: 5px 7px;
+        margin-left: 5px;
+        font-weight: bold;
+        background: #fcfcfc;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
+        font-size: 11px;
+        -moz-box-shadow: 1px 1px 2px #ddd;
+        -webkit-box-shadow: 1px 1px 2px #ddd;
+        box-shadow: 1px 1px 2px #ddd;
+		
+	}
+	.dataTables_paginate .current{
+		border: 1px solid #F0882C;
+        background: #F0882C;
+        color: #fff;
+        padding: 5px 7px;
+        margin-left: 5px;
+        font-weight: bold;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
+        font-size: 11px;
+	}
+</style>
+<include file="Public:menu" />
+<div class="centercontent tables">
+    
+        <div class="pageheader notab">
+            <h1 class="pagetitle">优惠券详细列表</h1>
+            <span class="pagedesc">查看发放优惠券详细信息</span>
+        </div><!--pageheader-->
+        
+        <div id="contentwrapper" class="contentwrapper">
+        	<div id="all" class="subcontent">
+
+                <div class="overviewhead">
+                    <form id="pform" class="stdform" action="" method="post">
+                    <div class="overviewselect" style="margin-left:20px">
+                        <button class="btn btn_orange btn_search radius50"><span>生成优惠券</span></button>
+                    </div>
+                    生成数量: &nbsp;<input type="text" name="num" id="num" class="mediuminput" /> &nbsp; &nbsp;
+                    </form>
+                </div><!--overviewhead-->
+                <br clear="all">
+
+        		<table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+                    <colgroup>
+                        <col class="con0" />
+                        <col class="con1" />
+                        <col class="con0" />
+                        <col class="con1" />
+                        <col class="con0" />
+                        
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th class="head0">ID</th>
+                            <th class="head1">编码</th>
+                            <th class="head0">会员id</th>
+                            <th class="head1">会员名</th>
+                            <th class="head0">使用时间</th>
+                            
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th class="head0">ID</th>
+                            <th class="head1">编码</th>
+                            <th class="head0">会员id</th>
+                            <th class="head1">会员名</th>
+                            <th class="head0">使用时间</th>
+                            
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                    <volist name="list" id="vo">
+                        <tr>
+                            <td>{$vo.id}</td>
+                            <td>{$vo.code}</td>
+                            <td class="center">{$vo.uid}</td>
+                            <td>{$vo.name}</td>
+                            <td>{$vo.usetime}</td>
+                            <td class="center">
+                            
+                            </td>
+                        </tr>
+                    </volist>
+                    </tbody>
+                </table>
+                
+                <div class="dataTables_paginate paging_full_numbers" id="dyntable_paginate">{$page}</div>
+        	</div>
+        </div>
+</div>
+<include file="Public:footer" />

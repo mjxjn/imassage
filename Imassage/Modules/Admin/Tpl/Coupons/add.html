@@ -1,0 +1,67 @@
+<include file="Public:header" />
+<script type="text/javascript" src="/AmaAdmin/js/custom/dashboard.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function(){
+    jQuery( "#endtime" ).datepicker();
+})
+</script>
+<script type="text/javascript" src="/AmaAdmin/js/custom/forms.js"></script>
+<include file="Public:menu" />
+<div class="centercontent">
+	<div class="pageheader notab">
+            <h1 class="pagetitle">优惠券</h1>
+            <span class="pagedesc">此页面用于添加优惠券</span>
+    </div><!--pageheader-->
+    <div id="contentwrapper" class="contentwrapper">
+    	<div id="basicform" class="subcontent">
+    				<div class="contenttitle2">
+                        <h3>添加优惠券</h3>
+                    </div><!--contenttitle-->
+
+                    <form id="pform" class="stdform" action="" method="post">
+                    	<p>
+                        	<label>优惠券标题</label>
+                            <span class="field"><input type="text" name="name" id="name" class="mediuminput" /></span>
+                            <small class="desc">请输入优惠券标题.</small>
+                        </p>
+                        
+                        <p>
+                        	<label>优惠券金额</label>
+                            <span class="field">
+                                <select name="price" class="uniformselect">
+                                    <option value="5" selected="">5元</option>
+                                    <option value="10">10元</option>
+                                    <option value="20">20元</option>
+                                    <option value="50">50元</option>
+                                    <option value="100">100元</option>
+                                </select>
+                            </span>
+                        </p>
+                        <p>
+                        	<label>最低人数限制</label>
+                        	<span class="field">
+                        		<input type="text" name="minnum" id="minnum" value="1" class="mediuminput"/>
+                        	</span>
+                        </p>
+                        <p>
+                            <label>最低使用金额</label>
+                            <span class="field">
+                                <input type="text" name="minprice" id="minprice" value="100" class="mediuminput" />
+                            </span>
+                            <small class="desc">单位“元”.</small>
+                        </p>
+                        <p>
+                            <label>到期时间</label>
+                            <span class="field">
+                                <input type="text" name="endtime" id="endtime" />
+                            </span>
+                        </p>
+                        <p class="stdformbutton">
+                        	<button class="submit radius2">提交添加</button>
+                            <input type="reset" class="reset radius2" value="重置表单" />
+                        </p>
+                    </form>
+    	</div>
+    </div>
+</div>
+<include file="Public:footer" />
