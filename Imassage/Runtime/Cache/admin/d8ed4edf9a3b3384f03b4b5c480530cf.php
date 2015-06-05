@@ -152,6 +152,13 @@
                 </ul>
             </li>
         	<li><a href="<?php echo U('User/index');?>" class="">用户管理</a></li>
+            <li><a href="#coupons" class="tables">优惠券管理</a>
+                <span class="arrow"></span>
+                <ul id="coupons">
+                    <li><a href="<?php echo U('Coupons/index');?>" class="">优惠券列表</a></li>
+                    <li><a href="<?php echo U('Coupons/add');?>">添加优惠券</a></li>
+                </ul>
+            </li>
         </ul>
         <a class="togglemenu"></a>
         <br /><br />
@@ -203,7 +210,7 @@
                     <tbody>
                     <?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><tr>
                             <td><?php echo ($vo["id"]); ?></td>
-                            <td><?php echo ($vo["name"]); ?></td>
+                            <td><?php echo ($vo["username"]); ?></td>
                             <td class="center"><?php echo ($vo["content"]); ?></td>
                             <td><?php echo ($vo["blindman"]); ?></td>
                             <td><?php echo (date("Y-m-d H:i",$vo["addtime"])); ?></td>

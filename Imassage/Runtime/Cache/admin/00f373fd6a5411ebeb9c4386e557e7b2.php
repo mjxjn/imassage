@@ -97,8 +97,35 @@
         </div><!--headerwidget-->
         
     </div><!--header-->
-
-<script type="text/javascript" src="/AmaAdmin/js/custom/forms.js"></script>
+<style type="text/css">
+	.dataTables_paginate a{
+		border: 1px solid #ccc;
+        padding: 5px 7px;
+        margin-left: 5px;
+        font-weight: bold;
+        background: #fcfcfc;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
+        font-size: 11px;
+        -moz-box-shadow: 1px 1px 2px #ddd;
+        -webkit-box-shadow: 1px 1px 2px #ddd;
+        box-shadow: 1px 1px 2px #ddd;
+		
+	}
+	.dataTables_paginate .current{
+		border: 1px solid #F0882C;
+        background: #F0882C;
+        color: #fff;
+        padding: 5px 7px;
+        margin-left: 5px;
+        font-weight: bold;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
+        font-size: 11px;
+	}
+</style>
     <div class="vernav2 iconmenu">
     	<ul>
             <li><a href="#product" class="addons">服务管理</a>
@@ -136,61 +163,66 @@
         <a class="togglemenu"></a>
         <br /><br />
     </div><!--leftmenu-->
-<div class="centercontent">
-	<div class="pageheader notab">
-            <h1 class="pagetitle">订单评论</h1>
-            <span class="pagedesc">此页面用于添加订单评论</span>
-    </div><!--pageheader-->
-    <div id="contentwrapper" class="contentwrapper">
-    	<div id="basicform" class="subcontent">
-    				<div class="contenttitle2">
-                        <h3>添加订单评论</h3>
-                    </div><!--contenttitle-->
-
-                    <form id="pform" class="stdform" action="" method="post">
-                    	<p>
-                        	<label>会员名</label>
-                            <span class="field"><input type="text" name="name" id="name" class="mediuminput" /></span>
-                            <small class="desc">请输入会员名.</small>
-                        </p>
+<div class="centercontent tables">
+    
+        <div class="pageheader notab">
+            <h1 class="pagetitle">按摩师</h1>
+            <span class="pagedesc">按摩师列表</span>
+            
+        </div><!--pageheader-->
+        
+        <div id="contentwrapper" class="contentwrapper">
                         
-                        <p>
-                        	<label>评论内容</label>
-                        	<span class="field">
-                        		<textarea cols="80" rows="5" name="content" id="content" class="longinput"></textarea>
-                        	</span>
-                        </p>
-                        <p>
-                        	<label>是否显示</label>
-                            <span class="field">
-                            	<input type="radio" name="sex" checked="checked" value="1" /> 显示 &nbsp; &nbsp;
-                            	<input type="radio" name="sex" value="0" /> 隐藏 &nbsp; &nbsp;
-                            </span>
-                        </p>
-                        <p>
-                        	<label>评论服务项</label>
-                            <span class="field">
-                                <select name="level" class="uniformselect">
-                                	<option value="" selected="">请选择</option>
-                                <?php if(is_array($plist)): $i = 0; $__LIST__ = $plist;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><option value="<?php echo ($vo["id"]); ?>"><?php echo ($vo["title"]); ?></option><?php endforeach; endif; else: echo "" ;endif; ?>
-                                </select>
-                            </span>
-                        </p>
-                        <p>
-                        	<label>回复内容</label>
-                        	<span class="field">
-                        		<textarea cols="80" rows="5" name="reply" id="reply" class="longinput"></textarea>
-                        	</span>
-                        </p>
-                        
-                        
-                        <p class="stdformbutton">
-                        	<button class="submit radius2">提交添加</button>
-                            <input type="reset" class="reset radius2" value="重置表单" />
-                        </p>
-                    </form>
-    	</div>
-    </div>
+                <div class="contenttitle2">
+                	<h3>按摩师列表</h3>
+                </div><!--contenttitle-->
+                	
+                <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+                    <colgroup>
+                        <col class="con0" />
+                        <col class="con1" />
+                        <col class="con0" />
+                        <col class="con1" />
+                        <col class="con0" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th class="head0">ID</th>
+                            <th class="head1">按摩师名</th>
+                            <th class="head0">性别</th>
+                            <th class="head1">等级</th>
+                            <th class="head0">操作</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th class="head0">ID</th>
+                            <th class="head1">按摩师名</th>
+                            <th class="head0">性别</th>
+                            <th class="head1">等级</th>
+                            <th class="head0">操作</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                    <?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><tr>
+                            <td><?php echo ($vo["id"]); ?></td>
+                            <td><?php echo ($vo["name"]); ?></td>
+                            <td class="center"><?php echo (getsex($vo["sex"])); ?></td>
+                            <td class="center"><?php echo ($vo["level"]); ?></td>
+                            <td class="center">
+                            <ul class="buttonlist">
+                            	<li><a href="###" class="btn btn3 btn_world"></a></li>
+                            	<li><a href="__URL__/edit?id=<?php echo ($vo["id"]); ?>" class="btn btn3 btn_pencil"></a></li>
+                                <li><a href="__URL__/view?id=<?php echo ($vo["id"]); ?>" class="btn btn3 btn_flag"></a></li>
+                            	<li><a href="__URL__/del?id=<?php echo ($vo["id"]); ?>" class="btn btn3 btn_orange btn_trash"></a></li>
+                            </ul>
+                            </td>
+                        </tr><?php endforeach; endif; else: echo "" ;endif; ?>
+                    </tbody>
+                </table>
+                
+                <div class="dataTables_paginate paging_full_numbers" id="dyntable_paginate"><?php echo ($page); ?></div>
+        </div>
 </div>
 </div><!--bodywrapper-->
 
