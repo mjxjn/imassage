@@ -267,13 +267,21 @@ function currentFile(skip, stack){
 			isDebugEnv: true,
 			JQuerySourceUrl: "__PUBLIC__/js/jquery.min.js"
 		};
-		if(CONSTANT.CACHE_VERSION == localStorage.CACHE_VERSION){
+		if(CONSTANT.CACHE_VERSION != localStorage.CACHE_VERSION){
 			console.warn('Clear local cache!!!');
 			localStorage.clear();
 			localStorage.CACHE_VERSION = CONSTANT.CACHE_VERSION;
 		}
 	</script>
 	<script type="text/javascript" crossorigin="anonymous" src="__PUBLIC__/js/jquery.js"></script><script type="text/javascript" crossorigin="anonymous" src="__PUBLIC__/js/jquery.cookie.js"></script><script type="text/javascript" crossorigin="anonymous" src="__PUBLIC__/js/geolib.min.js"></script><script type="text/javascript" crossorigin="anonymous" src="__PUBLIC__/js/geo_distance.js"></script>
+	<script type="text/javascript" crossorigin="anonymous">
+	$(document).ready(function(){
+		var u = navigator.userAgent
+		if(u.indexOf('iPhone') > -1){
+			$("body").addClass("iOs iphone");
+		}
+	})
+	</script>
 	</head>
 	<body class="no-location">
 		<div id="AppointType">
@@ -290,6 +298,7 @@ function currentFile(skip, stack){
 			</div>
 		</div>
 		</div>
+		<div id="AppointTypeSpace"></div>
 		<style>
 		    .top-banner{
 		        position: relative;
@@ -326,7 +335,7 @@ function currentFile(skip, stack){
 			$(".top-banner").show();
 		</script>
 		<ul id="Main" class="container">
-			<li id="p123" onclick="location.href='__URL__/id/123'">
+			<li id="p123" onclick="location.href='__URL__/Product/index/id/123'">
                     <img class="pose" async-src="__PUBLIC__/img/product_pose1.png" height="30" src="__PUBLIC__/img/product_pose1.png">
             		<img async-src="http://ac-fh5tu56b.clouddn.com/oYJoX31CAkhQdkmU0vLBJnUjRo4j42Tmcf67hBXs.png?w/150/h/150" height="75" width="75" title="头颈肩推拿" class="titleImage" src="./功夫熊_files/oYJoX31CAkhQdkmU0vLBJnUjRo4j42Tmcf67hBXs.png">
             		<div class="title">头颈肩推拿
@@ -354,23 +363,23 @@ function currentFile(skip, stack){
 			<td id="home" class="active">
 				<a href="http://w.gfxiong.com/wx/lst/product###">
 				<span class="icon">
-				<img async-src="http://static.gfxiong.com/img/wx_icons/bottom/home.active.png" width="20" height="20" src="./功夫熊_files/home.active.png">
+				<img async-src="http://static.gfxiong.com/img/wx_icons/bottom/home.active.png" width="20" height="20" src="__PUBLIC__/img/home.active.png">
 				</span>
 				<span class="title">预约</span>
 				</a>
 			</td>
-			<td id="try" class="">
+			<!-- <td id="try" class="">
 				<a href="http://w.gfxiong.com/wx/company/index">
 				<span class="icon">
 				<img async-src="http://static.gfxiong.com/img/wx_icons/bottom/try.png" width="20" height="20" src="./功夫熊_files/try.png">
 				</span>
 				<span class="title">企业福利</span>
 				</a>
-			</td>
+			</td> -->
 			<td id="myorder" class="">
 				<a href="http://w.gfxiong.com/wx/my/orderlist">
 				<span class="icon">
-				<img async-src="http://static.gfxiong.com/img/wx_icons/bottom/myorder.png" width="20" height="20" src="./功夫熊_files/myorder.png">
+				<img async-src="http://static.gfxiong.com/img/wx_icons/bottom/myorder.png" width="20" height="20" src="__PUBLIC__/img/myorder.png">
 				</span>
 				<span class="title">订单</span>
 				</a>
@@ -378,7 +387,7 @@ function currentFile(skip, stack){
 			<td id="people" class="">
 				<a href="http://w.gfxiong.com/wx/my">
 				<span class="icon">
-				<img async-src="http://static.gfxiong.com/img/wx_icons/bottom/people.png" width="20" height="20" src="./功夫熊_files/people.png">
+				<img async-src="http://static.gfxiong.com/img/wx_icons/bottom/people.png" width="20" height="20" src="__PUBLIC__/img/people.png">
 				</span>
 				<span class="title">个人</span>
 				</a>
@@ -388,7 +397,7 @@ function currentFile(skip, stack){
 		</table>
 		<div id="DebugLog" style="display:none;">
 			<div>
-				<a onclick="document.querySelector(&#39;#DebugLog&#39;).style.display = &#39;none&#39;;return false;">关闭</a>
+				<a onclick="document.querySelector('#DebugLog').style.display ='none';return false;">关闭</a>
 			</div>
 		</div>
 		<script type="text/javascript" src="__PUBLIC__/js/jweixin-1.0.0.js"></script>
