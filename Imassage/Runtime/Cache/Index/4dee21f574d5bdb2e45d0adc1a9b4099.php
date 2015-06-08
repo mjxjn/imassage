@@ -76,7 +76,7 @@ function global_submit_error(){
 		xmlhttp.addEventListener("load", function (){
 			console.log('js error upload complete!');
 		}, false);
-		xmlhttp.open("PUT", "http://w.gfxiong.com/ajax/weixin_rpc/errorlog", true);
+		xmlhttp.open("PUT", "", true);
 		xmlhttp.send(JSON.stringify(elist));
 	}
 }
@@ -294,7 +294,7 @@ function currentFile(skip, stack){
 	<input id="productId" type="hidden" name="p" value="5491b86be4b0c4895219f2c1">
 	<div class="p-dt">
 		<div class="p-dt-box">
-			<img class="pose" async-src="http://static.gfxiong.com/img/wx_icons/product_pose1.png" height="30" src="__PUBLIC__/img/product_pose1.png">
+			<img class="pose" async-src="__PUBLIC__/img/product_pose1.png" height="30" src="__PUBLIC__/img/product_pose1.png">
 			<div class="p-dt-box-l">
 				<img src="./功夫熊content_files/oYJoX31CAkhQdkmU0vLBJnUjRo4j42Tmcf67hBXs.png" height="75" width="75" alt="">
 			</div>
@@ -494,7 +494,6 @@ function currentFile(skip, stack){
 		<a onclick="document.querySelector('#DebugLog').style.display = 'none';return false;">关闭</a>
 	</div>
 </div>
-<script src="./功夫熊content_files/baidu.js"></script>
 <script type="text/javascript" crossorigin="anonymous">
 	var static_version = parseInt("2519");
 	var static_url = "http://static.gfxiong.com/";
@@ -508,7 +507,7 @@ function currentFile(skip, stack){
 					url += '?_=' + static_version;
 				}
 				list[i].src = url;
-				// console.log('async_content: load content %s ...', list[i].src);
+				console.log('async_content: load content %s ...', list[i].src);
 			}
 		}, 100);
 	}, false);
@@ -517,7 +516,7 @@ function currentFile(skip, stack){
 <script type="text/javascript" crossorigin="anonymous">
 	
 </script>
-	<script type="text/javascript" src="./功夫熊content_files/jweixin-1.0.0.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/js/jweixin-1.0.0.js"></script>
 	<script type="text/javascript">
 		var wx_success = true;
 		console.log('http://mp.weixin.qq.com/s?__biz=MjM5NzUxNjcyNg==&mid=200547026&idx=1&sn=7769a845d7fe0038d3e5e2997bd3a9f3#rd');

@@ -1,0 +1,83 @@
+#Main {
+	font-size:0;
+	margin:1px 0;
+	padding:0;
+	width:340px;
+	margin:auto
+}
+.iOs #Main {
+	width:300px
+}
+.p-dt-tab-btn {
+	position:relative;
+	text-align:left;
+	margin-top:7px;
+	border-radius:5px;
+	background-color:#fff;
+	border:#ededed 1px solid;
+	border-top-left-radius:5px;
+	border-top-right-radius:5px;
+	border-bottom-right-radius:0;
+	border-bottom-left-radius:0;
+	background:#fff;
+	margin:5px auto 0 auto;
+	border:none;
+	padding:3px 0 0 0;
+	height:34px;
+	line-height:30px;
+	border-bottom:1px solid #c7c7c7
+}
+.p-dt-tab-btn .p-dt-tab-li {
+	display:inline-block;
+	width:49%;
+	text-align:center;
+	font-size:14px
+}
+.p-dt-tab-btn .p-dt-tab-li.active span {
+	border-bottom:3px solid #249caa;
+	display:inline-block;
+	width:75px;
+	color:#249caa
+}
+.p-dt-tab-btn .p-dt-tab-li span {
+	border-bottom:3px solid #fff;
+	display:inline-block;
+	width:75px
+}
+.p-dt-tab-btn .spline {
+	display:inline-block;
+	border-right:1px solid #c7c7c7;
+	height:23px;
+	vertical-align:middle
+}
+.p-dt-tab-box {
+	position:relative;
+	text-align:left;
+	margin-top:7px;
+	border-radius:5px;
+	background-color:#fff;
+	border:#ededed 1px solid;
+	border-radius:0;
+	background:#fff;
+	border:none;
+	padding:17px 17px 20px 17px;
+	margin:0 auto;
+	text-align:center;
+	font-size:0
+}
+.p-dt-tab-ct {
+	display:none;
+	padding-bottom:20px;
+	white-space:pre-wrap;
+	text-align:left;
+	font-size:13px;
+	line-height:1.5
+}
+.p-dt-tab-ct.active {
+	display:block
+}
+form .line_input{
+	padding:10px 0 10px;
+	line-height:35px;
+	height:35px
+}
