@@ -291,43 +291,36 @@ function currentFile(skip, stack){
 <form action="" method="" onsubmit="return check_input();">
 	<div id="Main" class="container">
 		<div class="step_one" id="order_step">
-			<img src="__PUBLIC__/img/order2.png" width="100%" />
+			<img src="__PUBLIC__/img/order3.png" width="100%" />
 		</div>
-		<div class="tip">请选择开始时间，灰色表示推拿师全部被预约</div>
-		<div class="today">
-			<span class="time-tab-li active" onclick="tab_change(this,'#tab-box1')">今天</span>
-			<span class="time-tab-li" onclick="tab_change(this,'#tab-box2')">明天</span>
-			<span class="time-tab-li" onclick="tab_change(this,'#tab-box3')">后天</span>
+		<div class="tip">优惠券</div>
+		<div class="yydate">
+			<span>会员卡余额</span>
 		</div>
-		<div class="times">
-			<ul class="timeul active" id="tab-box1">
-				<li>10:00</li>
-				<li>10:30</li>
-				<li>11:00</li>
-				<li>11:30</li>
-				<li>12:00</li>
-				<li>12:30</li>
-			</ul>
-			<ul class="timeul" id="tab-box2">
-				<li class="isok">10:00</li>
-				<li>10:30</li>
-				<li>11:00</li>
-				<li>11:30</li>
-				<li>12:00</li>
-				<li>12:30</li>
-				<li>13:00</li>
-			</ul>
-			<ul class="timeul" id="tab-box3">
-				<li>10:00</li>
-				<li class="isok">10:30</li>
-				<li>11:00</li>
-				<li>11:30</li>
-				<li>12:00</li>
-				<li>12:30</li>
-				<li>13:00</li>
-				<li>13:30</li>
-			</ul>
+		<div class="blindmanlist">
+			<div class="blindman">支付方式</div>
 		</div>
+		<div class="blindmanlist">
+			<div class="blindman">地址 联系人 电话</div>
+		</div>
+		<div class="blindmanlist">
+			<div class="blindman">订单详情</div>
+		</div>
+	</div>
+	<div class="p-dt-submit3">			
+		<div class="submit-l">
+			<div class="price_display">
+				<div class="line_total_price">
+					<span class="right">合计:</span>
+					<span class="right">
+					<span class="price">128</span>
+					元
+					</span>
+				</div>
+			</div>
+		</div>
+		<input class="medium_button primary" type="submit" value="提交订单" onclick="_hmt.push(['_trackEvent', '下单', '点击下单', '项目页-开始下单']);">
+		
 	</div>
 </form>
 <script type="text/javascript" crossorigin="anonymous">

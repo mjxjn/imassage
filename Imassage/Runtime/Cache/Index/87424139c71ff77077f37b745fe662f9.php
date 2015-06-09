@@ -1,5 +1,5 @@
 <?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
-<!-- saved from url=(0035)http://w.gfxiong.com/wx/lst/product -->
+<!-- saved from url=(0063)http://w.gfxiong.com/wx/detail/product/5491b86be4b0c4895219f2c1 -->
 <html>
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -9,12 +9,12 @@
 	
 	<link rel="icon" href="__PUBLIC__/img/favicon.png" type="image/png">
 	<link rel="shortcut icon" href="__PUBLIC__/img/favicon.png" type="image/png">
-
+	
 	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/global.css">
 	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/global.wx.css">
-
-	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/order.css">
-		<script type="text/javascript" crossorigin="anonymous">
+	
+	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/Order.css">
+	<script type="text/javascript" crossorigin="anonymous">
 var consoleObject = ['log', 'debug', 'warn', 'error'];
 function array_shift(a){
 	return Array.prototype.shift.call(a);
@@ -262,7 +262,7 @@ function currentFile(skip, stack){
 }
 </script>
 
-	<script type="text/javascript" crossorigin="anonymous" src="__PUBLIC__/js/debug.js"></script>
+		<script type="text/javascript" crossorigin="anonymous" src="__PUBLIC__/js/debug.js"></script>
 	
 	<script type="text/javascript" crossorigin="anonymous">
 		window.CONSTANT = {
@@ -277,7 +277,7 @@ function currentFile(skip, stack){
 		}
 	</script>
 	<script type="text/javascript" crossorigin="anonymous" src="__PUBLIC__/js/jquery.min.js"></script>
-
+<script type="text/javascript" crossorigin="anonymous" src="__PUBLIC__/js/detail.product.create.js"></script>
 <script type="text/javascript" crossorigin="anonymous">
 	$(document).ready(function(){
 		var u = navigator.userAgent
@@ -288,60 +288,46 @@ function currentFile(skip, stack){
 	</script>
 </head>
 <body class="">
-<form action="" method="" onsubmit="return check_input();">
-	<div id="Main" class="container">
-		<div class="step_one" id="order_step">
-			<img src="__PUBLIC__/img/order2.png" width="100%" />
-		</div>
-		<div class="tip">请选择开始时间，灰色表示推拿师全部被预约</div>
-		<div class="today">
-			<span class="time-tab-li active" onclick="tab_change(this,'#tab-box1')">今天</span>
-			<span class="time-tab-li" onclick="tab_change(this,'#tab-box2')">明天</span>
-			<span class="time-tab-li" onclick="tab_change(this,'#tab-box3')">后天</span>
-		</div>
-		<div class="times">
-			<ul class="timeul active" id="tab-box1">
-				<li>10:00</li>
-				<li>10:30</li>
-				<li>11:00</li>
-				<li>11:30</li>
-				<li>12:00</li>
-				<li>12:30</li>
-			</ul>
-			<ul class="timeul" id="tab-box2">
-				<li class="isok">10:00</li>
-				<li>10:30</li>
-				<li>11:00</li>
-				<li>11:30</li>
-				<li>12:00</li>
-				<li>12:30</li>
-				<li>13:00</li>
-			</ul>
-			<ul class="timeul" id="tab-box3">
-				<li>10:00</li>
-				<li class="isok">10:30</li>
-				<li>11:00</li>
-				<li>11:30</li>
-				<li>12:00</li>
-				<li>12:30</li>
-				<li>13:00</li>
-				<li>13:30</li>
-			</ul>
-		</div>
-	</div>
-</form>
-<script type="text/javascript" crossorigin="anonymous">
-	function tab_change(self, value){
-		var tab_box = $(".timeul.active");
-		var tab_li = $(".time-tab-li.active");
-		if(tab_li){
-			tab_li.removeClass('active');
-			tab_box.removeClass("active");
-			// tab_box.classList.remove('active');
-		}
-		self.classList.add('active');
-		document.querySelector(value).classList.add('active');
-
-	}
-</script>
-</body></html>
+	<div class="f40">暂无订单</div>
+	<div class="btn"><a href="__APP__/index">去预约</a></div>
+	<div id="BottomMenuSpace"></div>
+		<table id="BottomMenu">
+		<tbody>
+		<tr>
+			<td id="home" class="">
+				<a href="http://w.gfxiong.com/wx/lst/product###">
+				<span class="icon">
+				<img async-src="http://static.gfxiong.com/img/wx_icons/bottom/home.png" width="20" height="20" src="__PUBLIC__/img/home.png">
+				</span>
+				<span class="title">预约</span>
+				</a>
+			</td>
+			<!-- <td id="try" class="">
+				<a href="http://w.gfxiong.com/wx/company/index">
+				<span class="icon">
+				<img async-src="http://static.gfxiong.com/img/wx_icons/bottom/try.png" width="20" height="20" src="./功夫熊_files/try.png">
+				</span>
+				<span class="title">企业福利</span>
+				</a>
+			</td> -->
+			<td id="myorder" class="active">
+				<a href="http://w.gfxiong.com/wx/my/orderlist">
+				<span class="icon">
+				<img async-src="http://static.gfxiong.com/img/wx_icons/bottom/myorder.active.png" width="20" height="20" src="__PUBLIC__/img/myorder.active.png">
+				</span>
+				<span class="title">订单</span>
+				</a>
+			</td>
+			<td id="people" class="">
+				<a href="http://w.gfxiong.com/wx/my">
+				<span class="icon">
+				<img async-src="http://static.gfxiong.com/img/wx_icons/bottom/people.png" width="20" height="20" src="__PUBLIC__/img/people.png">
+				</span>
+				<span class="title">个人</span>
+				</a>
+			</td>
+		</tr>
+		</tbody>
+		</table>
+</body>
+</html>

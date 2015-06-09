@@ -13,5 +13,17 @@ class OrderAction extends Action
 	function step2(){
 		$this->display();
 	}
+
+	function selectblindman(){
+		$this->display();
+	}
+
+	function step3(){
+		$this->display();
+	}
+
+	function orderlist(){
+		$this->display();
+	}
 }
 ?>

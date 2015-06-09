@@ -295,13 +295,53 @@ function currentFile(skip, stack){
 		</div>
 		<div class="tip">请选择开始时间，灰色表示推拿师全部被预约</div>
 		<div class="today">
-			<span class="active">今天</span>
-			<span>明天</span>
-			<span>后天</span>
+			<span class="time-tab-li active" onclick="tab_change(this,'#tab-box1')">今天</span>
+			<span class="time-tab-li" onclick="tab_change(this,'#tab-box2')">明天</span>
+			<span class="time-tab-li" onclick="tab_change(this,'#tab-box3')">后天</span>
+		</div>
+		<div class="times">
+			<ul class="timeul active" id="tab-box1">
+				<li>10:00</li>
+				<li>10:30</li>
+				<li>11:00</li>
+				<li>11:30</li>
+				<li>12:00</li>
+				<li>12:30</li>
+			</ul>
+			<ul class="timeul" id="tab-box2">
+				<li class="isok">10:00</li>
+				<li>10:30</li>
+				<li>11:00</li>
+				<li>11:30</li>
+				<li>12:00</li>
+				<li>12:30</li>
+				<li>13:00</li>
+			</ul>
+			<ul class="timeul" id="tab-box3">
+				<li>10:00</li>
+				<li class="isok">10:30</li>
+				<li>11:00</li>
+				<li>11:30</li>
+				<li>12:00</li>
+				<li>12:30</li>
+				<li>13:00</li>
+				<li>13:30</li>
+			</ul>
 		</div>
 	</div>
 </form>
 <script type="text/javascript" crossorigin="anonymous">
-	
+	function tab_change(self, value){
+		var tab_box = $(".timeul.active");
+		var tab_li = $(".time-tab-li.active");
+		if(tab_li){
+			tab_li.removeClass('active');
+			tab_box.removeClass("active");
+			// tab_box.classList.remove('active');
+		}
+		self.classList.add('active');
+		document.querySelector(value).classList.add('active');
+
+	}
 </script>
 </body></html>
