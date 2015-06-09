@@ -9,5 +9,9 @@ class OrderAction extends Action
 	{
 		$this->display();
 	}
+
+	function step2(){
+		$this->display();
+	}
 }
 ?>

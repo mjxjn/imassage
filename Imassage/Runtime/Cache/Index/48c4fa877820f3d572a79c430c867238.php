@@ -288,44 +288,80 @@ function currentFile(skip, stack){
 	</script>
 </head>
 <body class="">
+<form action="" method="" onsubmit="return check_input();">
 	<div id="Main" class="container">
 		<div class="step_one" id="order_step">
+			<img src="__PUBLIC__/img/order1.png" width="100%" />
 		</div>
 		<div class="p-dt-tab-btn">
-			<div id="tab-btn1" class="p-dt-tab-li active" onclick="tab_change(this,'#tab-box1')">
+			<div id="tab-btn1" class="p-dt-tab-li active" onclick="tab_change(this,'tab-box1')">
 				<span>给自己预约</span>
 			</div>
 			<div class="spline"></div>
-			<div id="tab-btn2" class="p-dt-tab-li" onclick="tab_change(this,'#tab-box2')">
+			<div id="tab-btn2" class="p-dt-tab-li" onclick="tab_change(this,'tab-box2')">
 				<span>给他人预约</span>
 			</div>
 		</div>
 		<div class="p-dt-tab-box">
-			<div id="tab-box1" class="p-dt-tab-ct active">
-				<form action="" method="" onsubmit="return check_input();">
+			<div class="p-dt-tab-ct">
+				
 					<div class="line_input">
-						<span class="name">手机号</span>
-						<div class="input">
-							<input type="text" name="phone" value="18053722630">
+						<span class="name">手机号:</span>
+						<div class="input" id="tab-box">
+							<input type="text" id="tab-box1" class="tab_box active" name="phone" disabled="disabled" value="18053722630">
 						</div>
 					</div>
-				</form>
-			</div>
-			<div id="tab-box2" class="p-dt-tab-ct">
+					<div class="line_input">
+						<span class="name">街道名:</span>
+						<div class="input">
+							<input type="text" name="phone" placeholder="街道或小区名" value="">
+						</div>
+					</div>
+					<div class="line_input">
+						<span class="name">门牌号:</span>
+						<div class="input">
+							<input type="text" name="phone" placeholder="楼号、单元号、门牌号" value="">
+						</div>
+					</div>
+					<div class="line_input">
+						<span class="name">联系人:</span>
+						<div class="input">
+							<input type="text" name="phone" placeholder="联系人称呼" value="">
+						</div>
+					</div>
+					<div class="line_input">
+						<span class="name" style="width:40%">备注（选填）:</span><br />
+						<div class="input">
+							<input type="text" name="phone" placeholder="如给他人预约，请留下相应联系方式。" value="" style="width:90%">
+						</div>
+					</div>
+				
 			</div>
 		</div>
 	</div>
+	
+	<div class="p-dt-submit">
+		<input class="medium_button primary" type="submit" value="下一步" onclick="_hmt.push(['_trackEvent', '下单', '点击下单', '项目页-开始下单']);">
+	</div>
+</form>
 <script>
 	function tab_change(self, value){
-		var tab_box = $(".p-dt-tab-ct.active");
+		//var tab_box = $(".tab_box.active");
 		var tab_li = $(".p-dt-tab-li.active");
 		if(tab_li){
 			tab_li.removeClass('active');
-			tab_box.removeClass("active");
+			//tab_box.removeClass("active");
 			// tab_box.classList.remove('active');
 		}
 		self.classList.add('active');
-		document.querySelector(value).classList.add('active');
+		$("#tab-box").empty();
+		if (value == 'tab-box1') {
+			$("#tab-box").append('<input type="text" name="phone" disabled="disabled" value="18053722630">');
+		};
+		if (value == 'tab-box2') {
+			$("#tab-box").append('<input type="text" name="phone" placeholder="请输入手机号" value="">');
+		};
+		//document.querySelector(value).classList.add('active');
 
 	}
 </script>
