@@ -26,7 +26,7 @@ class BlindmanAction extends CommonAction
 			$upload->maxSize  = 3145728 ;// 设置附件上传大小
 			$upload->saveRule = 'uniqid';
 			$upload->allowExts  = array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
-			$upload->savePath =  './Imassage/Uploads/'.date('Ymd').'/';// 设置附件上传目录
+			$upload->savePath =  '/Imassage/Uploads/'.date('Ymd').'/';// 设置附件上传目录
 			if(!$upload->upload()) {// 上传错误提示错误信息
 				echo "<script>alert(\"".$upload->getErrorMsg()."\"); history.back();</script>";
 			 	exit();
@@ -57,7 +57,7 @@ class BlindmanAction extends CommonAction
 				$upload->maxSize  = 3145728 ;// 设置附件上传大小
 				$upload->saveRule = 'uniqid';
 				$upload->allowExts  = array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
-				$upload->savePath =  './Imassage/Uploads/'.date('Ymd').'/';// 设置附件上传目录
+				$upload->savePath =  '/Imassage/Uploads/'.date('Ymd').'/';// 设置附件上传目录
 				if(!$upload->upload()) {// 上传错误提示错误信息
 					echo "<script>alert(\"".$upload->getErrorMsg()."\"); history.back();</script>";
 				 	exit();

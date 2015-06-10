@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
 <!-- saved from url=(0035)http://w.gfxiong.com/wx/lst/product -->
 <html>
 	<head>
@@ -287,9 +287,10 @@ function currentFile(skip, stack){
 		<div id="AppointType">
 		<div class="wrap">
 			<table>
-				<tbody><tr><td class="product checker">
-					<a class="type-product" href="###">&nbsp;项目&nbsp;</a>
-					<a class="type-engineer" href="__APP__/blindman">按摩师</a>
+				<tbody><tr>
+				<td class="engineer checker">
+					<a class="type-product" href="__APP__/index">&nbsp;项目&nbsp;</a>
+					<a class="type-engineer" href="__APP__/blindman###">按摩师</a>
 				</td>
 			</tr></tbody></table>
 			<div id="citySelect" class="city-select">
@@ -335,28 +336,22 @@ function currentFile(skip, stack){
 			$(".top-banner").hide();
 		</script>
 		<ul id="Main" class="container">
-		<volist name="list" id="vo">
-			<li id="p{$vo.id}" onclick="location.href='__APP__/Product/index/id/{$vo.id}'">
-                    <img class="pose" async-src="__PUBLIC__/img/product_pose{$vo.typeid}.png" height="30" src="__PUBLIC__/img/product_pose{$vo.typeid}.png">
-            		<img async-src="{$vo.img}" height="75" width="75" title="{$vo.title}" class="titleImage" src="{$vo.img}">
-            		<div class="title">{$vo.title}
-            			<span class="price">￥{$vo.price|incPrc}
-            			<span class="font-smaller">起</span>
+		<?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><li id="p<?php echo ($vo["id"]); ?>" onclick="location.href='__URL__/info/id/<?php echo ($vo["id"]); ?>'">
+            		<img async-src="<?php echo ($vo["img"]); ?>" height="75" width="75" title="<?php echo ($vo["name"]); ?>" class="titleImage" src="<?php echo ($vo["img"]); ?>">
+
+            		<div class="title">[<font style="color:orange"><?php echo ($vo["level"]); ?>按摩师</font>]&nbsp;&nbsp;<?php echo ($vo["name"]); ?>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:12px; color:#aaa;"><?php echo (getsex($vo["sex"])); ?></span>
+            		</div>
+            		<div class="desc">
+            			<!-- <img async-src="__PUBLIC__/img/clock.png" height="13" src="__PUBLIC__/img/clock.png"> -->
+            			<span>
+                            订单数：<?php echo ($vo["ordernum"]); ?>单
             			</span>
             		</div>
             		<div class="desc">
-            			<img async-src="__PUBLIC__/img/clock.png" height="13" src="__PUBLIC__/img/clock.png">
-            			<span>
-                            {$vo.timelong}分钟
-            			({$vo.minpeople}人起订)
-            			</span>
-            		</div>
-            		<div class="btn">
-            			<a>立即预约</a>
+            			<?php echo ($vo["content"]); ?>
             		</div>
             		<div class="clear"></div>
-        	</li>
-        </volist>
+        	</li><?php endforeach; endif; else: echo "" ;endif; ?>
 		</ul>
 		<div id="BottomMenuSpace"></div>
 		<table id="BottomMenu">
@@ -452,10 +447,10 @@ function currentFile(skip, stack){
 			});
 			jWeixin.config({
 				debug    : CONSTANT.isDebugEnv, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-				appId    : '{$signPackage["appId"]}', // 必填，公众号的唯一标识
-				timestamp: {$signPackage["timestamp"]}, // 必填，生成签名的时间戳
-				nonceStr : '{$signPackage["nonceStr"]}', // 必填，生成签名的随机串
-				signature: '{$signPackage["signature"]}',// 必填，签名，见附录1
+				appId    : '<?php echo ($signPackage["appId"]); ?>', // 必填，公众号的唯一标识
+				timestamp: <?php echo ($signPackage["timestamp"]); ?>, // 必填，生成签名的时间戳
+				nonceStr : '<?php echo ($signPackage["nonceStr"]); ?>', // 必填，生成签名的随机串
+				signature: '<?php echo ($signPackage["signature"]); ?>',// 必填，签名，见附录1
 				jsApiList: [
 					'onMenuShareTimeline',
 					'onMenuShareAppMessage',

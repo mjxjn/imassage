@@ -3,7 +3,7 @@
 <html>
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>功夫熊</title>
+	<title>Imassage爱按摩</title>
 	<meta name="viewport" content="width=320,user-scalable=no">
 	<meta name="format-detection" content="telephone=no">
 	
@@ -14,6 +14,7 @@
 	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/global.wx.css">
 	
 	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/p_detail.css">
+	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/p_list.css">
 	<script type="text/javascript" crossorigin="anonymous">
 var consoleObject = ['log', 'debug', 'warn', 'error'];
 function array_shift(a){
@@ -289,23 +290,22 @@ function currentFile(skip, stack){
 </head>
 <body class="">
 
-<form id="product_submit_form" style="display:block" action="http://w.gfxiong.com/wx/create_order" method="get" onsubmit="return check_input();">
-    <input type="hidden" name="wechat_card_js" value="1">
-	<input id="productId" type="hidden" name="p" value="5491b86be4b0c4895219f2c1">
+<form id="product_submit_form" style="display:block" action="###" method="get" onsubmit="return check_input();">
+	<input id="id" type="hidden" name="id" value="<?php echo ($info["id"]); ?>">
 	<div class="p-dt">
 		<div class="p-dt-box">
-			<img class="pose" async-src="__PUBLIC__/img/product_pose1.png" height="30" src="__PUBLIC__/img/product_pose1.png">
+			<img class="pose" async-src="__PUBLIC__/img/product_pose<?php echo ($info["typeid"]); ?>.png" height="30" src="__PUBLIC__/img/product_pose<?php echo ($info["typeid"]); ?>.png">
 			<div class="p-dt-box-l">
-				<img src="./功夫熊content_files/oYJoX31CAkhQdkmU0vLBJnUjRo4j42Tmcf67hBXs.png" height="75" width="75" alt="">
+				<img src="<?php echo ($info["img"]); ?>" height="75" width="75" alt="">
 			</div>
 			<div class="p-dt-box-r">
-				<div class="line1"><strong>头颈肩推拿</strong></div>
+				<div class="line1"><strong><?php echo ($info["title"]); ?></strong></div>
 				<div class="line2">
 					<i></i>
-					<span>45分钟（1人起订）</span>
+					<span><?php echo ($info["timelong"]); ?>分钟（<?php echo ($info["minpeople"]); ?>人起订）</span>
 				</div>
 				<div class="line3">
-					<span id="singlePrice">￥128</span>
+					<span id="singlePrice">￥<?php echo (incprc($info["price"])); ?></span>
 				</div>
 			</div>
 		</div>
@@ -313,7 +313,7 @@ function currentFile(skip, stack){
 		<div class="p-dt-title">选择套餐内容</div>
 		<div class="p-dt-ul-box">
 			<div class="wrap">
-				<div class="line_select">
+			<?php if(empty($bid)): ?><div class="line_select">
 					<span class="name">推拿师等级</span>
 					<div class="select_input">
 						<div class="left"></div>
@@ -321,24 +321,31 @@ function currentFile(skip, stack){
 						<div id="levelSelect">
                             
 							<ul>
-								<li>
-									<span data-value="1" class="active">高级</span>
-								</li>
-									<li>
-										<span data-value="2">特级</span>
-									</li>
+
+							<?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><li>
+									<span data-value="<?php echo ($i); ?>" <?php if(($i) == "0"): ?>class="active"<?php endif; ?>><?php echo ($vo["title"]); ?></span>
+								</li><?php endforeach; endif; else: echo "" ;endif; ?>
 
 							</ul>
 						</div>
 						<div class="right"></div>
 					</div>
 				</div>
-
+			<?php else: ?>
+				<div class="line_select">
+					<span class="name">推拿师</span>
+					<div class="select_input">
+						<div class="left"></div>
+						<input type="hidden" id="engineerLevel" name="e" value="1">
+						<input type="hidden" id="" name="bid" value="<?php echo ($bid); ?>">
+						<div class="right"><?php echo ($info["blindman"]); ?></div>
+					</div>
+				</div><?php endif; ?>
 				<div class="line_number">
 					<span class="name">购买数量</span>
 					<div class="number_input right">
 						<div class="left"></div>
-						<input type="number" min="1" max="6" id="multiply" name="multiplier" value="1">
+						<input type="number" min="<?php echo ($info["minpeople"]); ?>" max="6" id="multiply" name="multiplier" value="<?php echo ($info["minpeople"]); ?>">
 						<div class="right"></div>
 					</div>
 				</div>
@@ -376,13 +383,7 @@ function currentFile(skip, stack){
 		</div>
 
 		<div class="p-dt-tab-box">
-			<div id="tab-box1" class="p-dt-tab-ct active">【部位】头部、颈项、肩臂、肘关节、手腕。
-
-【手法功效】运用点压、拿捏、弹拨、按摩等传统推拿手法，刺激人体的特定部位，疏通颈肩部的肌肉劳损，促进脑部供血，缓解疲劳，疏通经络、破瘀散结、运行气血，以预防颈椎病、解除疼痛，缓解头晕、头痛等身体不适。
-
-【适用于】肩颈肌肉疲劳、疼痛、僵硬者，偏头痛、头晕者，长期伏案工作者（如公司职员白领、金领、司机等），落枕、颈部活动受限、肩周不适等长期性颈椎病引起的各种慢性痛症。
-
-【预防和养护】合理用枕，选择合适的高度和硬度，保持良好的睡眠体位，保证充足的睡眠时间，伏案工作者应注意经常做颈项部的功能活动，以避免颈部长时间处于某一低头姿势而发生慢性劳损，也可局部热敷促进气血运行，以达到疏通经络，祛风散寒的功效。</div>
+			<div id="tab-box1" class="p-dt-tab-ct active"><?php echo ($info["content"]); ?></div>
 			<div id="tab-box2" class="p-dt-tab-ct">推拿疗法的禁忌症，指不适宜推拿或在某种情况下，手法可能使病情加重恶化的情况。
 
 1、诊断不明的急性脊髓损伤或伴有脊髓症状的患者，在未排除脊椎骨折时切忌推拿。出现脑脊髓症状时须排除蛛网膜下腔出血，这也是推拿禁忌症。
@@ -406,11 +407,8 @@ function currentFile(skip, stack){
 推拿师按规定时间到达后，在推拿师有其他订单的情况下，等待时间不能超过30分钟，超过30分钟收取订单费用的80%，且订单无法完成。
 
 【付款前须知】
-1.请阅读项目的详细内容、适应人群、禁忌症，功夫熊推拿属于舒缓调理，并非医疗，如需治疗请到医院就诊。
-2.功夫熊推拿师只提供专业正规服务，对于不正当的行为和要求我们有权拒绝服务，并保留诉诸法律的权利。</div>
-		</div>
-		<div class="p-dt-tab-pic">
-			<img src="__PUBLIC__/img/product-intro.png" width="300" height="509" alt="">
+1.请阅读项目的详细内容、适应人群、禁忌症，爱按摩推拿属于舒缓调理，并非医疗，如需治疗请到医院就诊。
+2.爱按摩按摩师只提供专业正规服务，对于不正当的行为和要求我们有权拒绝服务，并保留诉诸法律的权利。</div>
 		</div>
 
 	</div>
@@ -424,7 +422,7 @@ function currentFile(skip, stack){
 				<div class="line_time">
 					<span>时长:</span>
 					<span class="right">
-					<span class="time">45</span>
+					<span class="time"><?php echo ($info["timelong"]); ?></span>
 					分钟
 					</span>
 				</div>
@@ -433,7 +431,7 @@ function currentFile(skip, stack){
 				<div class="line_total_price">
 					<span class="right">合计:</span>
 					<span class="right">
-					<span class="price">128</span>
+					<span class="price"><?php echo (incprc($info["price"])); ?></span>
 					元
 					</span>
 				</div>
@@ -443,26 +441,6 @@ function currentFile(skip, stack){
 		
 	</div>
 </form>
-<div id="spring">
-	<div class="tishi">功夫熊温馨提示</div>
-	<div class="rest">
-		春节期间推拿师休息，2月22日（初四）<br>
-		恢复服务，优惠券可照常使用，敬请谅解
-	</div>
-	<div class="springbtn">
-		<div id="springbtnl" onclick="springclose();">确定</div>
-		<div id="springbtnr" onclick="springclose();">取消</div>
-	</div>
-</div>
-<script>
-	var spring = document.getElementById("spring");
-	function springopen () {
-		spring.style.display = "block";
-	}
-	function springclose(){
-		spring.style.display = "none";
-	}
-</script>
 
 <script>
 	function tab_change(self, value){
@@ -481,11 +459,11 @@ function currentFile(skip, stack){
 <script type="text/javascript">
 
 	window.productData = {
-        displayConfig_price  : [0,128,148,178],
-		period       : 45,
-		minMultiplier: 1,
+        displayConfig_price  : <?php echo ($pricearr); ?>,
+		period       : <?php echo ($info["timelong"]); ?>,
+		minMultiplier: <?php echo ($info["minpeople"]); ?>,
 		maxMultiplier: 6,
-		productId    : "5491b86be4b0c4895219f2c1",
+		productId    : "<?php echo ($info["id"]); ?>",
 		options      : {}
 	};
 </script>
@@ -494,32 +472,11 @@ function currentFile(skip, stack){
 		<a onclick="document.querySelector('#DebugLog').style.display = 'none';return false;">关闭</a>
 	</div>
 </div>
-<script type="text/javascript" crossorigin="anonymous">
-	var static_version = parseInt("2519");
-	var static_url = "http://static.gfxiong.com/";
-	document.addEventListener("DOMContentLoaded", function (){
-		setTimeout(function (){
-			console.log('async_content: document loaded...');
-			var list = document.querySelectorAll('[async-src]');
-			for(var i = 0; i < list.length; i++){
-				var url = list[i].getAttribute('async-src');
-				if(url.indexOf(static_url) === 0){
-					url += '?_=' + static_version;
-				}
-				list[i].src = url;
-				console.log('async_content: load content %s ...', list[i].src);
-			}
-		}, 100);
-	}, false);
-</script>
 
-<script type="text/javascript" crossorigin="anonymous">
-	
-</script>
 	<script type="text/javascript" src="__PUBLIC__/js/jweixin-1.0.0.js"></script>
 	<script type="text/javascript">
 		var wx_success = true;
-		console.log('http://mp.weixin.qq.com/s?__biz=MjM5NzUxNjcyNg==&mid=200547026&idx=1&sn=7769a845d7fe0038d3e5e2997bd3a9f3#rd');
+		
 		jWeixin.ready(function (){
 			console.log('init weixin object callback');
 			if(!wx_success){
@@ -531,9 +488,9 @@ function currentFile(skip, stack){
 				$(document).trigger('wxready');
 			}
 						jWeixin.onMenuShareTimeline({
-				title  : "\u529f\u592b\u718a\u4e0a\u95e8\u63a8\u62ff\u7279\u60e0", // 分享标题
-				link   : "http:\/\/mp.weixin.qq.com\/s?__biz=MjM5NzUxNjcyNg==&mid=200547026&idx=1&sn=7769a845d7fe0038d3e5e2997bd3a9f3#rd", // 分享链接
-				imgUrl : "http:\/\/static.gfxiong.com\/img\/logo-round.png", // 分享图标
+				title  : "<?php echo ($info["title"]); ?>", // 分享标题
+				link   : "http://www.baidu.com", // 分享链接
+				imgUrl : "http://static.gfxiong.com/img/logo-round.png", // 分享图标
 				success: function (){
 					share_success('timeline');
 				},
@@ -544,10 +501,10 @@ function currentFile(skip, stack){
 			console.log('onMenuShareTimeline');
 						
 						jWeixin.onMenuShareAppMessage({
-				title  : "\u529f\u592b\u718a\u4e0a\u95e8\u63a8\u62ff\uff0c\u5728\u5bb6\u63a8\u62ff\u597d\u9178\u723d\uff0c\u73b0\u5728\u4e0b\u5355\u5f88\u4fbf\u5b9c\uff01", // 分享标题
-				desc   : "\u529f\u592b\u718a\u4e0a\u95e8\u63a8\u62ff\u7279\u60e0", // 分享描述
-				link   : "http:\/\/mp.weixin.qq.com\/s?__biz=MjM5NzUxNjcyNg==&mid=200547026&idx=1&sn=7769a845d7fe0038d3e5e2997bd3a9f3#rd", // 分享链接
-				imgUrl : "http:\/\/static.gfxiong.com\/img\/logo-round.png", // 分享图标
+				title  : "<?php echo ($info["title"]); ?>", // 分享标题
+				desc   : "<?php echo ($info["title"]); ?>", // 分享描述
+				link   : "http://www.baidu.com", // 分享链接
+				imgUrl : "http://static.gfxiong.com/img/logo-round.png", // 分享图标
 				type   : 'link', // 分享类型,music、video或link，不填默认为link
 				dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
 				success: function (){
@@ -565,24 +522,24 @@ function currentFile(skip, stack){
 			}
 			wx_success = false;
 		});
-				jWeixin.config({
-			debug    : CONSTANT.isDebugEnv, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-			appId    : 'wxe7ee3329bf547ca9', // 必填，公众号的唯一标识
-			timestamp: 1433485854, // 必填，生成签名的时间戳
-			nonceStr : 'f1abd670358e036c31296e66b3b66c382ac00812', // 必填，生成签名的随机串
-			signature: '3bdeab96ff46d6112a935d40bcc8854f211c5b53',// 必填，签名，见附录1
-			jsApiList: [
-				'onMenuShareTimeline',
-				'onMenuShareAppMessage',
-				'previewImage',
-				'getNetworkType',
-				'getLocation',
-				'openLocation',
-				'hideOptionMenu',
-				'scanQRCode',
-				'chooseWXPay'
-			] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-		});
+		jWeixin.config({
+				debug    : CONSTANT.isDebugEnv, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+				appId    : '<?php echo ($signPackage["appId"]); ?>', // 必填，公众号的唯一标识
+				timestamp: <?php echo ($signPackage["timestamp"]); ?>, // 必填，生成签名的时间戳
+				nonceStr : '<?php echo ($signPackage["nonceStr"]); ?>', // 必填，生成签名的随机串
+				signature: '<?php echo ($signPackage["signature"]); ?>',// 必填，签名，见附录1
+				jsApiList: [
+					'onMenuShareTimeline',
+					'onMenuShareAppMessage',
+					'previewImage',
+					'getNetworkType',
+					'getLocation',
+					'openLocation',
+					'hideOptionMenu',
+					'scanQRCode',
+					'chooseWXPay'
+				] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+			});
 		
 		function share_success(type){
 			if(window.$){

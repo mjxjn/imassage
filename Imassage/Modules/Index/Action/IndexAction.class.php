@@ -1,8 +1,13 @@
 <?php
-Class IndexAction extends Action{
+Class IndexAction extends CommonAction{
   
   public function index(){
-     $this->display();
+  	
+  	$Product = M('Product');
+  	$list = $Product->order('id')->select();
+  	$this->assign('list',$list);
+  	
+    $this->display();
   }
 
 }

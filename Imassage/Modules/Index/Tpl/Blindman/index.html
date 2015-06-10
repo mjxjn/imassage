@@ -287,9 +287,10 @@ function currentFile(skip, stack){
 		<div id="AppointType">
 		<div class="wrap">
 			<table>
-				<tbody><tr><td class="product checker">
-					<a class="type-product" href="###">&nbsp;项目&nbsp;</a>
-					<a class="type-engineer" href="__APP__/blindman">按摩师</a>
+				<tbody><tr>
+				<td class="engineer checker">
+					<a class="type-product" href="__APP__/index">&nbsp;项目&nbsp;</a>
+					<a class="type-engineer" href="__APP__/blindman###">按摩师</a>
 				</td>
 			</tr></tbody></table>
 			<div id="citySelect" class="city-select">
@@ -336,23 +337,19 @@ function currentFile(skip, stack){
 		</script>
 		<ul id="Main" class="container">
 		<volist name="list" id="vo">
-			<li id="p{$vo.id}" onclick="location.href='__APP__/Product/index/id/{$vo.id}'">
-                    <img class="pose" async-src="__PUBLIC__/img/product_pose{$vo.typeid}.png" height="30" src="__PUBLIC__/img/product_pose{$vo.typeid}.png">
-            		<img async-src="{$vo.img}" height="75" width="75" title="{$vo.title}" class="titleImage" src="{$vo.img}">
-            		<div class="title">{$vo.title}
-            			<span class="price">￥{$vo.price|incPrc}
-            			<span class="font-smaller">起</span>
+			<li id="p{$vo.id}" onclick="location.href='__URL__/info/id/{$vo.id}'">
+            		<img async-src="{$vo.img}" height="75" width="75" title="{$vo.name}" class="titleImage" src="{$vo.img}">
+
+            		<div class="title">[<font style="color:orange">{$vo.level}按摩师</font>]&nbsp;&nbsp;{$vo.name}&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:12px; color:#aaa;">{$vo.sex|getSex}</span>
+            		</div>
+            		<div class="desc">
+            			<!-- <img async-src="__PUBLIC__/img/clock.png" height="13" src="__PUBLIC__/img/clock.png"> -->
+            			<span>
+                            订单数：{$vo.ordernum}单
             			</span>
             		</div>
             		<div class="desc">
-            			<img async-src="__PUBLIC__/img/clock.png" height="13" src="__PUBLIC__/img/clock.png">
-            			<span>
-                            {$vo.timelong}分钟
-            			({$vo.minpeople}人起订)
-            			</span>
-            		</div>
-            		<div class="btn">
-            			<a>立即预约</a>
+            			{$vo.content}
             		</div>
             		<div class="clear"></div>
         	</li>

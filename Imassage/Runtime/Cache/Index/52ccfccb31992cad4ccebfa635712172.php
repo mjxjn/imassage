@@ -3,7 +3,7 @@
 <html>
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>功夫熊</title>
+	<title>Imassage爱按摩</title>
 	<meta name="viewport" content="width=320,user-scalable=no">
 	<meta name="format-detection" content="telephone=no">
 	
@@ -289,7 +289,7 @@ function currentFile(skip, stack){
 			<table>
 				<tbody><tr><td class="product checker">
 					<a class="type-product" href="###">&nbsp;项目&nbsp;</a>
-					<a class="type-engineer" href="http://w.gfxiong.com/wx/lst/engineer">按摩师</a>
+					<a class="type-engineer" href="__APP__/blindman">按摩师</a>
 				</td>
 			</tr></tbody></table>
 			<div id="citySelect" class="city-select">
@@ -327,43 +327,43 @@ function currentFile(skip, stack){
 		    }
 		</style>
 		<div class="top-banner" style="display: none;">
-		    <a href="http://w.gfxiong.com/wx/female_area">
+		    <a href="###">
 		        <img src="__PUBLIC__/img/female_area_banner_new2.jpg" width="100%" alt="">
 		    </a>
 		</div>
 		<script>
-			$(".top-banner").show();
+			$(".top-banner").hide();
 		</script>
 		<ul id="Main" class="container">
-			<li id="p123" onclick="location.href='__URL__/Product/index/id/123'">
-                    <img class="pose" async-src="__PUBLIC__/img/product_pose1.png" height="30" src="__PUBLIC__/img/product_pose1.png">
-            		<img async-src="http://ac-fh5tu56b.clouddn.com/oYJoX31CAkhQdkmU0vLBJnUjRo4j42Tmcf67hBXs.png?w/150/h/150" height="75" width="75" title="头颈肩推拿" class="titleImage" src="./功夫熊_files/oYJoX31CAkhQdkmU0vLBJnUjRo4j42Tmcf67hBXs.png">
-            		<div class="title">头颈肩推拿
-            			<span class="price">￥128
+		<?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><li id="p<?php echo ($vo["id"]); ?>" onclick="location.href='__APP__/Product/index/id/<?php echo ($vo["id"]); ?>'">
+                    <img class="pose" async-src="__PUBLIC__/img/product_pose<?php echo ($vo["typeid"]); ?>.png" height="30" src="__PUBLIC__/img/product_pose<?php echo ($vo["typeid"]); ?>.png">
+            		<img async-src="<?php echo ($vo["img"]); ?>" height="75" width="75" title="<?php echo ($vo["title"]); ?>" class="titleImage" src="<?php echo ($vo["img"]); ?>">
+            		<div class="title"><?php echo ($vo["title"]); ?>
+            			<span class="price">￥<?php echo (incprc($vo["price"])); ?>
             			<span class="font-smaller">起</span>
             			</span>
             		</div>
             		<div class="desc">
             			<img async-src="__PUBLIC__/img/clock.png" height="13" src="__PUBLIC__/img/clock.png">
             			<span>
-                            45分钟
-            			(1人起订)
+                            <?php echo ($vo["timelong"]); ?>分钟
+            			(<?php echo ($vo["minpeople"]); ?>人起订)
             			</span>
             		</div>
             		<div class="btn">
             			<a>立即预约</a>
             		</div>
             		<div class="clear"></div>
-        	</li>
+        	</li><?php endforeach; endif; else: echo "" ;endif; ?>
 		</ul>
 		<div id="BottomMenuSpace"></div>
 		<table id="BottomMenu">
 		<tbody>
 		<tr>
 			<td id="home" class="active">
-				<a href="http://w.gfxiong.com/wx/lst/product###">
+				<a href="###">
 				<span class="icon">
-				<img async-src="http://static.gfxiong.com/img/wx_icons/bottom/home.active.png" width="20" height="20" src="__PUBLIC__/img/home.active.png">
+				<img async-src="__PUBLIC__/img/home.active.png" width="20" height="20" src="__PUBLIC__/img/home.active.png">
 				</span>
 				<span class="title">预约</span>
 				</a>
@@ -377,17 +377,17 @@ function currentFile(skip, stack){
 				</a>
 			</td> -->
 			<td id="myorder" class="">
-				<a href="http://w.gfxiong.com/wx/my/orderlist">
+				<a href="__APP__/orderlist">
 				<span class="icon">
-				<img async-src="http://static.gfxiong.com/img/wx_icons/bottom/myorder.png" width="20" height="20" src="__PUBLIC__/img/myorder.png">
+				<img async-src="__PUBLIC__/img/myorder.png" width="20" height="20" src="__PUBLIC__/img/myorder.png">
 				</span>
 				<span class="title">订单</span>
 				</a>
 			</td>
 			<td id="people" class="">
-				<a href="http://w.gfxiong.com/wx/my">
+				<a href="__APP__/user">
 				<span class="icon">
-				<img async-src="http://static.gfxiong.com/img/wx_icons/bottom/people.png" width="20" height="20" src="__PUBLIC__/img/people.png">
+				<img async-src="__PUBLIC__/img/people.png" width="20" height="20" src="__PUBLIC__/img/people.png">
 				</span>
 				<span class="title">个人</span>
 				</a>
@@ -403,7 +403,6 @@ function currentFile(skip, stack){
 		<script type="text/javascript" src="__PUBLIC__/js/jweixin-1.0.0.js"></script>
 		<script type="text/javascript">
 			var wx_success = true;
-			console.log('http://mp.weixin.qq.com/s?__biz=MjM5NzUxNjcyNg==&mid=200547026&idx=1&sn=7769a845d7fe0038d3e5e2997bd3a9f3#rd');
 			jWeixin.ready(function (){
 				console.log('init weixin object callback');
 				if(!wx_success){
@@ -414,10 +413,10 @@ function currentFile(skip, stack){
 				if(window.$){
 					$(document).trigger('wxready');
 				}
-							jWeixin.onMenuShareTimeline({
-					title  : "\u529f\u592b\u718a\u4e0a\u95e8\u63a8\u62ff\u7279\u60e0", // 分享标题
-					link   : "http:\/\/mp.weixin.qq.com\/s?__biz=MjM5NzUxNjcyNg==&mid=200547026&idx=1&sn=7769a845d7fe0038d3e5e2997bd3a9f3#rd", // 分享链接
-					imgUrl : "http:\/\/static.gfxiong.com\/img\/logo-round.png", // 分享图标
+				jWeixin.onMenuShareTimeline({
+					title  : "Imassage盲人按摩服务", // 分享标题
+					link   : "http://baidu.com", // 分享链接
+					imgUrl : "http://static.gfxiong.com/img/logo-round.png", // 分享图标
 					success: function (){
 						share_success('timeline');
 					},
@@ -427,11 +426,11 @@ function currentFile(skip, stack){
 				});
 				console.log('onMenuShareTimeline');
 							
-							jWeixin.onMenuShareAppMessage({
-					title  : "\u529f\u592b\u718a\u4e0a\u95e8\u63a8\u62ff\uff0c\u5728\u5bb6\u63a8\u62ff\u597d\u9178\u723d\uff0c\u73b0\u5728\u4e0b\u5355\u5f88\u4fbf\u5b9c\uff01", // 分享标题
-					desc   : "\u529f\u592b\u718a\u4e0a\u95e8\u63a8\u62ff\u7279\u60e0", // 分享描述
-					link   : "http:\/\/mp.weixin.qq.com\/s?__biz=MjM5NzUxNjcyNg==&mid=200547026&idx=1&sn=7769a845d7fe0038d3e5e2997bd3a9f3#rd", // 分享链接
-					imgUrl : "http:\/\/static.gfxiong.com\/img\/logo-round.png", // 分享图标
+				jWeixin.onMenuShareAppMessage({
+					title  : "", // 分享标题
+					desc   : "", // 分享描述
+					link   : "http://www.baidu.com", // 分享链接
+					imgUrl : "http://static.gfxiong.com/img/logo-round.png", // 分享图标
 					type   : 'link', // 分享类型,music、video或link，不填默认为link
 					dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
 					success: function (){
@@ -449,12 +448,12 @@ function currentFile(skip, stack){
 				}
 				wx_success = false;
 			});
-					jWeixin.config({
+			jWeixin.config({
 				debug    : CONSTANT.isDebugEnv, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-				appId    : 'wxe7ee3329bf547ca9', // 必填，公众号的唯一标识
-				timestamp: 1433485714, // 必填，生成签名的时间戳
-				nonceStr : '733977d96e436f61dc769ec774b485e981249a00', // 必填，生成签名的随机串
-				signature: 'dbf3629756b91a8e490673535ffba234b9e8f871',// 必填，签名，见附录1
+				appId    : '<?php echo ($signPackage["appId"]); ?>', // 必填，公众号的唯一标识
+				timestamp: <?php echo ($signPackage["timestamp"]); ?>, // 必填，生成签名的时间戳
+				nonceStr : '<?php echo ($signPackage["nonceStr"]); ?>', // 必填，生成签名的随机串
+				signature: '<?php echo ($signPackage["signature"]); ?>',// 必填，签名，见附录1
 				jsApiList: [
 					'onMenuShareTimeline',
 					'onMenuShareAppMessage',

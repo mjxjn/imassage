@@ -6,7 +6,7 @@ window.addEventListener('DOMContentLoaded', function (){
 	var minput = document.querySelector('#multiply');
 	var btnSubmit = document.querySelector('.p-dt-submit .primary');
 	var minputBox = document.querySelector('#product_submit_form .number_input');
-	var txtPid = document.querySelector('#productId');
+	var txtPid = document.querySelector('#id');
 	var dtime = document.querySelector('#product_submit_form .line_time .time');
 	var dprice = document.querySelector('#product_submit_form .line_total_price .price');
 	var optionList = document.querySelector('#product_submit_form .options .list');
