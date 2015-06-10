@@ -12,8 +12,9 @@
 
 	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/global.css">
 	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/global.wx.css">
-
+	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/p_list.css">
 	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/order.css">
+	
 		<script type="text/javascript" crossorigin="anonymous">
 var consoleObject = ['log', 'debug', 'warn', 'error'];
 function array_shift(a){
@@ -286,6 +287,9 @@ function currentFile(skip, stack){
 		}
 	})
 	</script>
+	<style type="text/css">
+	#Main .title{font-size: 12px;}
+	</style>
 </head>
 <body class="">
 <form action="" method="" onsubmit="return check_input();">
@@ -293,20 +297,43 @@ function currentFile(skip, stack){
 		<div class="step_one" id="order_step">
 			<img src="__PUBLIC__/img/order3.png" width="100%" />
 		</div>
-		<div class="tip">优惠券</div>
-		<div class="yydate">
-			<span>会员卡余额</span>
+		<div class="coupons">优惠券: 80元代金券</div>
+		<div class="money">
+			<span>会员卡余额: 0元</span>
 		</div>
-		<div class="blindmanlist">
-			<div class="blindman">支付方式</div>
+		<div class="payway">
+			<div class="paytitle">支付方式</div>
+			<div class="pay"><input type="radio" name="payway" value="1" checked="checked" /> 微信支付</div>
 		</div>
-		<div class="blindmanlist">
-			<div class="blindman">地址 联系人 电话</div>
+		<div class="address">
+			<p>地址: 圣诞节疯了</p> 
+			<p>联系人: 马祥</p> 
+			<p>电话: 18053722630</p>
 		</div>
-		<div class="blindmanlist">
-			<div class="blindman">订单详情</div>
+		<div class="blindmanlist container">
+			<div class="orderinfo">订单详情</div>
+			<li>
+			<img async-src="<?php echo ($vo["img"]); ?>" height="75" width="75" title="<?php echo ($vo["name"]); ?>" class="titleImage" src="<?php echo ($vo["img"]); ?>">
+            <div class="title">
+            服务：加深对
+            </div>
+            <div class="title">
+            按摩师：束带结发
+            </div>
+            <div class="title">
+            项目数量：1
+            </div>
+          	<div class="title">
+          	项目时间：明天17：00
+            </div>
+            </li>
+            <div class="total">
+            	<p>总计：￥128</p>
+            	<p>折扣: -￥80</p>
+            </div>
 		</div>
 	</div>
+	<div id="BottomMenuSpace"></div>
 	<div class="p-dt-submit3">			
 		<div class="submit-l">
 			<div class="price_display">

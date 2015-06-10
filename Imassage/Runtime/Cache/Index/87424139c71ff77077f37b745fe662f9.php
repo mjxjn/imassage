@@ -295,9 +295,9 @@ function currentFile(skip, stack){
 		<tbody>
 		<tr>
 			<td id="home" class="">
-				<a href="http://w.gfxiong.com/wx/lst/product###">
+				<a href="__APP__/index">
 				<span class="icon">
-				<img async-src="http://static.gfxiong.com/img/wx_icons/bottom/home.png" width="20" height="20" src="__PUBLIC__/img/home.png">
+				<img async-src="__PUBLIC__/img/home.png" width="20" height="20" src="__PUBLIC__/img/home.png">
 				</span>
 				<span class="title">预约</span>
 				</a>
@@ -311,17 +311,17 @@ function currentFile(skip, stack){
 				</a>
 			</td> -->
 			<td id="myorder" class="active">
-				<a href="http://w.gfxiong.com/wx/my/orderlist">
+				<a href="###">
 				<span class="icon">
-				<img async-src="http://static.gfxiong.com/img/wx_icons/bottom/myorder.active.png" width="20" height="20" src="__PUBLIC__/img/myorder.active.png">
+				<img async-src="__PUBLIC__/img/myorder.active.png" width="20" height="20" src="__PUBLIC__/img/myorder.active.png">
 				</span>
 				<span class="title">订单</span>
 				</a>
 			</td>
 			<td id="people" class="">
-				<a href="http://w.gfxiong.com/wx/my">
+				<a href="__APP__/user">
 				<span class="icon">
-				<img async-src="http://static.gfxiong.com/img/wx_icons/bottom/people.png" width="20" height="20" src="__PUBLIC__/img/people.png">
+				<img async-src="__PUBLIC__/img/people.png" width="20" height="20" src="__PUBLIC__/img/people.png">
 				</span>
 				<span class="title">个人</span>
 				</a>
