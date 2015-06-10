@@ -30,7 +30,7 @@ class CouponsAction extends CommonAction
 				exit();
 			}
 			$title = I('title');
-			if (empty($name)) {
+			if (empty($title)) {
 				$this->error('选择标题');
 			}
 			$minnum = I('minnum');
@@ -57,22 +57,43 @@ class CouponsAction extends CommonAction
 		$this->display();
 	}
 
+	function edit()
+	{
+		$id = I('id');
+		$User = M('User');
+		$Model = M('CouponsInfo');
+		$list = $User->select();
+		foreach ($list as $key => $value) {
+			$cdata['uid'] = $value['id'];
+			$cdata['cid'] = $id;
+			$cdata['code'] = 'I'.date("is").randpw(8);
+			$Model->add($cdata);
+		}
+		$this->success('发放成功');
+	}
+
 	function view()
 	{
 		$id = I('id');
 		$Model = M('CouponsInfo');
 		if ($_POST) {
 			$num = I('num');
-			
+			$cdata['cid'] = $id;
+			for ($i=0; $i < $num; $i++) { 
+				$cdata['code'] = date("is").randpw(8);
+				$Model->add($cdata);
+			}
+
 		}
 		import('ORG.Util.Page');// 导入分页类
 		$count      = $Model->count();// 查询满足要求的总记录数
 		$Page       = new Page($count,10);// 实例化分页类 传入总记录数和每页显示的记录数
 		$show       = $Page->show();// 分页显示输出
 		 // 进行分页数据查询 注意limit方法的参数要使用Page类的属性
-		$list = $Model->table('CouponsInfo c')->join('User u on u.id=c.uid')->field('c.*,u.name')->where('c.cid='.$id)->order('c.id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
+		$list = $Model->table('Coupons_info c')->join('User u on u.id=c.uid')->field('c.*,u.name')->where('c.cid='.$id)->order('c.id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
 		$this->assign('list',$list);// 赋值数据集
 		$this->assign('page',$show);// 赋值分页输出
+		$this->assign('id',$id);
 		$this->display();
 	}
 

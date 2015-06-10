@@ -146,11 +146,19 @@
                 <span class="arrow"></span>
                 <ul id="order">
                     <li><a href="<?php echo U('Order/index');?>">订单列表</a></li>
-                    <li><a href="<?php echo U('Comment/index');?>">订单评论</a></li>
                     <li><a href="<?php echo U('Order/census');?>">订单统计</a></li>
+                    <li><a href="<?php echo U('Comment/index');?>">订单评论</a></li>
+                    <li><a href="<?php echo U('Comment/add');?>">添加评论</a></li>
                 </ul>
             </li>
         	<li><a href="<?php echo U('User/index');?>" class="">用户管理</a></li>
+            <li><a href="#coupons" class="tables">优惠券管理</a>
+                <span class="arrow"></span>
+                <ul id="coupons">
+                    <li><a href="<?php echo U('Coupons/index');?>" class="">优惠券列表</a></li>
+                    <li><a href="<?php echo U('Coupons/add');?>">添加优惠券</a></li>
+                </ul>
+            </li>
         </ul>
         <a class="togglemenu"></a>
         <br /><br />

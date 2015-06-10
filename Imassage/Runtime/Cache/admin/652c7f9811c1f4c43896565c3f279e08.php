@@ -178,7 +178,7 @@
                     <div class="overviewselect" style="margin-left:20px">
                         <button class="btn btn_orange btn_search radius50"><span>生成优惠券</span></button>
                     </div>
-                    生成数量: &nbsp;<input type="text" name="num" id="num" class="mediuminput" /> &nbsp; &nbsp;
+                    生成数量: &nbsp;<input type="text" name="num" id="num" class="mediuminput" /><input type="hidden" name="id" id="id" value="<?php echo ($id); ?>" />  &nbsp; &nbsp;
                     </form>
                 </div><!--overviewhead-->
                 <br clear="all">
@@ -219,9 +219,6 @@
                             <td class="center"><?php echo ($vo["uid"]); ?></td>
                             <td><?php echo ($vo["name"]); ?></td>
                             <td><?php echo ($vo["usetime"]); ?></td>
-                            <td class="center">
-                            
-                            </td>
                         </tr><?php endforeach; endif; else: echo "" ;endif; ?>
                     </tbody>
                 </table>
