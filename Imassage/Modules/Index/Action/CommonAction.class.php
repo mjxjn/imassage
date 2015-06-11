@@ -11,6 +11,26 @@ class CommonAction extends Action
 	  	$jssdk = new JSSDK("wxa9ca1852ed68d2b9", "53e9246cac850eeaf793e2cb6c51f1f6");
 		$signPackage = $jssdk->GetSignPackage();
 		$this->assign('signPackage',$signPackage);
+
+		// 获取openid
+		$code = $_GET['code'];
+		if(!empty($code)){
+			$appid = "wx20ec6953f13e5975";
+			$appsecret = "e8ae6545b510c1d653e42fcbfb05feb4";//获取openid
+			$url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=$appid&secret=$appsecret&code=$code&grant_type=authorization_code";
+			$result = https_request($url);
+			$jsoninfo = json_decode($result, true);
+			$openid = $jsoninfo["openid"];//从返回json结果中读出openid
+
+			$User = M('User');
+			$userinfo = $User->field('id')->where('openid="'.$openid.'"')->find();
+			if (empty($userinfo)) {
+				$islogin = false;
+			}else{
+				$uid = $userinfo['id'];
+			}
+		}
+		
 	}
 }
 ?>

@@ -2,7 +2,7 @@
 /**
 * 
 */
-class OrderAction extends LoginAction
+class OrderAction extends CheckAction
 {
 	
 	function index()
@@ -18,14 +18,14 @@ class OrderAction extends LoginAction
 			$level = $binfo['level'];
 		}
 		$num = I('multiplier');
-		$User = M('User');
-		$uinfo = $User->field('id,phone')->where('openid="'.$openid.'"')->find();
+		//$User = M('User');
+		//$uinfo = $User->field('id,phone')->where('openid="'.$openid.'"')->find();
 		$this->assign('pid',$pid);
 		$this->assign('num',$num);
 		$this->assign('level',$level);
 		$this->assign('bid',$bid);
-		$this->assign('uid',$uinfo['id']);
-		$this->assign('phone',$uinfo['phone']);
+		$this->assign('uid',$uid);
+		$this->assign('phone',$phone);
 		$this->display();
 	}
 
@@ -404,6 +404,9 @@ class OrderAction extends LoginAction
 				break;
 		}
 
+		$Product = M('Product');
+		$prinfo = $Product->field('title')->where('id='.$pid)->find();
+
 		$Package = M('Package');
 		$pinfo = $Package->field('price')->where('pid = '.$pid.' and title="'.$level.'"')->find();
 
@@ -412,6 +415,7 @@ class OrderAction extends LoginAction
 		$cinfo = $Coupons_info->field('cid')->where('id='.$cid)->find();
 		$couinfo = $Coupons->field('price')->where('id='.$cinfo['cid'])->find();
 
+		$timeStamp = time();
 		$Orders = M('Orders');
 		$data['uid'] = $uid;
 		$data['bid'] = $bid;
@@ -422,6 +426,7 @@ class OrderAction extends LoginAction
 		$data['cid'] = $cid;
 		$data['status'] = 1;
 		$data['addtime'] = time();
+		$data['out_trade_no'] = $timeStamp;
 		$data['starttime'] = $starttime;
 		if ($Orders->add($data)) {
 			$couponsdata['usetime'] = time();
@@ -436,7 +441,37 @@ class OrderAction extends LoginAction
 				$btdata['blindmans'] = json_encode($blindmans);
 				$Btime->where('id='.$btinfo['id'])->save($btdata);
 			}
-	
+
+			$unifiedOrder = new UnifiedOrder_pub();
+			$unifiedOrder->setParameter("openid","$openid");//商品描述
+			$unifiedOrder->setParameter("body",$prinfo['title']);//商品描述
+			
+			$out_trade_no = $timeStamp;
+			$unifiedOrder->setParameter("out_trade_no","$out_trade_no");//商户订单号 
+			$unifiedOrder->setParameter("total_fee",$data['total']);//总金额
+			$unifiedOrder->setParameter("notify_url",WxPayConf_pub::NOTIFY_URL);//通知地址 
+			$unifiedOrder->setParameter("trade_type","JSAPI");//交易类型
+			$prepay_id = $unifiedOrder->getPrepayId();
+			//=========步骤3：使用jsapi调起支付============
+			$jsApi->setPrepayId($prepay_id);
+
+			$jsApiParameters = $jsApi->getParameters();
+
+			echo "<script type='text/javascript'>";
+			echo "//调用微信JS api 支付
+					function jsApiCall()
+					{
+						WeixinJSBridge.invoke(
+							'getBrandWCPayRequest',
+							<?php echo $jsApiParameters; ?>,
+							function(res){
+								WeixinJSBridge.log(res.err_msg);
+								//alert(res.err_code+res.err_desc+res.err_msg);
+							}
+						);
+					}";
+			echo "jsApiCall()";
+			echo "</script>";
 		}else{
 			$this->error('订单提交失败！');
 		}

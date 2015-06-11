@@ -2,12 +2,14 @@
 /**
 * 
 */
-class UserAction extends CommonAction
+class UserAction extends CheckAction
 {
 	
 	function index()
 	{
 		$this->display();
 	}
+
+	
 }
 ?>
