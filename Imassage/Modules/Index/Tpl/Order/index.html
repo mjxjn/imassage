@@ -3,7 +3,7 @@
 <html>
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>功夫熊</title>
+	<title>Imassage爱按摩</title>
 	<meta name="viewport" content="width=320,user-scalable=no">
 	<meta name="format-detection" content="telephone=no">
 	
@@ -262,7 +262,7 @@ function currentFile(skip, stack){
 }
 </script>
 
-		<script type="text/javascript" crossorigin="anonymous" src="__PUBLIC__/js/debug.js"></script>
+	<script type="text/javascript" crossorigin="anonymous" src="__PUBLIC__/js/debug.js"></script>
 	
 	<script type="text/javascript" crossorigin="anonymous">
 		window.CONSTANT = {
@@ -278,7 +278,7 @@ function currentFile(skip, stack){
 	</script>
 	<script type="text/javascript" crossorigin="anonymous" src="__PUBLIC__/js/jquery.min.js"></script>
 
-<script type="text/javascript" crossorigin="anonymous">
+	<script type="text/javascript" crossorigin="anonymous">
 	$(document).ready(function(){
 		var u = navigator.userAgent
 		if(u.indexOf('iPhone') > -1){
@@ -288,7 +288,7 @@ function currentFile(skip, stack){
 	</script>
 </head>
 <body class="">
-<form action="" method="" onsubmit="return check_input();">
+<form action="__URL__/step2" method="post" onsubmit="return check_input();">
 	<div id="Main" class="container">
 		<div class="step_one" id="order_step">
 			<img src="__PUBLIC__/img/order1.png" width="100%" />
@@ -308,31 +308,31 @@ function currentFile(skip, stack){
 					<div class="line_input">
 						<span class="name">手机号:</span>
 						<div class="input" id="tab-box">
-							<input type="text" id="tab-box1" class="tab_box active" name="phone" disabled="disabled" value="18053722630">
+							<input type="text" id="tab-box1" class="tab_box active" name="phone" disabled="disabled" value="{$phone}">
 						</div>
 					</div>
 					<div class="line_input">
 						<span class="name">街道名:</span>
 						<div class="input">
-							<input type="text" name="phone" placeholder="街道或小区名" value="">
+							<input type="text" name="address" placeholder="街道或小区名" value="">
 						</div>
 					</div>
 					<div class="line_input">
 						<span class="name">门牌号:</span>
 						<div class="input">
-							<input type="text" name="phone" placeholder="楼号、单元号、门牌号" value="">
+							<input type="text" name="lou" placeholder="楼号、单元号、门牌号" value="">
 						</div>
 					</div>
 					<div class="line_input">
 						<span class="name">联系人:</span>
 						<div class="input">
-							<input type="text" name="phone" placeholder="联系人称呼" value="">
+							<input type="text" name="name" placeholder="联系人称呼" value="">
 						</div>
 					</div>
 					<div class="line_input">
 						<span class="name" style="width:40%">备注（选填）:</span><br />
 						<div class="input">
-							<input type="text" name="phone" placeholder="如给他人预约，请留下相应联系方式。" value="" style="width:90%">
+							<input type="text" name="beizhu" placeholder="如给他人预约，请留下相应联系方式。" value="" style="width:90%">
 						</div>
 					</div>
 				
@@ -341,7 +341,12 @@ function currentFile(skip, stack){
 	</div>
 	
 	<div class="p-dt-submit">
-		<input class="medium_button primary" type="submit" value="下一步" onclick="_hmt.push(['_trackEvent', '下单', '点击下单', '项目页-开始下单']);">
+		<input class="medium_button primary" type="submit" value="下一步">
+		<input type="hidden" name="uid" value="{$uid}">
+		<input type="hidden" name="pid" value="{$pid}">
+		<input type="hidden" name="num" value="{$num}">
+		<input type="hidden" name="level" value="{$level}">
+		<input type="hidden" name="bid" value="{$bid}">
 	</div>
 </form>
 <script>
@@ -356,13 +361,36 @@ function currentFile(skip, stack){
 		self.classList.add('active');
 		$("#tab-box").empty();
 		if (value == 'tab-box1') {
-			$("#tab-box").append('<input type="text" name="phone" disabled="disabled" value="18053722630">');
+			$("#tab-box").append('<input type="text" name="phone" disabled="disabled" value="{$phone}">');
 		};
 		if (value == 'tab-box2') {
 			$("#tab-box").append('<input type="text" name="phone" placeholder="请输入手机号" value="">');
 		};
 		//document.querySelector(value).classList.add('active');
 
+	}
+	function check_input(){
+		var phone = $('input[name=phone]').val();
+		var address = $('input[name=address]').val();
+		var lou = $('input[name=lou]').val();
+		var name = $('input[name=name]').val();
+		if (phone.length <= 0) {
+			alert("手机号不能为空");
+			return false;
+		};
+		if (address.length <= 0) {
+			alert("街道名不能为空");
+			return false;
+		};
+		if (lou.length <= 0) {
+			alert("门牌号不能为空");
+			return false;
+		};
+		if (name.length <= 0) {
+			alert("联系人不能为空");
+			return false;
+		};
+		return true;
 	}
 </script>
 </body></html>

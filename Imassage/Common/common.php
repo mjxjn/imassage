@@ -25,6 +25,25 @@ function getSex($k)
 	}
 	return $sex;
 }
+// 获取按摩师等级
+function getLevel($l)
+{
+	switch ($l) {
+		case '1':
+			$level = "高级";
+			break;
+		case '2':
+			$level = "特级";
+			break;
+		case '3':
+			$level = "专家";
+			break;
+		default:
+			$level = "高级";
+			break;
+	}
+	return $level;
+}
 //获取支付状态
 /**
  * 1  待支付

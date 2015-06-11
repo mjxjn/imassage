@@ -292,44 +292,44 @@ function currentFile(skip, stack){
 	</style>
 </head>
 <body class="">
-<form action="" method="" onsubmit="return check_input();">
+<form action="__URL__/submitorder" method="post" onsubmit="return check_input();">
 	<div id="Main" class="container">
 		<div class="step_one" id="order_step">
 			<img src="__PUBLIC__/img/order3.png" width="100%" />
 		</div>
-		<div class="coupons">优惠券: 80元代金券</div>
+		<div class="coupons">优惠券: {$cinfo.title|default="暂无优惠券可用"}</div>
 		<div class="money">
-			<span>会员卡余额: 0元</span>
+			<span>会员卡余额: {$money|incPrc}元</span>
 		</div>
 		<div class="payway">
 			<div class="paytitle">支付方式</div>
 			<div class="pay"><input type="radio" name="payway" value="1" checked="checked" /> 微信支付</div>
 		</div>
 		<div class="address">
-			<p>地址: 圣诞节疯了</p> 
-			<p>联系人: 马祥</p> 
-			<p>电话: 18053722630</p>
+			<p>地址: {$address}-{$lou}</p> 
+			<p>联系人: {$name}</p> 
+			<p>电话: {$phone}</p>
 		</div>
 		<div class="blindmanlist container">
 			<div class="orderinfo">订单详情</div>
 			<li>
-			<img async-src="{$vo.img}" height="75" width="75" title="{$vo.name}" class="titleImage" src="{$vo.img}">
+			<img async-src="{$prinfo.img}" height="75" width="75" title="{$prinfo.title}" class="titleImage" src="{$prinfo.img}">
             <div class="title">
-            服务：加深对
+            服务：{$prinfo.title}
             </div>
             <div class="title">
-            按摩师：束带结发
+            按摩师：{$blindman}
             </div>
             <div class="title">
-            项目数量：1
+            项目数量：{$num}
             </div>
           	<div class="title">
-          	项目时间：明天17：00
+          	项目时间：{$starttime}
             </div>
             </li>
             <div class="total">
-            	<p>总计：￥128</p>
-            	<p>折扣: -￥80</p>
+            	<p>总计：￥{$total|incPrc}</p>
+            	<p>折扣: -￥{$cinfo.price|incPrc}</p>
             </div>
 		</div>
 	</div>
@@ -340,28 +340,75 @@ function currentFile(skip, stack){
 				<div class="line_total_price">
 					<span class="right">合计:</span>
 					<span class="right">
-					<span class="price">128</span>
+					<span class="price">{$paymoney|incPrc}</span>
 					元
 					</span>
 				</div>
 			</div>
 		</div>
-		<input class="medium_button primary" type="submit" value="提交订单" onclick="_hmt.push(['_trackEvent', '下单', '点击下单', '项目页-开始下单']);">
-		
+		<input class="medium_button primary" type="submit" value="提交订单" >
+		<input type="hidden" name="bid" value="{$bid}" />
+
+		<input type="hidden" name="uid" value="{$uid}">
+		<input type="hidden" name="pid" value="{$pid}">
+		<input type="hidden" name="num" value="{$num}">
+		<input type="hidden" name="level" value="{$level}">
+
+		<input type="hidden" name="phone" value="{$phone}">
+		<input type="hidden" name="name" value="{$name}">
+		<input type="hidden" name="address" value="{$address}">
+		<input type="hidden" name="lou" value="{$lou}">
+		<input type="hidden" name="beizhu" value="{$beizhu}">
+
+		<input type="hidden" name="sdate" value="{$sdate}">
+		<input type="hidden" name="stime" value="{$stime}">
+		<input type="hidden" name="timestep" value="{$timestep}">
+
+		<input type="hidden" name="cid" value="{$cinfo.coupons}">
 	</div>
 </form>
-<script type="text/javascript" crossorigin="anonymous">
-	function tab_change(self, value){
-		var tab_box = $(".timeul.active");
-		var tab_li = $(".time-tab-li.active");
-		if(tab_li){
-			tab_li.removeClass('active');
-			tab_box.removeClass("active");
-			// tab_box.classList.remove('active');
-		}
-		self.classList.add('active');
-		document.querySelector(value).classList.add('active');
-
-	}
-</script>
+<div id="DebugLog" style="display:none;">
+			<div>
+				<a onclick="document.querySelector('#DebugLog').style.display ='none';return false;">关闭</a>
+			</div>
+		</div>
+	<script type="text/javascript" src="__PUBLIC__/js/jweixin-1.0.0.js"></script>
+		<script type="text/javascript">
+			var wx_success = true;
+			jWeixin.ready(function (){
+				console.log('init weixin object callback');
+				if(!wx_success){
+					alert('微信分享接口初始化失败，请您升级微信版本再试。');
+					return;
+				}
+				console.log('init weixin success');
+				if(window.$){
+					$(document).trigger('wxready');
+				}
+			});
+			jWeixin.error(function (res){
+				if(window.$){
+					$(document).trigger('wxerror', res);
+				}
+				wx_success = false;
+			});
+			jWeixin.config({
+				debug    : CONSTANT.isDebugEnv, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+				appId    : '{$signPackage["appId"]}', // 必填，公众号的唯一标识
+				timestamp: {$signPackage["timestamp"]}, // 必填，生成签名的时间戳
+				nonceStr : '{$signPackage["nonceStr"]}', // 必填，生成签名的随机串
+				signature: '{$signPackage["signature"]}',// 必填，签名，见附录1
+				jsApiList: [
+					'onMenuShareTimeline',
+					'onMenuShareAppMessage',
+					'previewImage',
+					'getNetworkType',
+					'getLocation',
+					'openLocation',
+					'hideOptionMenu',
+					'scanQRCode',
+					'chooseWXPay'
+				] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+			});
+		</script>
 </body></html>

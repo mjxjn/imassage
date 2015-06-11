@@ -288,55 +288,70 @@ function currentFile(skip, stack){
 	</script>
 </head>
 <body class="">
-<form action="" method="" onsubmit="return check_input();">
+<form action="__URL__/step3" method="post">
 	<div id="Main" class="container">
 		<div class="step_one" id="order_step">
 			<img src="__PUBLIC__/img/order2.png" width="100%" />
 		</div>
 		<div class="tip">请确认选择服务的按摩师</div>
 		<div class="yydate">
-			<span>6月10号 13:00 -- 14:00</span>
+			<span>{$starttime} -- {$endtime}</span>
 		</div>
 		<div class="blindmanlist">
 			<div class="blindman">按摩师</div>
 			<ul>
-				<li>
-					<div class="blindpic"><img src="__PUBLIC__/img/1.png" width="70" /></div>
+				<volist name="list" id="vo">
+				<li onclick="selectblindman(this,{$vo.id})">
+					<div class="blindpic"><img src="{$vo.img}" width="70" /></div>
 					<div class="blindinfo">
-						<p>姓名 性别</p>
-						<p>接单量</p>
+						<p>{$vo.name} {$vo.sex|getSex}</p>
+						<p>{$vo.ordernum}</p>
 						<p></p>
 					</div>
-					<div class="selectblind"><input type="radio" name="blindman" value="2"></div>
-				</li>
-				<li>
-					<div class="blindpic"><img src="__PUBLIC__/img/1.png" width="70" /></div>
-					<div class="blindinfo">
-						<p>姓名 性别</p>
-						<p>接单量</p>
-						<p></p>
+					<div class="selectblind">
+						<eq name="key" value="0">
+						<img src="__PUBLIC__/img/checked.png" height="23" width="23">
+						<else />
+						<img src="__PUBLIC__/img/uncheck.png" height="23" width="23">
+						</eq>
 					</div>
-					<div class="selectblind"><input type="radio" name="blindman" value="2"></div>
 				</li>
+				</volist>
 			</ul>
 		</div>
 	</div>
+	<div id="BottomMenuSpace"></div>
 	<div class="p-dt-submit">
-		<input class="medium_button primary" type="submit" value="下一步" onclick="_hmt.push(['_trackEvent', '下单', '点击下单', '项目页-开始下单']);">
+		<input class="medium_button primary" type="submit" value="下一步">
+		<input type="hidden" name="bid" value="{$bid}" />
+
+		<input type="hidden" name="uid" value="{$uid}">
+		<input type="hidden" name="pid" value="{$pid}">
+		<input type="hidden" name="num" value="{$num}">
+		<input type="hidden" name="level" value="{$level}">
+
+		<input type="hidden" name="phone" value="{$phone}">
+		<input type="hidden" name="name" value="{$name}">
+		<input type="hidden" name="address" value="{$address}">
+		<input type="hidden" name="lou" value="{$lou}">
+		<input type="hidden" name="beizhu" value="{$beizhu}">
+
+		<input type="hidden" name="sdate" value="{$sdate}">
+		<input type="hidden" name="stime" value="{$stime}">
+		<input type="hidden" name="timestep" value="{$timestep}">
 	</div>
 </form>
+<div id="DebugLog" style="display:none;">
+			<div>
+				<a onclick="document.querySelector('#DebugLog').style.display ='none';return false;">关闭</a>
+			</div>
+		</div>
 <script type="text/javascript" crossorigin="anonymous">
-	function tab_change(self, value){
-		var tab_box = $(".timeul.active");
-		var tab_li = $(".time-tab-li.active");
-		if(tab_li){
-			tab_li.removeClass('active');
-			tab_box.removeClass("active");
-			// tab_box.classList.remove('active');
-		}
-		self.classList.add('active');
-		document.querySelector(value).classList.add('active');
 
-	}
+function selectblindman(self,id){
+	$('.selectblind').empty().html('<img src="__PUBLIC__/img/uncheck.png" height="23" width="23">');
+	$(self).find('.selectblind').empty().html('<img src="__PUBLIC__/img/checked.png" height="23" width="23">');
+	$('input[name=bid]').val(id);
+}
 </script>
 </body></html>

@@ -288,55 +288,66 @@ function currentFile(skip, stack){
 	</script>
 </head>
 <body class="">
-<form action="" method="" onsubmit="return check_input();">
+<form action="__URL__/step3" method="post">
 	<div id="Main" class="container">
 		<div class="step_one" id="order_step">
 			<img src="__PUBLIC__/img/order2.png" width="100%" />
 		</div>
 		<div class="tip">请确认选择服务的按摩师</div>
 		<div class="yydate">
-			<span>6月10号 13:00 -- 14:00</span>
+			<span><?php echo ($starttime); ?> -- <?php echo ($endtime); ?></span>
 		</div>
 		<div class="blindmanlist">
 			<div class="blindman">按摩师</div>
 			<ul>
-				<li>
-					<div class="blindpic"><img src="__PUBLIC__/img/1.png" width="70" /></div>
+				<?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><li onclick="selectblindman(this,<?php echo ($vo["id"]); ?>)">
+					<div class="blindpic"><img src="<?php echo ($vo["img"]); ?>" width="70" /></div>
 					<div class="blindinfo">
-						<p>姓名 性别</p>
-						<p>接单量</p>
+						<p><?php echo ($vo["name"]); ?> <?php echo (getsex($vo["sex"])); ?></p>
+						<p><?php echo ($vo["ordernum"]); ?></p>
 						<p></p>
 					</div>
-					<div class="selectblind"><input type="radio" name="blindman" value="2"></div>
-				</li>
-				<li>
-					<div class="blindpic"><img src="__PUBLIC__/img/1.png" width="70" /></div>
-					<div class="blindinfo">
-						<p>姓名 性别</p>
-						<p>接单量</p>
-						<p></p>
+					<div class="selectblind">
+						<?php if(($key) == "0"): ?><img src="__PUBLIC__/img/checked.png" height="23" width="23">
+						<?php else: ?>
+						<img src="__PUBLIC__/img/uncheck.png" height="23" width="23"><?php endif; ?>
 					</div>
-					<div class="selectblind"><input type="radio" name="blindman" value="2"></div>
-				</li>
+				</li><?php endforeach; endif; else: echo "" ;endif; ?>
 			</ul>
 		</div>
 	</div>
+	<div id="BottomMenuSpace"></div>
 	<div class="p-dt-submit">
-		<input class="medium_button primary" type="submit" value="下一步" onclick="_hmt.push(['_trackEvent', '下单', '点击下单', '项目页-开始下单']);">
+		<input class="medium_button primary" type="submit" value="下一步">
+		<input type="hidden" name="bid" value="<?php echo ($bid); ?>" />
+
+		<input type="hidden" name="uid" value="<?php echo ($uid); ?>">
+		<input type="hidden" name="pid" value="<?php echo ($pid); ?>">
+		<input type="hidden" name="num" value="<?php echo ($num); ?>">
+		<input type="hidden" name="level" value="<?php echo ($level); ?>">
+
+		<input type="hidden" name="phone" value="<?php echo ($phone); ?>">
+		<input type="hidden" name="name" value="<?php echo ($name); ?>">
+		<input type="hidden" name="address" value="<?php echo ($address); ?>">
+		<input type="hidden" name="lou" value="<?php echo ($lou); ?>">
+		<input type="hidden" name="beizhu" value="<?php echo ($beizhu); ?>">
+
+		<input type="hidden" name="sdate" value="<?php echo ($sdate); ?>">
+		<input type="hidden" name="stime" value="<?php echo ($stime); ?>">
+		<input type="hidden" name="timestep" value="<?php echo ($timestep); ?>">
 	</div>
 </form>
+<div id="DebugLog" style="display:none;">
+			<div>
+				<a onclick="document.querySelector('#DebugLog').style.display ='none';return false;">关闭</a>
+			</div>
+		</div>
 <script type="text/javascript" crossorigin="anonymous">
-	function tab_change(self, value){
-		var tab_box = $(".timeul.active");
-		var tab_li = $(".time-tab-li.active");
-		if(tab_li){
-			tab_li.removeClass('active');
-			tab_box.removeClass("active");
-			// tab_box.classList.remove('active');
-		}
-		self.classList.add('active');
-		document.querySelector(value).classList.add('active');
 
-	}
+function selectblindman(self,id){
+	$('.selectblind').empty().html('<img src="__PUBLIC__/img/uncheck.png" height="23" width="23">');
+	$(self).find('.selectblind').empty().html('<img src="__PUBLIC__/img/checked.png" height="23" width="23">');
+	$('input[name=bid]').val(id);
+}
 </script>
 </body></html>

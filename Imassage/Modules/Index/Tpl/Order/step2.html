@@ -288,7 +288,11 @@ function currentFile(skip, stack){
 	</script>
 </head>
 <body class="">
-<form action="" method="" onsubmit="return check_input();">
+<empty name="bid">
+<form id="selectdate" action="__URL__/selectblindman" method="post">
+<else />
+<form id="selectdate" action="__URL__/step3" method="post">
+</empty>
 	<div id="Main" class="container">
 		<div class="step_one" id="order_step">
 			<img src="__PUBLIC__/img/order2.png" width="100%" />
@@ -301,35 +305,41 @@ function currentFile(skip, stack){
 		</div>
 		<div class="times">
 			<ul class="timeul active" id="tab-box1">
-				<li>10:00</li>
-				<li>10:30</li>
-				<li>11:00</li>
-				<li>11:30</li>
-				<li>12:00</li>
-				<li>12:30</li>
+			<foreach name="todayarr" item="vo">
+				<li class="{$vo.status}" <eq name="vo.status" value="isok">onclick="selectTime(0,{$key})"</eq>>{$vo.timeclock}</li>
+			</foreach>
 			</ul>
 			<ul class="timeul" id="tab-box2">
-				<li class="isok">10:00</li>
-				<li>10:30</li>
-				<li>11:00</li>
-				<li>11:30</li>
-				<li>12:00</li>
-				<li>12:30</li>
-				<li>13:00</li>
+			<foreach name="tomorrowarr" item="vo">
+				<li class="{$vo.status}" <eq name="vo.status" value="isok">onclick="selectTime(1,{$key})"</eq>>{$vo.timeclock}</li>
+			</foreach>
 			</ul>
 			<ul class="timeul" id="tab-box3">
-				<li>10:00</li>
-				<li class="isok">10:30</li>
-				<li>11:00</li>
-				<li>11:30</li>
-				<li>12:00</li>
-				<li>12:30</li>
-				<li>13:00</li>
-				<li>13:30</li>
+			<foreach name="aftertomorrowarr" item="vo">
+				<li class="{$vo.status}" <eq name="vo.status" value="isok">onclick="selectTime(2,{$key})"</eq>>{$vo.timeclock}</li>
+			</foreach>
 			</ul>
 		</div>
 	</div>
+	<input type="hidden" name="uid" value="{$uid}">
+	<input type="hidden" name="pid" value="{$pid}">
+	<input type="hidden" name="num" value="{$num}">
+	<input type="hidden" name="level" value="{$level}">
+	<input type="hidden" name="bid" value="{$bid}">
+	<input type="hidden" name="phone" value="{$phone}">
+	<input type="hidden" name="name" value="{$name}">
+	<input type="hidden" name="address" value="{$address}">
+	<input type="hidden" name="lou" value="{$lou}">
+	<input type="hidden" name="beizhu" value="{$beizhu}">
+
+	<input type="hidden" name="sdate" value="">
+	<input type="hidden" name="stime" value="">
 </form>
+<div id="DebugLog" style="display:none;">
+			<div>
+				<a onclick="document.querySelector('#DebugLog').style.display ='none';return false;">关闭</a>
+			</div>
+		</div>
 <script type="text/javascript" crossorigin="anonymous">
 	function tab_change(self, value){
 		var tab_box = $(".timeul.active");
@@ -342,6 +352,11 @@ function currentFile(skip, stack){
 		self.classList.add('active');
 		document.querySelector(value).classList.add('active');
 
+	}
+	function selectTime(sdate,stime){
+		$('input[name=sdate]').val(sdate);
+		$('input[name=stime]').val(stime);
+		$("#selectdate").submit();
 	}
 </script>
 </body></html>

@@ -263,7 +263,7 @@ function currentFile(skip, stack){
 }
 </script>
 
-		<script type="text/javascript" crossorigin="anonymous" src="__PUBLIC__/js/debug.js"></script>
+	<script type="text/javascript" crossorigin="anonymous" src="__PUBLIC__/js/debug.js"></script>
 	
 	<script type="text/javascript" crossorigin="anonymous">
 		window.CONSTANT = {
@@ -278,8 +278,8 @@ function currentFile(skip, stack){
 		}
 	</script>
 	<script type="text/javascript" crossorigin="anonymous" src="__PUBLIC__/js/jquery.min.js"></script>
-<script type="text/javascript" crossorigin="anonymous" src="__PUBLIC__/js/detail.product.create.js"></script>
-<script type="text/javascript" crossorigin="anonymous">
+	<script type="text/javascript" crossorigin="anonymous" src="__PUBLIC__/js/detail.product.create.js"></script>
+	<script type="text/javascript" crossorigin="anonymous">
 	$(document).ready(function(){
 		var u = navigator.userAgent
 		if(u.indexOf('iPhone') > -1){
@@ -290,7 +290,7 @@ function currentFile(skip, stack){
 </head>
 <body class="">
 
-<form id="product_submit_form" style="display:block" action="###" method="get" onsubmit="return check_input();">
+<form id="product_submit_form" style="display:block" action="__APP__/Order" method="get" onsubmit="return check_input();">
 	<input id="id" type="hidden" name="id" value="{$info.id}">
 	<div class="p-dt">
 		<div class="p-dt-box">
@@ -360,8 +360,8 @@ function currentFile(skip, stack){
                                     <span>{name}</span>
                                     <div class="right">
                                         <div class="checker">
-                                            <img src="http://static.gfxiong.com/img/wx_icons/checked.png" class="checked" height="23" width="23"/>
-                                            <img src="http://static.gfxiong.com/img/wx_icons/uncheck.png" class="unckeck" height="23" width="23"/>
+                                            <img src="__PUBLIC__/img/checked.png" class="checked" height="23" width="23"/>
+                                            <img src="__PUBLIC__/img/uncheck.png" class="unckeck" height="23" width="23"/>
                                         </div>
                                     </div>
                                     <div class="clear"></div>
@@ -441,7 +441,7 @@ function currentFile(skip, stack){
 				</div>
 			</div>
 		</div>
-		<input class="medium_button primary" type="submit" value="下一步" onclick="_hmt.push(['_trackEvent', '下单', '点击下单', '项目页-开始下单']);">
+		<input class="medium_button primary" type="submit" value="下一步" />
 		
 	</div>
 </form>

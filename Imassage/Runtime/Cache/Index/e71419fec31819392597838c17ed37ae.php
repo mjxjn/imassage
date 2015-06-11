@@ -288,7 +288,9 @@ function currentFile(skip, stack){
 	</script>
 </head>
 <body class="">
-<form action="" method="" onsubmit="return check_input();">
+<?php if(empty($bid)): ?><form id="selectdate" action="__URL__/selectblindman" method="post">
+<?php else: ?>
+<form id="selectdate" action="__URL__/step3" method="post"><?php endif; ?>
 	<div id="Main" class="container">
 		<div class="step_one" id="order_step">
 			<img src="__PUBLIC__/img/order2.png" width="100%" />
@@ -301,34 +303,29 @@ function currentFile(skip, stack){
 		</div>
 		<div class="times">
 			<ul class="timeul active" id="tab-box1">
-				<li>10:00</li>
-				<li>10:30</li>
-				<li>11:00</li>
-				<li>11:30</li>
-				<li>12:00</li>
-				<li>12:30</li>
+			<?php if(is_array($todayarr)): foreach($todayarr as $key=>$vo): ?><li class="<?php echo ($vo["status"]); ?>" <?php if(($vo["status"]) == "isok"): ?>onclick="selectTime(0,<?php echo ($key); ?>)"<?php endif; ?>><?php echo ($vo["timeclock"]); ?></li><?php endforeach; endif; ?>
 			</ul>
 			<ul class="timeul" id="tab-box2">
-				<li class="isok">10:00</li>
-				<li>10:30</li>
-				<li>11:00</li>
-				<li>11:30</li>
-				<li>12:00</li>
-				<li>12:30</li>
-				<li>13:00</li>
+			<?php if(is_array($tomorrowarr)): foreach($tomorrowarr as $key=>$vo): ?><li class="<?php echo ($vo["status"]); ?>" <?php if(($vo["status"]) == "isok"): ?>onclick="selectTime(1,<?php echo ($key); ?>)"<?php endif; ?>><?php echo ($vo["timeclock"]); ?></li><?php endforeach; endif; ?>
 			</ul>
 			<ul class="timeul" id="tab-box3">
-				<li>10:00</li>
-				<li class="isok">10:30</li>
-				<li>11:00</li>
-				<li>11:30</li>
-				<li>12:00</li>
-				<li>12:30</li>
-				<li>13:00</li>
-				<li>13:30</li>
+			<?php if(is_array($aftertomorrowarr)): foreach($aftertomorrowarr as $key=>$vo): ?><li class="<?php echo ($vo["status"]); ?>" <?php if(($vo["status"]) == "isok"): ?>onclick="selectTime(2,<?php echo ($key); ?>)"<?php endif; ?>><?php echo ($vo["timeclock"]); ?></li><?php endforeach; endif; ?>
 			</ul>
 		</div>
 	</div>
+	<input type="hidden" name="uid" value="<?php echo ($uid); ?>">
+	<input type="hidden" name="pid" value="<?php echo ($pid); ?>">
+	<input type="hidden" name="num" value="<?php echo ($num); ?>">
+	<input type="hidden" name="level" value="<?php echo ($level); ?>">
+	<input type="hidden" name="bid" value="<?php echo ($bid); ?>">
+	<input type="hidden" name="phone" value="<?php echo ($phone); ?>">
+	<input type="hidden" name="name" value="<?php echo ($name); ?>">
+	<input type="hidden" name="address" value="<?php echo ($address); ?>">
+	<input type="hidden" name="lou" value="<?php echo ($lou); ?>">
+	<input type="hidden" name="beizhu" value="<?php echo ($beizhu); ?>">
+
+	<input type="hidden" name="sdate" value="">
+	<input type="hidden" name="stime" value="">
 </form>
 <script type="text/javascript" crossorigin="anonymous">
 	function tab_change(self, value){
@@ -342,6 +339,11 @@ function currentFile(skip, stack){
 		self.classList.add('active');
 		document.querySelector(value).classList.add('active');
 
+	}
+	function selectTime(sdate,stime){
+		$('input[name=sdate]').val(sdate);
+		$('input[name=stime]').val(stime);
+		$("#selectdate").submit();
 	}
 </script>
 </body></html>
