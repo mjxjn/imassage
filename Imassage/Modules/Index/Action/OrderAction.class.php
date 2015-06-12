@@ -2,11 +2,16 @@
 /**
 * 
 */
-class OrderAction extends CheckAction
+class OrderAction extends Action
 {
 	
 	function index()
 	{
+		$uid = I('uid');
+		if(empty($uid)){
+			Header("Location: http://".$_SERVER['HTTP_HOST']."/index.php");
+			exit();
+		}
 		$pid = I('id');
 		$level = I('e');
 		$bid = I('bid');
@@ -18,14 +23,14 @@ class OrderAction extends CheckAction
 			$level = $binfo['level'];
 		}
 		$num = I('multiplier');
-		//$User = M('User');
-		//$uinfo = $User->field('id,phone')->where('openid="'.$openid.'"')->find();
+		$User = M('User');
+		$uinfo = $User->field('phone')->where('id='.$uid)->find();
 		$this->assign('pid',$pid);
 		$this->assign('num',$num);
 		$this->assign('level',$level);
 		$this->assign('bid',$bid);
 		$this->assign('uid',$uid);
-		$this->assign('phone',$phone);
+		$this->assign('phone',$uinfo['phone']);
 		$this->display();
 	}
 
@@ -428,6 +433,10 @@ class OrderAction extends CheckAction
 		$data['addtime'] = time();
 		$data['out_trade_no'] = $timeStamp;
 		$data['starttime'] = $starttime;
+		$data['address'] $address;
+		$data['lou'] = $lou;
+		$data['name'] = $name;
+		$data['phone'] = $phone;
 		if ($Orders->add($data)) {
 			$couponsdata['usetime'] = time();
 			$Coupons_info->where('id='.$cid)->save($couponsdata);
@@ -441,7 +450,10 @@ class OrderAction extends CheckAction
 				$btdata['blindmans'] = json_encode($blindmans);
 				$Btime->where('id='.$btinfo['id'])->save($btdata);
 			}
-
+			Vendor('Weixin.WxPayPubHelper.WxPayPubHelper');
+			$User = M('User');
+			$uinfo = $User->field('openid')->where('id='.$uid)->find();
+			$openid = $uinfo['openid'];
 			$unifiedOrder = new UnifiedOrder_pub();
 			$unifiedOrder->setParameter("openid","$openid");//商品描述
 			$unifiedOrder->setParameter("body",$prinfo['title']);//商品描述
@@ -479,6 +491,44 @@ class OrderAction extends CheckAction
 	}
 
 	function orderlist(){
+		$Orders = M('Orders');
+		$uid = I('uid');
+		$page = I('page','1');
+		$count = 5;
+		$list = $Orders->where('uid='.$uid)->limit($count * ($page-1).','.$count)->select();
+		if(empty($list)){
+			$isempty = 2;
+		}else{
+			$Product = M('Product');
+			foreach ($list as $key => $value) {
+				 $pinfo = $Product->field('title,timelong,img')->where('id='.$value['pid'])->find();
+				 $list[$key]['title'] = $pinfo['title'];
+				 $list[$key]['timelong'] = $pinfo['timelong'];
+				 $list[$key]['img'] = $pinfo['img'];
+			}
+			$isempty = 1;
+		}
+		$this->assign('isempty',$isempty);
+		$this->assign('list',$list);
+		$this->display();
+	}
+	function orderinfo(){
+		$id = I('id');
+		$uid = I('uid');
+		$Orders = M('Orders');
+		$oinfo = $Orders->where('id='.$id)->find();
+		$Product = M('Product');
+		$Blindman = M('Blindman');
+		$Coupons = M('Coupons');
+		$Coupons_info = M('Coupons_info');
+		$pinfo = $Product->where('id='.$oinfo['pid'])->find();
+		$binfo = $Blindman->where('id='.$oinfo['bid'])->find();
+		$ciinfo = $Coupons_info->where('id='.$oinfo['cid'])->find();
+		$cinfo = $Coupons->where('id='.$ciinfo['cid'])->find();
+		$this->assign('pinfo',$pinfo);
+		$this->assign('binfo',$binfo);
+		$this->assign('oinfo',$oinfo);
+		$this->assign('cinfo',$cinfo);
 		$this->display();
 	}
 }

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
 <html>
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -33,20 +33,19 @@
 		
 		<div id="AppointTypeSpace"></div>
 		<div style="margin-top:50px;" id="Main">
-		<form action="__APP__/login/saveuser" method="post" onsubmit="return check_input();">
+		<form action="__APP__/index.php/login/saveuser" method="post" onsubmit="return check_input();">
 			<div style="font-size:14px; text-align:left; float:left; padding-left:20px;line-height:30px;">手机号：</div>
-			<input type="text" name="iphone" class="input phone" style="width: 68%; float:left; line-height:30px;" />
+			<input type="text" name="phone" class="input phone" style="width: 68%; float:left; line-height:30px;" />
 			<div class="clear"></div>
 			<div style="margin-top:10px; display:none;" class="verfiy">
-			<div style="font-size:14px; text-align:left; float:left; padding-left:20px; line-height:30px;">验证码：</div>
-			<input type="text" name="verfiy" class="input" style="width: 20%;float:left; line-height:30px;" />
+			<div style="font-size:14px; text-align:left; float:left; padding-left:20px;">验证码：</div>
+			<input type="text" name="verfiy" class="input" style="width: 20%;float:left;" />
 			</div>
 			<div class="clear"></div>
 			<div style="margin-top:10px;">
 			<a class="medium_button primary send" href="javascript:sendPhone();">发送手机验证码</a>
 			<input type="submit" class="medium_button danger submit" style="display:none;" value="提交验证" />
-			<input type="hidden" name="openid" value="{$openid}" />
-			<input type="hidden" name="phone" value="" />
+			<input type="hidden" name="openid" value="<?php echo ($openid); ?>" />
 			</div>
 		</form>
 		</div>
@@ -67,7 +66,7 @@
 			return true;
 		}
 		function sendPhone(){
-			var phone = $('input[name=iphone]').val();
+			var phone = $('input[name=phone]').val();
 			var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/;
 			if (!reg.test(phone)) {
 				alert("手机号号码有误~");
@@ -76,7 +75,6 @@
 				$('.send').hide();
 				$('.verfiy').show();
 				$('.submit').show();
-				$('input[name=phone]').val(phone);
 				$.ajax({
 		             type: "post",
 		             url: "__URL__/sendPhone",
@@ -84,9 +82,9 @@
 		             dataType: "json",
 		             success: function(data){
 		             	if(data.status == 1){
-		             		//$.each(data, function(commentIndex, comment){
-		             			//alert(comment.phone);
-		             		//});
+		             		$.each(data, function(commentIndex, comment){
+		             			alert(comment.phone);
+		             		});
 		             	}else{
 		             		alert(data.info);
 		             	}

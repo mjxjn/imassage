@@ -3,7 +3,7 @@
 <html>
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>功夫熊</title>
+	<title>Imassage爱按摩</title>
 	<meta name="viewport" content="width=320,user-scalable=no">
 	<meta name="format-detection" content="telephone=no">
 	
@@ -13,7 +13,7 @@
 	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/global.css">
 	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/global.wx.css">
 	
-	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/Order.css">
+	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/p_list.css">
 	<script type="text/javascript" crossorigin="anonymous">
 var consoleObject = ['log', 'debug', 'warn', 'error'];
 function array_shift(a){
@@ -288,8 +288,39 @@ function currentFile(skip, stack){
 	</script>
 </head>
 <body class="">
-	<div class="f40">暂无订单</div>
-	<div class="btn"><a href="__APP__/index">去预约</a></div>
+	<div id="AppointType">
+		<div class="wrap" style="line-hieght:45px;">
+			订单列表
+		</div>
+	</div>
+	<div id="AppointTypeSpace"></div>
+	<eq name="isempty" value="1">
+		<ul id="Main" class="container">
+			<volist name="list" id="vo">
+			<li id="p{$vo.id}" onclick="location.href='__APP__/Check/index?state=/Order/orderinfo/id/{$vo.id}'">
+            		<img async-src="{$vo.img}" height="75" width="75" title="{$vo.title}" class="titleImage" src="{$vo.img}">
+            		<div class="title">{$vo.title}
+            			<span class="price">￥{$vo.total|incPrc}
+            			<span class="font-smaller">({$vo.status|payStatus})</span>
+            			</span>
+            		</div>
+            		<div class="desc">
+            			<img async-src="__PUBLIC__/img/clock.png" height="13" src="__PUBLIC__/img/clock.png">
+            			<span>
+                            {$vo.timelong}分钟
+            			</span>
+            		</div>
+            		<div class="btn">
+            			<a>查看详细</a>
+            		</div>
+            		<div class="clear"></div>
+        	</li>
+        	</volist>
+		</ul>
+	<else />
+		<div class="f40">暂无订单</div>
+		<div class="btn"><a href="__APP__/index">去预约</a></div>
+	</eq>
 	<div id="BottomMenuSpace"></div>
 		<table id="BottomMenu">
 		<tbody>
@@ -319,7 +350,7 @@ function currentFile(skip, stack){
 				</a>
 			</td>
 			<td id="people" class="">
-				<a href="__APP__/user">
+				<a href="__APP__/Check/index?state=/user/index">
 				<span class="icon">
 				<img async-src="__PUBLIC__/img/people.png" width="20" height="20" src="__PUBLIC__/img/people.png">
 				</span>

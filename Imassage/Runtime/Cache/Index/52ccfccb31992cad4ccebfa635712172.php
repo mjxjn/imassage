@@ -1,5 +1,4 @@
 <?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
-<!-- saved from url=(0035)http://w.gfxiong.com/wx/lst/product -->
 <html>
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -289,7 +288,7 @@ function currentFile(skip, stack){
 			<table>
 				<tbody><tr><td class="product checker">
 					<a class="type-product" href="###">&nbsp;项目&nbsp;</a>
-					<a class="type-engineer" href="__APP__/blindman">按摩师</a>
+					<a class="type-engineer" href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx20ec6953f13e5975&redirect_uri=http://w.jiningjianye.com/index.php/blindman&response_type=code&scope=snsapi_base&state=1#wechat_redirect">按摩师</a>
 				</td>
 			</tr></tbody></table>
 			<div id="citySelect" class="city-select">

@@ -7,6 +7,7 @@ class ProductAction extends CommonAction
 	
 	function index()
 	{
+		$uid = I('uid');
 		$bid = I('bid');
 		$id = I('id');
 		$Product = M('Product');
@@ -30,6 +31,7 @@ class ProductAction extends CommonAction
 		}
 		$this->assign('info',$info);
 		$this->assign('bid',$bid);
+		$this->assign('uid',$uid);
 		$this->assign('pricearr',$pricearr);
 		$this->assign('list',$list);
 		$this->display();

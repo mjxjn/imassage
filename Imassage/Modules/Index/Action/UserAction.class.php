@@ -2,7 +2,7 @@
 /**
 * 
 */
-class UserAction extends CheckAction
+class UserAction extends Action
 {
 	
 	function index()
@@ -10,6 +10,5 @@ class UserAction extends CheckAction
 		$this->display();
 	}
 
-	
 }
 ?>

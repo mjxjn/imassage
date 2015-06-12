@@ -335,7 +335,7 @@ function currentFile(skip, stack){
 		</script>
 		<ul id="Main" class="container">
 		<volist name="list" id="vo">
-			<li id="p{$vo.id}" onclick="location.href='__APP__/Product/index/id/{$vo.id}'">
+			<li id="p{$vo.id}" onclick="location.href='__APP__/Check/index?state=/Product/index/id/{$vo.id}'">
                     <img class="pose" async-src="__PUBLIC__/img/product_pose{$vo.typeid}.png" height="30" src="__PUBLIC__/img/product_pose{$vo.typeid}.png">
             		<img async-src="{$vo.img}" height="75" width="75" title="{$vo.title}" class="titleImage" src="{$vo.img}">
             		<div class="title">{$vo.title}
@@ -378,7 +378,7 @@ function currentFile(skip, stack){
 				</a>
 			</td> -->
 			<td id="myorder" class="">
-				<a href="__APP__/order/orderlist">
+				<a href="__APP__/Check/index?state=/order/orderlist">
 				<span class="icon">
 				<img async-src="__PUBLIC__/img/myorder.png" width="20" height="20" src="__PUBLIC__/img/myorder.png">
 				</span>
@@ -386,7 +386,7 @@ function currentFile(skip, stack){
 				</a>
 			</td>
 			<td id="people" class="">
-				<a href="__APP__/user">
+				<a href="__APP__/Check/index?state=/user/index">
 				<span class="icon">
 				<img async-src="__PUBLIC__/img/people.png" width="20" height="20" src="__PUBLIC__/img/people.png">
 				</span>

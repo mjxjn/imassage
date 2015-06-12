@@ -9,13 +9,14 @@
 	
 	<link rel="icon" href="__PUBLIC__/img/favicon.png" type="image/png">
 	<link rel="shortcut icon" href="__PUBLIC__/img/favicon.png" type="image/png">
+
 	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/global.css">
 	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/global.wx.css">
-	
 	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/p_list.css">
-	<script src="__PUBLIC__/js/hm.js"></script>
-	<script type="text/javascript" crossorigin="anonymous">
-	var consoleObject = ['log', 'debug', 'warn', 'error'];
+	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/order.css">
+	
+		<script type="text/javascript" crossorigin="anonymous">
+var consoleObject = ['log', 'debug', 'warn', 'error'];
 function array_shift(a){
 	return Array.prototype.shift.call(a);
 }
@@ -227,6 +228,7 @@ function start_local_debug(){
 
 start_local_debug();
 
+
 function stackTrace(){
 	var e = new Error();
 	var lines = e.stack;
@@ -259,8 +261,10 @@ function currentFile(skip, stack){
 	}
 	return data.shift().trim().replace(/^at .*\(http:\/\/.*?\/(.*?)\)/, '$1').replace(/v=[0-9]+/g, '').replace(/\?(:|$)/, ':');
 }
-	</script>
+</script>
+
 	<script type="text/javascript" crossorigin="anonymous" src="__PUBLIC__/js/debug.js"></script>
+	
 	<script type="text/javascript" crossorigin="anonymous">
 		window.CONSTANT = {
 			CACHE_VERSION: "100",
@@ -273,8 +277,9 @@ function currentFile(skip, stack){
 			localStorage.CACHE_VERSION = CONSTANT.CACHE_VERSION;
 		}
 	</script>
-	<script type="text/javascript" crossorigin="anonymous" src="__PUBLIC__/js/jquery.js"></script><script type="text/javascript" crossorigin="anonymous" src="__PUBLIC__/js/jquery.cookie.js"></script><script type="text/javascript" crossorigin="anonymous" src="__PUBLIC__/js/geolib.min.js"></script><script type="text/javascript" crossorigin="anonymous" src="__PUBLIC__/js/geo_distance.js"></script>
-	<script type="text/javascript" crossorigin="anonymous">
+	<script type="text/javascript" crossorigin="anonymous" src="__PUBLIC__/js/jquery.min.js"></script>
+
+<script type="text/javascript" crossorigin="anonymous">
 	$(document).ready(function(){
 		var u = navigator.userAgent
 		if(u.indexOf('iPhone') > -1){
@@ -282,124 +287,54 @@ function currentFile(skip, stack){
 		}
 	})
 	</script>
-	</head>
-	<body class="no-location">
-		<div id="AppointType">
-		<div class="wrap">
-			<table>
-				<tbody><tr>
-				<td class="engineer checker">
-					<a class="type-product" href="__APP__/index">&nbsp;项目&nbsp;</a>
-					<a class="type-engineer" href="__APP__/blindman###">按摩师</a>
-				</td>
-			</tr></tbody></table>
-			<div id="citySelect" class="city-select">
-				<i class="city-loc"></i>
-				<div id="currentChoice" class="current-choice">上海</div>
-			</div>
+	<style type="text/css">
+	#Main .title{font-size: 12px;}
+	</style>
+</head>
+<body class="">
+<form action="__URL__/submitorder" method="post" onsubmit="return check_input();">
+	<div id="Main" class="container">
+		<div class="step_one" id="order_step">
+			<img src="__PUBLIC__/img/order3.png" width="100%" />
 		</div>
+		<div class="coupons">优惠券: {$cinfo.title|default="暂无优惠券可用"}</div>
+		<div class="address">
+			<p>地址: {$oinfo.address}-{$oinfo.lou}</p> 
+			<p>联系人: {$oinfo.name}</p> 
+			<p>电话: {$oinfo.phone}</p>
 		</div>
-		<div id="AppointTypeSpace"></div>
-		<style>
-		    .top-banner{
-		        position: relative;
-		        width: auto;
-		        height: auto;
-		        overflow: hidden;
-		    }
-		    .point_list{
-		        position: absolute;bottom: 0px;width:100%;text-align: center
-		    }
-		    .point{
-		        display: inline-block;width: 10px;height: 10px;margin-right:5px;border-radius: 50%;background: #ccc;
-		    }
-		    .point.light{
-		        background: orange;
-		    }
-		    .swiper-container {
-		        width: 320px;
-		        height: 140px;
-		    }
-		    .swiper-container-horizontal>.swiper-pagination{
-		        bottom: 0 !important;
-		    }
-		    .swiper-pagination-bullet-active{
-		        background: orange !important;
-		    }
-		</style>
-		<div class="top-banner" style="display: none;">
-		    <a href="###">
-		        <img src="__PUBLIC__/img/female_area_banner_new2.jpg" width="100%" alt="">
-		    </a>
+		<div class="blindmanlist container">
+			<div class="orderinfo">订单详情</div>
+			<li>
+			<img async-src="{$pinfo.img}" height="75" width="75" title="{$pinfo.title}" class="titleImage" src="{$pinfo.img}">
+            <div class="title">
+            服务：{$pinfo.title}
+            </div>
+            <div class="title">
+            按摩师：{$binfo.name}
+            </div>
+            <div class="title">
+            项目数量：{$oinfo.num}
+            </div>
+          	<div class="title">
+          	项目时间：{$oinfo.starttime|date="m-d H:i",###}
+            </div>
+            </li>
+            <div class="total">
+            	<p>折扣: -￥{$cinfo.price|incPrc}</p>
+            	<p>总计：￥{$oinfo.total|incPrc}</p>
+            </div>
 		</div>
-		<script>
-			$(".top-banner").hide();
-		</script>
-		<ul id="Main" class="container">
-		<volist name="list" id="vo">
-			<li id="p{$vo.id}" onclick="location.href='__URL__/info/id/{$vo.id}'">
-            		<img async-src="{$vo.img}" height="75" width="75" title="{$vo.name}" class="titleImage" src="{$vo.img}">
-
-            		<div class="title">[<font style="color:orange">{$vo.level}按摩师</font>]&nbsp;&nbsp;{$vo.name}&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:12px; color:#aaa;">{$vo.sex|getSex}</span>
-            		</div>
-            		<div class="desc">
-            			<!-- <img async-src="__PUBLIC__/img/clock.png" height="13" src="__PUBLIC__/img/clock.png"> -->
-            			<span>
-                            订单数：{$vo.ordernum}单
-            			</span>
-            		</div>
-            		<div class="desc">
-            			{$vo.content}
-            		</div>
-            		<div class="clear"></div>
-        	</li>
-        </volist>
-		</ul>
-		<div id="BottomMenuSpace"></div>
-		<table id="BottomMenu">
-		<tbody>
-		<tr>
-			<td id="home" class="active">
-				<a href="###">
-				<span class="icon">
-				<img async-src="__PUBLIC__/img/home.active.png" width="20" height="20" src="__PUBLIC__/img/home.active.png">
-				</span>
-				<span class="title">预约</span>
-				</a>
-			</td>
-			<!-- <td id="try" class="">
-				<a href="http://w.gfxiong.com/wx/company/index">
-				<span class="icon">
-				<img async-src="http://static.gfxiong.com/img/wx_icons/bottom/try.png" width="20" height="20" src="./功夫熊_files/try.png">
-				</span>
-				<span class="title">企业福利</span>
-				</a>
-			</td> -->
-			<td id="myorder" class="">
-				<a href="__APP__/Check/index?state=/order/orderlist">
-				<span class="icon">
-				<img async-src="__PUBLIC__/img/myorder.png" width="20" height="20" src="__PUBLIC__/img/myorder.png">
-				</span>
-				<span class="title">订单</span>
-				</a>
-			</td>
-			<td id="people" class="">
-				<a href="__APP__/Check/index?state=/user/index">
-				<span class="icon">
-				<img async-src="__PUBLIC__/img/people.png" width="20" height="20" src="__PUBLIC__/img/people.png">
-				</span>
-				<span class="title">个人</span>
-				</a>
-			</td>
-		</tr>
-		</tbody>
-		</table>
-		<div id="DebugLog" style="display:none;">
+	</div>
+	<eq name="oinfo.status" value="1"><input class="medium_button primary" type="submit" value="去付款" ></eq>
+	<eq name="oinfo.status" value="1"><input class="medium_button primary" type="submit" value="去付款" ></eq>
+</form>
+<div id="DebugLog" style="display:none;">
 			<div>
 				<a onclick="document.querySelector('#DebugLog').style.display ='none';return false;">关闭</a>
 			</div>
 		</div>
-		<script type="text/javascript" src="__PUBLIC__/js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/js/jweixin-1.0.0.js"></script>
 		<script type="text/javascript">
 			var wx_success = true;
 			jWeixin.ready(function (){
@@ -412,35 +347,7 @@ function currentFile(skip, stack){
 				if(window.$){
 					$(document).trigger('wxready');
 				}
-				jWeixin.onMenuShareTimeline({
-					title  : "Imassage盲人按摩服务", // 分享标题
-					link   : "http://baidu.com", // 分享链接
-					imgUrl : "http://static.gfxiong.com/img/logo-round.png", // 分享图标
-					success: function (){
-						share_success('timeline');
-					},
-					cancel : function (){
-						share_cancel('timeline');
-					}
-				});
-				console.log('onMenuShareTimeline');
-							
-				jWeixin.onMenuShareAppMessage({
-					title  : "", // 分享标题
-					desc   : "", // 分享描述
-					link   : "http://www.baidu.com", // 分享链接
-					imgUrl : "http://static.gfxiong.com/img/logo-round.png", // 分享图标
-					type   : 'link', // 分享类型,music、video或link，不填默认为link
-					dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-					success: function (){
-						share_success('appmessage');
-					},
-					cancel : function (){
-						share_cancel('appmessage');
-					}
-				});
-				console.log('onMenuShareAppMessage');
-						});
+			});
 			jWeixin.error(function (res){
 				if(window.$){
 					$(document).trigger('wxerror', res);
@@ -465,19 +372,5 @@ function currentFile(skip, stack){
 					'chooseWXPay'
 				] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
 			});
-			
-			function share_success(type){
-				if(window.$){
-					$(document).trigger('sharesuccess', {type: type});
-				}
-				window.dispatchEvent(new CustomEvent('sharesuccess', {type: type}));
-			}
-			function share_cancel(type){
-				if(window.$){
-					$(document).trigger('sharecancel', {type: type});
-				}
-				window.dispatchEvent(new CustomEvent('sharecancel', {type: type}));
-			}
 		</script>
-	</body>
-</html>
+</body></html>
