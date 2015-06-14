@@ -8,7 +8,7 @@ class CommonAction extends Action
 	public function _initialize()
 	{
 		Vendor('Weixin.jssdk');
-	  	$jssdk = new JSSDK("wxa9ca1852ed68d2b9", "53e9246cac850eeaf793e2cb6c51f1f6");
+	  	$jssdk = new JSSDK("wx20ec6953f13e5975", "e8ae6545b510c1d653e42fcbfb05feb4");
 		$signPackage = $jssdk->GetSignPackage();
 		$this->assign('signPackage',$signPackage);
 
@@ -28,6 +28,7 @@ class CommonAction extends Action
 				$islogin = false;
 			}else{
 				$uid = $userinfo['id'];
+				$this->assign('uid',$uid);
 			}
 		}
 		

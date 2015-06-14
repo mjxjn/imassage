@@ -7,7 +7,7 @@
 #
 # Host: localhost (MySQL 5.5.38)
 # Database: imassage
-# Generation Time: 2015-06-01 01:01:14 +0000
+# Generation Time: 2015-06-12 19:39:12 +0000
 # ************************************************************
 
 
@@ -38,7 +38,7 @@ LOCK TABLES `Admin` WRITE;
 
 INSERT INTO `Admin` (`id`, `name`, `password`, `lastlogin`)
 VALUES
-	(1,'admin','3fe75844cdacd9305950b5ffdef55d94',1433044290);
+	(1,'admin','3fe75844cdacd9305950b5ffdef55d94',1433338239);
 
 /*!40000 ALTER TABLE `Admin` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -77,6 +77,42 @@ VALUES
 UNLOCK TABLES;
 
 
+# Dump of table Btime
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `Btime`;
+
+CREATE TABLE `Btime` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `tid` tinyint(2) NOT NULL,
+  `blindmans` text NOT NULL,
+  `bdate` int(10) NOT NULL,
+  `isok` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table Comment
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `Comment`;
+
+CREATE TABLE `Comment` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uid` int(11) DEFAULT NULL,
+  `content` varchar(255) NOT NULL DEFAULT '',
+  `addtime` int(10) NOT NULL,
+  `bid` int(11) DEFAULT NULL,
+  `pid` int(11) NOT NULL,
+  `reply` varchar(255) DEFAULT NULL,
+  `isshow` tinyint(1) NOT NULL DEFAULT '0',
+  `name` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+
 # Dump of table Coupons
 # ------------------------------------------------------------
 
@@ -85,28 +121,49 @@ DROP TABLE IF EXISTS `Coupons`;
 CREATE TABLE `Coupons` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(50) NOT NULL DEFAULT '',
-  `price` int(9) DEFAULT NULL,
-  `num` int(11) NOT NULL DEFAULT '0',
-  `addtime` int(10) NOT NULL,
+  `price` int(9) NOT NULL,
+  `minnum` int(11) NOT NULL DEFAULT '0',
+  `minprice` int(11) NOT NULL,
+  `endtime` int(10) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+LOCK TABLES `Coupons` WRITE;
+/*!40000 ALTER TABLE `Coupons` DISABLE KEYS */;
+
+INSERT INTO `Coupons` (`id`, `title`, `price`, `minnum`, `minprice`, `endtime`)
+VALUES
+	(1,'5元',500,1,10000,1500000000),
+	(2,'50元',5000,1,10000,1500000000);
+
+/*!40000 ALTER TABLE `Coupons` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
-# Dump of table CouponsInfo
+# Dump of table Coupons_info
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `CouponsInfo`;
+DROP TABLE IF EXISTS `Coupons_info`;
 
-CREATE TABLE `CouponsInfo` (
+CREATE TABLE `Coupons_info` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
   `cid` int(11) NOT NULL,
   `code` varchar(20) NOT NULL DEFAULT '',
-  `addtime` int(10) NOT NULL,
+  `usetime` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+LOCK TABLES `Coupons_info` WRITE;
+/*!40000 ALTER TABLE `Coupons_info` DISABLE KEYS */;
+
+INSERT INTO `Coupons_info` (`id`, `uid`, `cid`, `code`, `usetime`)
+VALUES
+	(1,1,1,'eeqeqe',NULL),
+	(2,1,2,'sdfsfsad',NULL);
+
+/*!40000 ALTER TABLE `Coupons_info` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table Orders
@@ -129,15 +186,22 @@ CREATE TABLE `Orders` (
   `updatetime` int(10) DEFAULT NULL,
   `endtime` int(10) DEFAULT NULL,
   `tmp_status` tinyint(2) DEFAULT NULL,
+  `commentid` int(11) DEFAULT NULL,
+  `out_trade_no` varchar(100) DEFAULT NULL,
+  `address` varchar(200) DEFAULT NULL,
+  `lou` varchar(100) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `beizhu` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 LOCK TABLES `Orders` WRITE;
 /*!40000 ALTER TABLE `Orders` DISABLE KEYS */;
 
-INSERT INTO `Orders` (`id`, `uid`, `bid`, `pid`, `num`, `price`, `total`, `cid`, `status`, `addtime`, `starttime`, `updatetime`, `endtime`, `tmp_status`)
+INSERT INTO `Orders` (`id`, `uid`, `bid`, `pid`, `num`, `price`, `total`, `cid`, `status`, `addtime`, `starttime`, `updatetime`, `endtime`, `tmp_status`, `commentid`, `out_trade_no`, `address`, `lou`, `name`, `phone`, `beizhu`)
 VALUES
-	(1,1,NULL,31,1,26500,26500,NULL,8,1433035562,1433035562,NULL,0,NULL);
+	(1,1,NULL,31,1,26500,26500,NULL,8,1433035562,1433035562,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 
 /*!40000 ALTER TABLE `Orders` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -215,15 +279,16 @@ CREATE TABLE `User` (
   `address` varchar(200) DEFAULT NULL,
   `sex` tinyint(1) DEFAULT NULL,
   `lastlogin` int(10) DEFAULT NULL,
+  `openid` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
 
-INSERT INTO `User` (`id`, `name`, `phone`, `password`, `money`, `address`, `sex`, `lastlogin`)
+INSERT INTO `User` (`id`, `name`, `phone`, `password`, `money`, `address`, `sex`, `lastlogin`, `openid`)
 VALUES
-	(1,'测试','18053722630','',0,'山东济宁',1,NULL);
+	(1,'测试','18053722630','',0,'山东济宁',1,NULL,NULL);
 
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;

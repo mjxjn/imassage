@@ -7,7 +7,7 @@
 #
 # Host: localhost (MySQL 5.5.38)
 # Database: imassage
-# Generation Time: 2015-06-10 06:41:47 +0000
+# Generation Time: 2015-06-14 14:49:00 +0000
 # ************************************************************
 
 
@@ -38,7 +38,7 @@ LOCK TABLES `Admin` WRITE;
 
 INSERT INTO `Admin` (`id`, `name`, `password`, `lastlogin`)
 VALUES
-	(1,'admin','3fe75844cdacd9305950b5ffdef55d94',1433916663);
+	(1,'admin','3fe75844cdacd9305950b5ffdef55d94',1434256058);
 
 /*!40000 ALTER TABLE `Admin` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -66,15 +66,31 @@ LOCK TABLES `Blindman` WRITE;
 
 INSERT INTO `Blindman` (`id`, `name`, `sex`, `img`, `level`, `content`, `ordernum`, `products`)
 VALUES
-	(5,'李晨',1,'/Imassage/Uploads/20150529/5567fc1b8d500.png','专家','7年工作经验',0,NULL),
-	(4,'范冰冰',2,'/Imassage/Uploads/20150529/55680db2bdaa7.png','专家','5年工作经验',0,'[{\"pid\":\"31\",\"title\":\"\\u6d4b\\u8bd5\\u670d\\u52a1\"}]'),
-	(6,'赵薇',2,'/Imassage/Uploads/20150529/5567fea2ce879.png','专家','暂无',0,NULL),
-	(7,'路易',1,'/Imassage/Uploads/20150529/5567ff1157e84.png','高级','暂无',0,NULL),
-	(8,'邓超',1,'/Imassage/Uploads/20150529/5567ff7d00ae1.png','专家','厉害',0,NULL),
-	(9,'莫文蔚',2,'/Imassage/Uploads/20150529/556802f8f0bdd.png','高级','哈哈',0,NULL);
+	(5,'李晨',1,'./Imassage/Uploads/20150529/5567fc1b8d500.png','专家','7年工作经验',0,NULL),
+	(4,'范冰冰',2,'./Imassage/Uploads/20150529/55680db2bdaa7.png','专家','5年工作经验',0,'[{\"pid\":\"31\",\"title\":\"\\u6d4b\\u8bd5\\u670d\\u52a1\"}]'),
+	(6,'赵薇',2,'./Imassage/Uploads/20150529/5567fea2ce879.png','专家','暂无',0,NULL),
+	(7,'路易',1,'./Imassage/Uploads/20150529/5567ff1157e84.png','高级','暂无',0,NULL),
+	(8,'邓超',1,'./Imassage/Uploads/20150529/5567ff7d00ae1.png','专家','厉害',0,NULL),
+	(9,'莫文蔚',2,'./Imassage/Uploads/20150529/556802f8f0bdd.png','高级','然后就在前一天的小米媒体生态见面会上，小米CEO雷军大量提到友商乐视，然后说了很多和友商相关的话，比如我们不是视频网站，也不懂电影拍摄和制作。我们的任务是专注把手机和电视做好，敞开胸怀和整个内容产业合作。朋友越多越好！，而同时小米联合创始人王川则直接指出，乐视和内容供应商的关系只是简单的买卖关系，就是生意，其封闭的模式并不是一种生态，只能称为多元化。',0,NULL);
 
 /*!40000 ALTER TABLE `Blindman` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+# Dump of table Btime
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `Btime`;
+
+CREATE TABLE `Btime` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `tid` tinyint(2) NOT NULL,
+  `blindmans` text NOT NULL,
+  `bdate` int(10) NOT NULL,
+  `isok` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 
 
 # Dump of table Comment
@@ -117,18 +133,19 @@ LOCK TABLES `Coupons` WRITE;
 
 INSERT INTO `Coupons` (`id`, `title`, `price`, `minnum`, `minprice`, `endtime`)
 VALUES
-	(1,'',500,1,10000,0);
+	(1,'5元',500,1,10000,1500000000),
+	(2,'50元',5000,1,10000,1500000000);
 
 /*!40000 ALTER TABLE `Coupons` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
-# Dump of table CouponsInfo
+# Dump of table Coupons_info
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `CouponsInfo`;
+DROP TABLE IF EXISTS `Coupons_info`;
 
-CREATE TABLE `CouponsInfo` (
+CREATE TABLE `Coupons_info` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
   `cid` int(11) NOT NULL,
@@ -137,6 +154,16 @@ CREATE TABLE `CouponsInfo` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+LOCK TABLES `Coupons_info` WRITE;
+/*!40000 ALTER TABLE `Coupons_info` DISABLE KEYS */;
+
+INSERT INTO `Coupons_info` (`id`, `uid`, `cid`, `code`, `usetime`)
+VALUES
+	(1,1,1,'eeqeqe',NULL),
+	(2,1,2,'sdfsfsad',NULL);
+
+/*!40000 ALTER TABLE `Coupons_info` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table Orders
@@ -147,7 +174,7 @@ DROP TABLE IF EXISTS `Orders`;
 CREATE TABLE `Orders` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
-  `bid` int(11) NOT NULL,
+  `bid` int(11) DEFAULT NULL,
   `pid` int(11) NOT NULL,
   `num` int(9) NOT NULL,
   `price` int(9) NOT NULL,
@@ -160,15 +187,21 @@ CREATE TABLE `Orders` (
   `endtime` int(10) DEFAULT NULL,
   `tmp_status` tinyint(2) DEFAULT NULL,
   `commentid` int(11) DEFAULT NULL,
+  `out_trade_no` varchar(100) DEFAULT NULL,
+  `address` varchar(200) DEFAULT NULL,
+  `lou` varchar(100) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `beizhu` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 LOCK TABLES `Orders` WRITE;
 /*!40000 ALTER TABLE `Orders` DISABLE KEYS */;
 
-INSERT INTO `Orders` (`id`, `uid`, `bid`, `pid`, `num`, `price`, `total`, `cid`, `status`, `addtime`, `starttime`, `updatetime`, `endtime`, `tmp_status`, `commentid`)
+INSERT INTO `Orders` (`id`, `uid`, `bid`, `pid`, `num`, `price`, `total`, `cid`, `status`, `addtime`, `starttime`, `updatetime`, `endtime`, `tmp_status`, `commentid`, `out_trade_no`, `address`, `lou`, `name`, `phone`, `beizhu`)
 VALUES
-	(1,1,0,31,1,26500,26500,NULL,8,1433035562,1433035562,NULL,0,NULL,NULL);
+	(1,1,NULL,31,1,26500,26500,NULL,8,1433035562,1433035562,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 
 /*!40000 ALTER TABLE `Orders` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -194,19 +227,7 @@ INSERT INTO `Package` (`id`, `title`, `price`, `pid`)
 VALUES
 	(1,'高级',23500,34),
 	(2,'特级',25500,34),
-	(3,'专家',28000,34),
-	(4,'高级',12000,36),
-	(5,'特级',15000,36),
-	(6,'专家',20000,36),
-	(7,'高级',4500,35),
-	(8,'特级',6000,35),
-	(9,'专家',9000,35),
-	(10,'高级',10000,33),
-	(11,'特级',15200,33),
-	(12,'专家',16600,33),
-	(13,'高级',6000,31),
-	(14,'特级',7000,31),
-	(15,'专家',8000,31);
+	(3,'专家',28000,34);
 
 /*!40000 ALTER TABLE `Package` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -234,11 +255,11 @@ LOCK TABLES `Product` WRITE;
 
 INSERT INTO `Product` (`id`, `title`, `img`, `typeid`, `content`, `price`, `timelong`, `minpeople`)
 VALUES
-	(31,'测试服务','/Imassage/Uploads/20150529/55680d2472ef2.png',1,'<p>测试服务</p>',26500,60,1),
-	(33,'测试服务2','/Imassage/Uploads/20150528/55672485a175c.jpg',1,'<p>测试服务2</p>',23500,45,1),
-	(34,'测试服务2','/Imassage/Uploads/20150528/5567248a01485.jpg',1,'<p>测试服务2</p>',23500,45,1),
-	(35,'测试服务2','/Imassage/Uploads/20150528/556724acb57be.jpg',1,'<p>测试服务2</p>',23500,45,1),
-	(36,'测试服务2','/Imassage/Uploads/20150528/556724c6e6563.jpg',1,'<p>测试服务2</p>',23500,45,1);
+	(31,'测试服务','./Imassage/Uploads/20150614/557d09176bff2.png',1,'<p>测试服务</p>',26500,60,1),
+	(33,'测试服务2','./Imassage/Uploads/20150614/557d09081d50d.png',1,'<p>测试服务2</p>',23500,45,1),
+	(34,'测试服务2','./Imassage/Uploads/20150614/557d08fcbcc32.png',1,'<p>测试服务2</p>',23500,45,1),
+	(35,'测试服务2','./Imassage/Uploads/20150614/557d08f0f05ea.png',1,'<p>测试服务2</p>',23500,45,1),
+	(36,'测试服务2','./Imassage/Uploads/20150614/557d08a0cd957.png',2,'<p>测试服务2</p>',23500,45,1);
 
 /*!40000 ALTER TABLE `Product` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -258,15 +279,16 @@ CREATE TABLE `User` (
   `address` varchar(200) DEFAULT NULL,
   `sex` tinyint(1) DEFAULT NULL,
   `lastlogin` int(10) DEFAULT NULL,
+  `openid` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
 
-INSERT INTO `User` (`id`, `name`, `phone`, `password`, `money`, `address`, `sex`, `lastlogin`)
+INSERT INTO `User` (`id`, `name`, `phone`, `password`, `money`, `address`, `sex`, `lastlogin`, `openid`)
 VALUES
-	(1,'测试','18053722630','',0,'山东济宁',1,NULL);
+	(1,'测试','18053722630','',0,'山东济宁',1,NULL,NULL);
 
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;

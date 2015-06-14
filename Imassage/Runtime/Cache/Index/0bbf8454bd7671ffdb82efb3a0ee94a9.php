@@ -1,9 +1,8 @@
 <?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
-<!-- saved from url=(0035)http://w.gfxiong.com/wx/lst/product -->
 <html>
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>功夫熊</title>
+	<title>Imassage爱按摩</title>
 	<meta name="viewport" content="width=320,user-scalable=no">
 	<meta name="format-detection" content="telephone=no">
 	
@@ -13,262 +12,12 @@
 	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/global.css">
 	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/global.wx.css">
 
-	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/order.css">
-	
-		<script type="text/javascript" crossorigin="anonymous">
-var consoleObject = ['log', 'debug', 'warn', 'error'];
-function array_shift(a){
-	return Array.prototype.shift.call(a);
-}
-
-window.addEventListener('error', function (e){
-	if(!e.error){
-		console.log('发生ScriptError');
-		return;
-	}
-	var etext = '发生错误: ' + e.error.toString() + '\n\tFile: ' + e.filename + '\n\tLine: ' + e.lineno;
-	
-	global_handle_error(e);
-	
-	console.error(etext);
-});
-
-function global_handle_error_object(obj){
-	var c = currentFile(1, obj.stack).split(':');
-	var e = {error: obj, message: obj.message, filename: c[0], lineno: c[1], colno: c[2]};
-	var etext = '(手动)发生错误: ' + e.error.toString() + '\n\tFile: ' + e.filename + '\n\tLine: ' + e.lineno;
-	console.error(etext);
-	global_handle_error(e);
-}
-function global_handle_error(e){
-	var errorObj = {
-		message     : e.message,
-		location    : location.href,
-		name        : e.error.name,
-		errorMessage: e.error.toString(),
-		file        : e.filename,
-		line        : e.lineno,
-		column      : e.colno,
-		stack       : e.error.stack
-	};
-	var i = 0;
-	while(++i){
-		if(!localStorage.getItem('errorupload' + i)){
-			break;
-		}
-	}
-	localStorage.setItem('errorupload' + i, JSON.stringify(errorObj));
-	setTimeout(global_submit_error, 100);
-}
-function global_submit_error(){
-	var i = 0;
-	var elist = [];
-	while(++i){
-		var e = localStorage.getItem('errorupload' + i);
-		if(!e){
-			break;
-		}
-		elist.push(JSON.parse(e));
-		localStorage.removeItem('errorupload' + i);
-	}
-	if(elist.length > 0){
-		console.log('will submit error data...');
-		var xmlhttp = new XMLHttpRequest();
-		xmlhttp.addEventListener("load", function (){
-			console.log('js error upload complete!');
-		}, false);
-		xmlhttp.open("PUT", "", true);
-		xmlhttp.send(JSON.stringify(elist));
-	}
-}
-window.addEventListener('load', global_submit_error, false);
-
-function start_remote_debug(sesskey){
-	var timeout = 0, data = [];
-
-	function wrap(type){
-		return function (text){
-			data.push([type, text, stackTrace()]);
-			if(timeout){
-				return;
-			}
-			timeout = setTimeout(function (){
-				timeout = 0;
-				var xmlhttp = new XMLHttpRequest();
-				xmlhttp.open("PUT", "", true);
-				xmlhttp.onerror=function(){
-					alert('remote debug send failed');
-				};
-				xmlhttp.send(JSON.stringify(data));
-				data = [];
-			}, 0);
-		};
-	}
-
-	consoleObject.forEach(function (name){
-		wrap_console_function(name, wrap(name));
-	});
-	console.log('remote debugging started on page %s', location.href);
-}
-function wrap_console_function(type, fn){
-	var lastFn = (console[type] || console.log);
-	console[type] = function (){
-		var format = arguments[0];
-		var index = 1, text = '';
-		var args = arguments;
-		if(format && format.replace){
-			text = format.replace(/%[a-zA-Z]/g, function (){
-				return getText(args[index++]);
-			});
-		} else{
-			index = 0;
-		}
-		for(; index < arguments.length; index++){
-			text += ' ' + getText(arguments[index]);
-		}
-		fn(text);
-		try{
-			lastFn.apply(console, arguments);
-		} catch(e){
-			lastFn.apply(console, arguments);
-		}
-	};
-}
-
-function getText(v){
-	switch(typeof v){
-	case 'object':
-		v = JSON.stringify(v);
-		break;
-	case 'boolean':
-		v = v? 'true' : 'false';
-		break;
-	default :
-		v = '' + v;
-	}
-	return v;
-}
-
-function attach_debug(cb){
-	function real_attach(){
-		var o = document.body;
-		var waitArr = [1, 2, 3, 2, 1, 2], itr = 0;
-		o.addEventListener('touchstart', touch_change);
-		o.addEventListener('touchend', touch_change);
-		function touch_change(e){
-			if(waitArr[itr] == e.touches.length){
-				itr++;
-			} else{
-				itr = 0;
-				return;
-			}
-			if(itr == waitArr.length){
-				cb();
-				itr = 0;
-			}
-		}
-	}
-
-	if(document.body){
-		real_attach();
-	} else{
-		document.addEventListener('DOMContentLoaded', real_attach);
-	}
-}
-
-function start_local_debug(){
-	function whitespace(text){
-		return text.replace(/ /g, '&nbsp').replace(/\n/g, '<br/>');
-	}
-
-	function wrap(type){
-		return function (text){
-			text = whitespace(text);
-			document.getElementById('DebugLog').innerHTML += '<div class="' + type + '">' + text + '</div>'
-		};
-	}
-
-	if(/micromessenger/.test(navigator.userAgent.toLowerCase())){
-		if(document.body){
-			consoleObject.forEach(function (name){
-				wrap_console_function(name, wrap(name));
-			});
-		} else{
-			consoleObject.forEach(function (name){
-				var cached = [];
-				var oFn = console[name];
-				console[name] = function (){
-					cached.push(arguments);
-				};
-				document.addEventListener('DOMContentLoaded', function (){
-					console[name] = oFn;
-					wrap_console_function(name, wrap(name));
-					setTimeout(function (){
-						cached.forEach(function (arg){
-							console[name].apply(console, arg);
-						});
-						cached = null;
-					}, 0)
-				});
-			});
-		}
-
-		// debug mask
-		attach_debug(function (){
-			document.querySelector('#DebugLog').style.display = 'block';
-		});
-	} else{
-		consoleObject.forEach(function (name){
-			if(!console[name]){
-				console[name] = console.log;
-			}
-		});
-	}
-}
-
-start_local_debug();
-
-
-function stackTrace(){
-	var e = new Error();
-	var lines = e.stack;
-	var data = lines.split(/\n/g);
-	data.shift(); // Error: ;
-	data.shift(); //    at currentFile();
-	data.shift(); //    at wrapped console.xxx
-	data.shift(); //    at console.xxx()
-
-	return data.map(function (l){
-		return l.trim().replace(/http:\/\/.*?\//g, '/').replace(/v=[0-9]+/g, '').replace(/\?(:|$)/, ':');
-	}).join("\n").replace('at ', '');
-}
-function currentFile(skip, stack){
-	if(!stack){
-		var e = new Error();
-		var lines = e.stack;
-		var data = lines.split(/\n/g);
-		data.shift(); // Error: ;
-		data.shift(); //    at currentFile();
-
-		if(skip && skip > 0){
-			while(--skip >= 0){
-				data.shift();
-			}
-		}
-	} else{
-		data = stack.split(/\n/g);
-		data.shift(); // Error: ;
-	}
-	return data.shift().trim().replace(/^at .*\(http:\/\/.*?\/(.*?)\)/, '$1').replace(/v=[0-9]+/g, '').replace(/\?(:|$)/, ':');
-}
-</script>
-
-	<script type="text/javascript" crossorigin="anonymous" src="__PUBLIC__/js/debug.js"></script>
+	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/p_user.css">
 	
 	<script type="text/javascript" crossorigin="anonymous">
 		window.CONSTANT = {
 			CACHE_VERSION: "100",
-			isDebugEnv: true,
+			isDebugEnv: false,
 			JQuerySourceUrl: "__PUBLIC__/js/jquery.min.js"
 		};
 		if(CONSTANT.CACHE_VERSION != localStorage.CACHE_VERSION){
@@ -294,16 +43,20 @@ function currentFile(skip, stack){
 <body class="">
 <form action="" method="" onsubmit="return check_input();">
 	<div id="Main" class="container">
-		<div class="step_one" id="order_step">
-			<img src="__PUBLIC__/img/order3.png" width="100%" />
-		</div>
-		<div class="coupons">我的订单</div>
-		<div class="money">
-			<span>优惠券</span>
-		</div>
-		<div class="coupons">关于我们</div>
 		
+		<img src="__PUBLIC__/img/andriod_me_bg.png" class="user_bg" width="100%" />
+		<img src="__PUBLIC__/img/andriod_dark_back_normal.png" class="back" height="20" onclick="javascript:window.history.go(-1);" />
+		<div style="width:100%;position: absolute;top: 40px;left: -40px;"><img src="__PUBLIC__/img/andriod_user_login.png" class="userface" width="80" /></div>
+		<div class="tel"><?php echo ($info["phone"]); ?>18053722630</div>
 		
+		<ul>
+			<li onclick="location.href='__APP__/Order/orderlist'"><img src="__PUBLIC__/img/andriod_icon_my_order.png" height="20" /> <span>我的订单</span> <img src="__PUBLIC__/img/andriod_dark_arrow.png" height="16" class="arrow" /></li>
+			<li onclick="location.href='__APP__/Coupons/index'"><img src="__PUBLIC__/img/andriod_icon_coupon.png" height="20" /> <span>优惠券</span> <img src="__PUBLIC__/img/andriod_dark_arrow.png" height="16" class="arrow" /></li>
+			<li onclick="location.href='###'"><img src="__PUBLIC__/img/andriod_icon_member_card.png" height="20" /> <span>会员卡</span> <img src="__PUBLIC__/img/andriod_dark_arrow.png" height="16" class="arrow" /></li>
+			<li onclick="location.href='###'"><img src="__PUBLIC__/img/andriod_icon_adress.png" height="20" /> <span>地址管理</span> <img src="__PUBLIC__/img/andriod_dark_arrow.png" height="16" class="arrow" /></li>
+			<li onclick="location.href='###'"><img src="__PUBLIC__/img/andriod_icon_about_us.png" height="20" /> <span>关于我们</span> <img src="__PUBLIC__/img/andriod_dark_arrow.png" height="16" class="arrow" /></li>
+		</ul>
+
 	</div>
 	<div id="BottomMenuSpace"></div>
 		<table id="BottomMenu">
@@ -312,33 +65,25 @@ function currentFile(skip, stack){
 			<td id="home" class="">
 				<a href="__APP__/index">
 				<span class="icon">
-				<img async-src="__PUBLIC__/img/home.png" width="20" height="20" src="__PUBLIC__/img/home.png">
+				<img async-src="__PUBLIC__/img/andriod_icon_subject_normal.png" width="20" height="20" src="__PUBLIC__/img/andriod_icon_subject_normal.png">
 				</span>
-				<span class="title">预约</span>
+				<span class="title">推拿项目</span>
 				</a>
 			</td>
-			<!-- <td id="try" class="">
-				<a href="http://w.gfxiong.com/wx/company/index">
-				<span class="icon">
-				<img async-src="http://static.gfxiong.com/img/wx_icons/bottom/try.png" width="20" height="20" src="./功夫熊_files/try.png">
-				</span>
-				<span class="title">企业福利</span>
-				</a>
-			</td> -->
 			<td id="myorder" class="">
-				<a href="__APP__/order/orderlist">
+				<a href="/index.php/blindman/index">
 				<span class="icon">
-				<img async-src="__PUBLIC__/img/myorder.png" width="20" height="20" src="__PUBLIC__/img/myorder.png">
+				<img async-src="__PUBLIC__/img/andriod_icon_doctor_normal.png" width="20" height="20" src="__PUBLIC__/img/andriod_icon_doctor_normal.png">
 				</span>
-				<span class="title">订单</span>
+				<span class="title">按摩师</span>
 				</a>
 			</td>
 			<td id="people" class="active">
 				<a href="###">
 				<span class="icon">
-				<img async-src="__PUBLIC__/img/people.active.png" width="20" height="20" src="__PUBLIC__/img/people.active.png">
+				<img async-src="__PUBLIC__/img/andriod_icon_me_click.png" width="20" height="20" src="__PUBLIC__/img/andriod_icon_me_click.png">
 				</span>
-				<span class="title">个人</span>
+				<span class="title">个人中心</span>
 				</a>
 			</td>
 		</tr>
@@ -356,7 +101,6 @@ function currentFile(skip, stack){
 		}
 		self.classList.add('active');
 		document.querySelector(value).classList.add('active');
-
 	}
 </script>
 </body></html>

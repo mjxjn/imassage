@@ -56,7 +56,7 @@
 	color:#949696
 }
 #AppointTypeSpace {
-	height:45px;
+	height:41px;
 	padding:0;
 	margin:0
 }
@@ -66,7 +66,7 @@
 	top:0;
 	left:0;
 	width:100%;
-	background:#f6f6f6;
+	background:#333;
 	min-height:45px;
 	border-bottom:1px solid #b2b2b2
 }
@@ -151,20 +151,20 @@
 }
 .city-select .city-loc {
 	position:absolute;
-	left:0;
+	left:47px;
 	top:12px;
 	display:inline-block;
-	background:url("http://static.gfxiong.com//img/wx_icons/city-loc.png") no-repeat;
+	background:url("../img/ios_location_normal.png") no-repeat;
 	background-size:100%;
 	width:17px;
 	height:22px
 }
 .city-select .current-choice {
 	position:absolute;
-	left:17px;
+	left:-4px;
 	width:57px;
 	display:inline-block;
-	color:#249caa
+	color:#fff
 }
 .city-select .all-choice {
 	display:none;
@@ -303,18 +303,17 @@
 	font-size:0;
 	margin:1px 0;
 	padding:0;
-	width:340px;
-	margin:auto
+	width:100%;
 }
 #Main li {
 	display:list-item;
 	position:relative;
-	padding:16px 21px 16px;
+	padding:45px 0px 32px;
 	overflow:hidden;
 	border-bottom:2px solid #ededed
 }
 .iOs #Main li {
-	padding:16px 21px 16px
+	padding:49px 0px 11px
 }
 #Main li .clear {
 	clear:both
@@ -326,21 +325,38 @@
 	z-index:10
 }
 #Main img.titleImage {
-	float:left;
-	margin-right:14px
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 5;
+}
+#Main img.bgImage {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 5;
 }
 #Main .title {
-	font-size:14px;
-	color:#484d57;
-	font-weight:bold;
-	margin:0 0 4px
+	font-size: 20px;
+	color: #fff;
+	margin: 0 auto;
+	z-index: 15;
+	position: absolute;
+	text-align: center;
+	width: 100%;
 }
-#Main .title .price {
+#Main .price {
 	font-weight:normal;
-	color:#f16c6c
+	color:#ff702a;
+	font-size: 20px;
 }
-#Main .title .price .font-smaller {
-	font-size:smaller
+#Main .price .font-smaller {
+	font-size:smaller;
+	font-size: 15px;
+}
+#Main .timelong{
+	text-align: center;
+	padding-left: 20px;
 }
 #Main .minmultiple {
 	font-size:14px
@@ -349,38 +365,45 @@
 	font-size:13px;
 	color:#949696
 }
-.iOs #Main {
-	width:300px
-}
 #Main li {
 	position:relative;
 	text-align:left;
 	margin-top:7px;
-	border-radius:5px;
+	
 	background-color:#fff;
 	border:#ededed 1px solid;
 	text-align:right;
 	margin-top:5px;
-	border:none
+	border:none;
+	height: 80px;
 }
 #Main .desc {
 	margin-top:1px;
-	margin-bottom:7px
+	margin-bottom:7px;
+	z-index: 40;
+	position: absolute;
+bottom: 0px;
+color: #fff;
+left: 10px;
+text-align: left;
 }
 #Main .desc>img {
 	margin-right:3px
 }
 #Main .desc>* {
-	vertical-align:middle
+	/*vertical-align:middle*/
+}
+#Main .btn{
+	z-index: 40;
+	text-align: right;
+	padding-left: 8px;
 }
 #Main .btn a {
-	display:inline-block;
-	background-color:#249caa;
+	
 	color:#fff;
 	font-weight:normal;
 	font-size:13px;
 	padding:7px 12px;
-	border-radius:20px;
 	line-height:17px
 }
 .add-att {

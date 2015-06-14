@@ -46,6 +46,12 @@ class OrderAction extends Action
 		$lou = I('lou');
 		$beizhu = I('beizhu');
 
+		if (empty($phone)) {
+			$User = M('User');
+			$uinfo = $User->field('phone')->where('id='.$uid)->find();
+			$phone = $uinfo['phone'];
+		}
+
 		$this->assign('pid',$pid);
 		$this->assign('num',$num);
 		$this->assign('level',$level);
@@ -317,24 +323,27 @@ class OrderAction extends Action
 		$Coupons_info = M('Coupons_info');
 		$Coupons = M('Coupons');
 		$clist = $Coupons_info->where('uid='.$uid.' and usetime is null')->select();
+		$k=0;
 		foreach ($clist as $key => $value) {
 			$map['id'] = $value['cid'];
 			$map['minnum'] = array('elt',$num);
 			$map['minprice'] = array('elt',$num*$pinfo['price']);
 			$map['endtime'] = array('gt', time());
-			$cinfo = $Coupons->where($map)->limit('0,1')->find();
+			$cinfo = $Coupons->where($map)->find();
 			if (!empty($cinfo)) {
-				$cinfo['coupons'] = $value['id'];
-				break;
+				$coulist[$k]['id'] = $value['id'];
+				$coulist[$k]['title'] = $cinfo['title'];
+				$coulist[$k]['price'] = $cinfo['price'];
+				$k++;
 			}
 		}
-		$this->assign('cinfo',$cinfo);
+		$this->assign('coulist',$coulist);
 
 		$total = $num*$pinfo['price'];
-		if (empty($cinfo)) {
+		if (empty($coulist)) {
 			$paymoney = $total;
 		}else{
-			$paymoney = $num*$pinfo['price'] - $cinfo['price'];
+			$paymoney = $num*$pinfo['price'] - $coulist[0]['price'];
 		}
 		$this->assign('total',$total);
 		$this->assign('paymoney',$paymoney);
@@ -372,6 +381,7 @@ class OrderAction extends Action
 	}
 
 	function submitorder(){
+		header("Content-Type: text/html; charset=utf-8");
 		$pid = I('pid');
 		$level = I('level');
 		$num = I('num');
@@ -420,6 +430,38 @@ class OrderAction extends Action
 		$cinfo = $Coupons_info->field('cid')->where('id='.$cid)->find();
 		$couinfo = $Coupons->field('price')->where('id='.$cinfo['cid'])->find();
 
+		$Btime = M('Btime');
+			for ($i=0; $i <= $timestep; $i++) {
+				$stime += 1;
+				$btinfo = $Btime->field('id,blindmans')->where('tid='.$stime.' and bdate='.$bdate)->find();
+				if (empty($btinfo)) {
+					$btdata['tid'] = $stime;
+					$btdata['blindmans'] = json_encode(array($bid));
+					$btdata['bdate'] = $bdate;
+					$btdata['isok'] = 1;
+					$Btime->add($btdata);
+				}else{
+					$blindmans = json_decode($btinfo['blindmans'],true);
+					if(in_array($bid, $blindmans)){
+						echo "<script type='text/javascript'>";
+						echo "alert('该按摩师时间安排满了！');";
+						echo "window.history.back(-1);";
+						echo "</script>";
+						exit();
+					}else{
+						array_push($blindmans, $bid);
+						$newlen = $blindmans.count();
+						$Blindman = M('Blindman');
+						$bmlen = $Blindman->count();
+						if($newlen >= $bmlen){
+							$btdata['isok'] = 0;
+						}
+						$btdata['blindmans'] = json_encode($blindmans);
+						$Btime->where('id='.$btinfo['id'])->save($btdata);
+					}	
+				}
+			}
+
 		$timeStamp = time();
 		$Orders = M('Orders');
 		$data['uid'] = $uid;
@@ -433,27 +475,26 @@ class OrderAction extends Action
 		$data['addtime'] = time();
 		$data['out_trade_no'] = $timeStamp;
 		$data['starttime'] = $starttime;
-		$data['address'] $address;
+		$data['address'] = $address;
 		$data['lou'] = $lou;
 		$data['name'] = $name;
 		$data['phone'] = $phone;
+		$data['beizhu'] = $beizhu;
 		if ($Orders->add($data)) {
 			$couponsdata['usetime'] = time();
 			$Coupons_info->where('id='.$cid)->save($couponsdata);
 
-			$Btime = M('Btime');
-			for ($i=0; $i <= $timestep; $i++) {
-				$stime += $i;
-				$btinfo = $Btime->field('id,blindmans')->where('tid='.$stime.' and bdate='.$bdate)->find();
-				$blindmans = json_decode($btinfo['blindmans'],true);
-				array_push($blindmans, $bid);
-				$btdata['blindmans'] = json_encode($blindmans);
-				$Btime->where('id='.$btinfo['id'])->save($btdata);
-			}
+			$Blindman = M('Blindman');
+			$Blindman->where('id='.$bid)->setInc('ordernum');
+
+			
 			Vendor('Weixin.WxPayPubHelper.WxPayPubHelper');
+			//=========步骤1：网页授权获取用户openid============
 			$User = M('User');
 			$uinfo = $User->field('openid')->where('id='.$uid)->find();
 			$openid = $uinfo['openid'];
+
+			//=========步骤2：使用统一支付接口，获取prepay_id============
 			$unifiedOrder = new UnifiedOrder_pub();
 			$unifiedOrder->setParameter("openid","$openid");//商品描述
 			$unifiedOrder->setParameter("body",$prinfo['title']);//商品描述
@@ -464,26 +505,56 @@ class OrderAction extends Action
 			$unifiedOrder->setParameter("notify_url",WxPayConf_pub::NOTIFY_URL);//通知地址 
 			$unifiedOrder->setParameter("trade_type","JSAPI");//交易类型
 			$prepay_id = $unifiedOrder->getPrepayId();
+
+			$jsApi = new JsApi_pub();
 			//=========步骤3：使用jsapi调起支付============
 			$jsApi->setPrepayId($prepay_id);
 
 			$jsApiParameters = $jsApi->getParameters();
-
-			echo "<script type='text/javascript'>";
+//echo $jsApiParameters;
+			echo "<html>
+<head>
+    <meta http-equiv='content-type' content='text/html;charset=utf-8'/>
+    <title>微信安全支付</title>";
+			echo "</head><body><script type='text/javascript'>";
 			echo "//调用微信JS api 支付
 					function jsApiCall()
 					{
 						WeixinJSBridge.invoke(
 							'getBrandWCPayRequest',
-							<?php echo $jsApiParameters; ?>,
+							".$jsApiParameters.",
 							function(res){
 								WeixinJSBridge.log(res.err_msg);
+								if(res.err_msg == 'get_brand_wcpay_request:ok' ) {
+									alert('支付成功');
+									
+								}else{
+									alert('支付失败');
+									
+								}
+								window.location.href='http://".$_SERVER['HTTP_HOST']."/index.php/Check/index?state=/order/orderlist';
 								//alert(res.err_code+res.err_desc+res.err_msg);
 							}
 						);
-					}";
-			echo "jsApiCall()";
-			echo "</script>";
+					}
+					function callpay()
+					{
+						if (typeof WeixinJSBridge == 'undefined'){
+						    if( document.addEventListener ){
+						        document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+						    }else if (document.attachEvent){
+						        document.attachEvent('WeixinJSBridgeReady', jsApiCall); 
+						        document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+						    }
+						}else{
+						    jsApiCall();
+						}
+					}
+					";
+
+			echo "callpay()";
+			echo "</script></body>
+</html>";
 		}else{
 			$this->error('订单提交失败！');
 		}
@@ -495,7 +566,7 @@ class OrderAction extends Action
 		$uid = I('uid');
 		$page = I('page','1');
 		$count = 5;
-		$list = $Orders->where('uid='.$uid)->limit($count * ($page-1).','.$count)->select();
+		$list = $Orders->where('uid='.$uid)->order('id desc')->limit($count * ($page-1).','.$count)->select();
 		if(empty($list)){
 			$isempty = 2;
 		}else{
@@ -516,7 +587,7 @@ class OrderAction extends Action
 		$id = I('id');
 		$uid = I('uid');
 		$Orders = M('Orders');
-		$oinfo = $Orders->where('id='.$id)->find();
+		$oinfo = $Orders->where('id='.$id.' and uid='.$uid)->find();
 		$Product = M('Product');
 		$Blindman = M('Blindman');
 		$Coupons = M('Coupons');
@@ -530,6 +601,226 @@ class OrderAction extends Action
 		$this->assign('oinfo',$oinfo);
 		$this->assign('cinfo',$cinfo);
 		$this->display();
+	}
+	function changeorder(){
+		header("Content-Type: text/html; charset=utf-8");
+		$id = I('id');
+		$uid = I('uid');
+		$Orders = M('Orders');
+		$oinfo = $Orders->field('status,out_trade_no,pid,total')->where('id='.$id.' and uid='.$uid)->find();
+		switch ($oinfo['status']) {
+			case '1':
+				$Product = M('Product');
+				$prinfo = $Product->field('title')->where('id='.$oinfo['pid'])->find();
+				Vendor('Weixin.WxPayPubHelper.WxPayPubHelper');
+				$User = M('User');
+				$uinfo = $User->field('openid')->where('id='.$uid)->find();
+				$openid = $uinfo['openid'];
+				$unifiedOrder = new UnifiedOrder_pub();
+				$unifiedOrder->setParameter("openid","$openid");//商品描述
+				$unifiedOrder->setParameter("body",$prinfo['title']);//商品描述
+				
+				$out_trade_no = $oinfo['out_trade_no'];
+				$unifiedOrder->setParameter("out_trade_no","$out_trade_no");//商户订单号 
+				$unifiedOrder->setParameter("total_fee",$oinfo['total']);//总金额
+				$unifiedOrder->setParameter("notify_url",WxPayConf_pub::NOTIFY_URL);//通知地址 
+				$unifiedOrder->setParameter("trade_type","JSAPI");//交易类型
+				$prepay_id = $unifiedOrder->getPrepayId();
+//echo $uid."|||".$prepay_id;exit();
+				$jsApi = new JsApi_pub();
+				//=========步骤3：使用jsapi调起支付============
+				$jsApi->setPrepayId($prepay_id);
+
+				$jsApiParameters = $jsApi->getParameters();
+
+				Vendor('Weixin.jssdk');
+	  			$jssdk = new JSSDK("wx20ec6953f13e5975", "e8ae6545b510c1d653e42fcbfb05feb4");
+				$signPackage = $jssdk->GetSignPackage();
+				echo "<html>
+<head>
+    <meta http-equiv='content-type' content='text/html;charset=utf-8'/>
+    <title>微信安全支付</title>";
+			echo "</head><body><script type='text/javascript'>";
+			echo "
+					
+					//调用微信JS api 支付
+					function jsApiCall()
+					{
+						WeixinJSBridge.invoke(
+							'getBrandWCPayRequest',
+							".$jsApiParameters.",
+							function(res){
+								WeixinJSBridge.log(res.err_msg);
+								if(res.err_msg == 'get_brand_wcpay_request:ok' ) {
+									alert('支付成功');
+									
+								}else{
+									alert('支付失败');
+									
+								}
+								window.location.href='http://".$_SERVER['HTTP_HOST']."/index.php/Check/index?state=/order/orderlist';
+								//alert(res.err_code+res.err_desc+res.err_msg);
+							}
+						);
+					}
+					function callpay()
+					{
+						if (typeof WeixinJSBridge == 'undefined'){
+						    if( document.addEventListener ){
+						        document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+						    }else if (document.attachEvent){
+						        document.attachEvent('WeixinJSBridgeReady', jsApiCall); 
+						        document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+						    }
+						}else{
+						    jsApiCall();
+						}
+					}
+					";
+
+			echo "callpay()";
+			echo "</script></body>
+</html>";
+				break;
+			case '2':
+				$data['tmp_status'] = 2;
+				$data['status'] = 6;
+				if($Orders->where('id='.$id)->save($data)){
+					echo "<script type='text/javascript'>";
+					echo "alert('提交成功，等待审核处理！');";
+					echo "window.location.href='http://".$_SERVER['HTTP_HOST']."/index.php/Check/index?state=/order/orderlist';";
+					echo "</script>";
+				}else{
+					echo "<script type='text/javascript'>";
+					echo "alert('提交失败！');";
+					echo "window.history.back(-1);";
+					echo "</script>";
+				}
+				break;
+			case '3':
+				$data['tmp_status'] = 3;
+				$data['status'] = 6;
+				if($Orders->where('id='.$id)->save($data)){
+					echo "<script type='text/javascript'>";
+					echo "alert('提交成功，等待审核处理！');";
+					echo "window.location.href='http://".$_SERVER['HTTP_HOST']."/index.php/Check/index?state=/order/orderlist';";
+					echo "</script>";
+				}else{
+					echo "<script type='text/javascript'>";
+					echo "alert('提交失败！');";
+					echo "window.history.back(-1);";
+					echo "</script>";
+				}
+				break;
+			case '4':
+				if(empty($oinfo['commentid'])){
+					echo "<script type='text/javascript'>";
+					echo "window.location.href='http://".$_SERVER['HTTP_HOST']."/index.php/Check/index?state=/order/comment';";
+					echo "</script>";
+				}else{
+					echo "<script type='text/javascript'>";
+					echo "alert('此订单已经评论过！');";
+					echo "window.history.back(-1);";
+					echo "</script>";
+				}
+				break;
+			case '5':
+				if(empty($oinfo['commentid'])){
+					echo "<script type='text/javascript'>";
+					echo "window.location.href='http://".$_SERVER['HTTP_HOST']."/index.php/Check/index?state=/order/comment/id/".$oinfo['id']."';";
+					echo "</script>";
+				}else{
+					echo "<script type='text/javascript'>";
+					echo "alert('此订单已经评论过！');";
+					echo "window.history.back(-1);";
+					echo "</script>";
+				}
+				break;
+			default:
+					echo "<script type='text/javascript'>";
+					echo "alert('出错！');";
+					echo "window.history.back(-1);";
+					echo "</script>";
+				break;
+		}
+	}
+
+	public function comment(){
+		$uid = I('uid'); 
+		$oid = I('id');
+		if($_POST){
+			$Orders = M('Orders');
+			$oinfo = $Orders->field('bid,pid')->where('id='.$oid)->find();
+			$data['uid'] = $uid;
+			$data['bid'] = $oinfo['bid'];
+			$data['pid'] = $oinfo['pid'];
+			$data['content'] = I('content');
+			$data['addtime'] = time();
+			$Comment = M('Comment');
+			if($Comment->add($data)){
+					echo "<script type='text/javascript'>";
+					echo "alert('谢谢您的评论！');";
+					echo "window.location.href='http://".$_SERVER['HTTP_HOST']."/index.php/Check/index?state=/order/orderlist';";
+					echo "</script>";
+			}else{
+					echo "<script type='text/javascript'>";
+					echo "alert('评论失败！');";
+					echo "window.history.back(-1);";
+					echo "</script>";
+			}
+			exit();
+		}
+		$this->display();
+	}
+
+	public function notify_url(){
+		Vendor('Weixin.WxPayPubHelper.WxPayPubHelper');
+		//使用通用通知接口
+		$notify = new Notify_pub();
+
+		//存储微信的回调
+		$xml = $GLOBALS['HTTP_RAW_POST_DATA'];	
+		$notify->saveData($xml);
+		
+		//验证签名，并回应微信。
+		//对后台通知交互时，如果微信收到商户的应答不是成功或超时，微信认为通知失败，
+		//微信会通过一定的策略（如30分钟共8次）定期重新发起通知，
+		//尽可能提高通知的成功率，但微信不保证通知最终能成功。
+		if($notify->checkSign() == FALSE){
+			$notify->setReturnParameter("return_code","FAIL");//返回状态码
+			$notify->setReturnParameter("return_msg","签名失败");//返回信息
+		}else{
+			$notify->setReturnParameter("return_code","SUCCESS");//设置返回码
+		}
+		$returnXml = $notify->returnXml();
+		echo $returnXml;
+		if($notify->checkSign() == TRUE)
+		{
+			if ($notify->data["return_code"] == "FAIL") {
+				//此处应该更新一下订单状态，商户自行增删操作
+				//$log_->log_result($log_name,"【通信出错】:\n".$xml."\n");
+			}
+			elseif($notify->data["result_code"] == "FAIL"){
+				//此处应该更新一下订单状态，商户自行增删操作
+				//$log_->log_result($log_name,"【业务出错】:\n".$xml."\n");
+			}
+			else{
+				//此处应该更新一下订单状态，商户自行增删操作
+				//$log_->log_result($log_name,"【支付成功】:\n".$xml."\n");
+				$out_trade_no = $notify->data['out_trade_no'];
+				$Orders = M('Orders');
+				$info = $Orders->field('id')->where('out_trade_no='.$out_trade_no)->find();
+				if (!empty($info)) {
+					$data['status'] = 2;
+					$Orders->where('id='.$info['id'])->save($data);
+				}
+			}
+			
+			//商户自行增加处理流程,
+			//例如：更新订单状态
+			//例如：数据库操作
+			//例如：推送支付完成信息
+		}
 	}
 }
 ?>

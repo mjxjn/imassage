@@ -53,7 +53,7 @@ class LoginAction extends Action
 		$code = I('verfiy');
 		$openid = I('openid');
 		$Verfiy = M('Verfiy');
-		$info = $Verfiy->where('used=0 and endtime > '.time().' code='.$code.' and phone="'.$phone.'"')->find();
+		$info = $Verfiy->where('used=0 and endtime > '.time().' and code='.$code.' and phone="'.$phone.'"')->find();
 		if (empty($info)) {
 			header("Content-Type: text/html; charset=utf-8");
 			echo '<script type="text/javascript" crossorigin="anonymous">alert("验证码错误！");history.back()</script>';

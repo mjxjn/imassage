@@ -1,0 +1,42 @@
+.user_bg{
+	position: relative;
+	z-index: 5;
+}
+.back{
+	position: absolute;
+	top: 5px;
+	left: 10px;
+	z-index: 10;
+}
+.userface{
+	position: absolute;
+	top: 20px;
+	z-index: 10;
+}
+.tel{
+	font-size: 20px;
+	position: absolute;
+	z-index: 10;
+	top: 147px;
+	width: 100%
+}
+ul{
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+ul li{
+	line-height: 43px;
+	border-bottom: 1px solid #ddd;
+	text-align: left;
+	padding-left: 10px;
+	font-size: 14px;
+}
+li img{
+	vertical-align: middle;
+}
+.arrow{
+	float: right;
+	padding-right: 10px;
+	padding-top: 12px;
+}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Imassage爱按摩</title>
+	<meta name="viewport" content="width=320,user-scalable=no">
+	<meta name="format-detection" content="telephone=no">
+	
+	<link rel="icon" href="__PUBLIC__/img/favicon.png" type="image/png">
+	<link rel="shortcut icon" href="__PUBLIC__/img/favicon.png" type="image/png">
+	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/global.css">
+	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/global.wx.css">
+	
+	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/p_list.css">
+	<script type="text/javascript" crossorigin="anonymous" src="__PUBLIC__/js/jquery.js"></script>
+	<script type="text/javascript" crossorigin="anonymous">
+	$(document).ready(function(){
+		var u = navigator.userAgent
+		if(u.indexOf('iPhone') > -1){
+			$("body").addClass("iOs iphone");
+		}
+	})
+	</script>
+	</head>
+	<body class="no-location">
+		<div id="AppointType">
+		<div class="wrap" style="line-height:45px;">
+			优惠券
+		</div>
+		</div>
+		<div id="AppointTypeSpace"></div>
+		<ul id="Main" class="container">
+		<volist name="list" id="vo">
+			<li id="p{$vo.id}">
+            		<div class="title">{$vo.title}
+            			<span class="price">￥{$vo.price|incPrc}
+            			<span class="font-smaller">({$vo.endtime|date=Y-m-d,###})</span>
+            			</span>
+            		</div>
+            		<div class="desc">
+            			<!-- <img async-src="__PUBLIC__/img/clock.png" height="13" src="__PUBLIC__/img/clock.png"> -->
+            			<span>
+                            订单金额 >￥{$vo.minprice|incPrc}
+            				订单人数 >{$vo.minpeople}人
+            			</span>
+            		</div>
+            		<div class="clear"></div>
+        	</li>
+        </volist>
+		</ul>
+	</body>
+</html>	

@@ -7,23 +7,15 @@
 	font-size:14px;
 	color:#484d57
 }
-#product_submit_form {
-	width:340px;
-	margin:0 auto;
-	padding-bottom:70px
-}
-.iOs #product_submit_form {
-	width:300px
-}
 body.showCreate #product_submit_form {
 	display:block
 }
 #product_submit_form .wrap {
-	width:300px;
+	padding: 0 10px;
 	margin:auto
 }
 .iOs #product_submit_form .wrap {
-	width:260px
+	/*width:260px*/
 }
 #product_submit_form .submit {
 	position:fixed;
@@ -71,7 +63,7 @@ body.showCreate #product_submit_form {
 	height:35px
 }
 #product_submit_form .line_number .number_input {
-	border:#249caa 1px solid;
+	border:#e4e4e4 1px solid;
 	color:#484d57;
 	line-height:35px;
 	height:35px;
@@ -121,8 +113,8 @@ body.showCreate #product_submit_form {
 }
 #product_submit_form .line_select ul span.active {
 	color:#f5fafa;
-	background-color:#249caa;
-	border:1px solid #249caa
+	background-color:#ff5629;
+	border:1px solid #ff5629
 }
 #product_submit_form .line_oprice,#product_submit_form .line_time {
 	font-size:13px;
@@ -170,13 +162,10 @@ body.showCreate #product_submit_form {
 	display:none
 }
 .p-dt {
-	width:340px;
+	width:100%;
 	margin:0 auto;
 	color:#484d57;
 	font-size:14px
-}
-.iOs .p-dt {
-	width:300px
 }
 .p-dt-box {
 	position:relative;
@@ -184,12 +173,10 @@ body.showCreate #product_submit_form {
 	margin-top:7px;
 	background-color:#fff;
 	border:#ededed 1px solid;
-	border-radius:5px;
+	
 	background:#fff;
 	margin-top:5px;
 	border:none;
-	padding:17px;
-	overflow: hidden;
 }
 .p-dt-box .pose {
 	position:absolute;
@@ -197,19 +184,27 @@ body.showCreate #product_submit_form {
 	top:0;
 	z-index:10
 }
+.p-dt-box .titleImage{
+	z-index: 5;
+}
 .p-dt-box .p-dt-box-l {
 	display:inline-block;
 	vertical-align:middle;
 	padding-right:18px
 }
-.p-dt-box .p-dt-box-r {
+.p-dt-box-r {
 	display:inline-block;
-	vertical-align:middle
+	vertical-align:middle;
+	width: 100%;
+text-align: left;
+padding: 10px;
+border-bottom: 4px solid #e4e4e4;
 }
-.p-dt-box .p-dt-box-r .line1 {
-	line-height:19px
+.p-dt-box-r .line1 {
+	line-height:19px;
+	float: left;
 }
-.p-dt-box .p-dt-box-r .line1 h1 {
+.p-dt-box-r .line1 h1 {
 	padding:0;
 	margin:0;
 	font-size:25px;
@@ -218,7 +213,7 @@ body.showCreate #product_submit_form {
 	padding-right:5px;
 	vertical-align:baseline
 }
-.p-dt-box .p-dt-box-r .line1 strong {
+.p-dt-box-r .line1 strong {
 	padding:0;
 	margin:0;
 	font-size:16px;
@@ -226,29 +221,33 @@ body.showCreate #product_submit_form {
 	display:inline;
 	vertical-align:baseline
 }
-.p-dt-box .p-dt-box-r .line2 {
-	line-height:31px
+.p-dt-box-r .line2 {
+	line-height:19px;
+	float: right;
+	padding-right: 20px;
+	font-size: 12px;
 }
-.p-dt-box .p-dt-box-r .line2 i {
-	display:inline-block;
-	background:url("http://static.gfxiong.com//img/wx_icons/clock.png") no-repeat;
-	background-size:100%;
-	height:13px;
-	width:13px;
-	margin-left:3px;
-	vertical-align:middle;
-	font-size:12px
-}
-.p-dt-box .p-dt-box-r .line2 span {
+.p-dt-box-r .line2 span {
 	margin-left:5px;
 	vertical-align:middle;
 	color:#949696
 }
-.p-dt-box .p-dt-box-r .line3 {
-	line-height:14px;
-	color:#e86a6a;
-	font-size:14px
+.p-dt-box-r .line3 {
+	line-height:31px;
+	color:#ff762f;
+	font-size:25px;
+	float: left;
 }
+#singlePrice .font-smaller{
+	font-size:14px;
+}
+.p-dt-box-r .line4 {
+	line-height:31px;
+	float: right;
+	padding-right: 20px;
+	font-size: 12px;
+	color: #949696;
+	}
 .p-dt-tip {
 	position:relative;
 	text-align:left;
@@ -297,7 +296,8 @@ body.showCreate #product_submit_form {
 	border-bottom-left-radius:5px;
 	border-bottom-right-radius:5px;
 	border-top-right-radius:0;
-	border-top-left-radius:0
+	border-top-left-radius:0;
+	border-bottom: 4px solid #e4e4e4;
 }
 .p-dt-ul {
 	position:relative;
@@ -345,15 +345,15 @@ body.showCreate #product_submit_form {
 	font-size:14px
 }
 .p-dt-tab-btn .p-dt-tab-li.active span {
-	border-bottom:3px solid #249caa;
+	border-bottom:3px solid #ff5629;
 	display:inline-block;
-	width:75px;
-	color:#249caa
+	width:100%;
+	color:#ff5629
 }
 .p-dt-tab-btn .p-dt-tab-li span {
 	border-bottom:3px solid #fff;
 	display:inline-block;
-	width:75px
+	width:100%
 }
 .p-dt-tab-btn .spline {
 	display:inline-block;
@@ -427,14 +427,14 @@ body.showCreate #product_submit_form {
 .p-dt-submit .medium_button {
 	position:relative;
 	border:none;
-	background:#249caa;
-	width:135px;
-	height:35px;
-	margin:7px 10px;
-	border-radius:3px;
+	background:#ff5629;
+	width: 50%;
+	height:50px;
+	/*margin:7px 10px;*/
+	border-radius:0px;
 	padding:0;
 	float:right;
-	font-size:16px
+	font-size:24px
 }
 #levelSelect {
 	position:relative;
@@ -503,4 +503,22 @@ body.showCreate #product_submit_form {
 }
 #spring .springbtn #springbtnr a {
 	color:#484d57
+}
+.back-select {
+	position:absolute;
+	left:0;
+	top:0;
+	z-index:1000;
+	line-height:45px;
+	height:45px
+}
+.back-select .back-loc {
+	position:absolute;
+	left:0px;
+	top:12px;
+	display:inline-block;
+	background:url("../img/andriod_white_back_normal.png") 0 4px no-repeat;
+	background-size:100%;
+	width: 47px;
+	height: 24px;
 }

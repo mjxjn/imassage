@@ -176,9 +176,9 @@
                         </p>
                     	<p>
                         	<label>套餐添加</label>
-                            <span class="field">套餐名&nbsp; &nbsp;<input type="text" name="title0" class="smallinput" style="width:200px;" value="高级" disabled="disabled" />&nbsp; &nbsp;价格&nbsp; &nbsp;<input type="text" name="price0" class="smallinput" /></span>
-                            <span class="field">套餐名&nbsp; &nbsp;<input type="text" name="title1" class="smallinput" style="width:200px;" value="特级" disabled="disabled"/>&nbsp; &nbsp;价格&nbsp; &nbsp;<input type="text" name="price1" class="smallinput" /></span>
-                            <span class="field">套餐名&nbsp; &nbsp;<input type="text" name="title2" class="smallinput" style="width:200px;" value="专家" disabled="disabled"/>&nbsp; &nbsp;价格&nbsp; &nbsp;<input type="text" name="price2" class="smallinput" /></span>
+                            <span class="field">套餐名&nbsp; &nbsp;<input type="text" name="title0" class="smallinput" style="width:200px;" value="高级" />&nbsp; &nbsp;价格&nbsp; &nbsp;<input type="text" name="price0" class="smallinput" /></span>
+                            <span class="field">套餐名&nbsp; &nbsp;<input type="text" name="title1" class="smallinput" style="width:200px;" value="特级" />&nbsp; &nbsp;价格&nbsp; &nbsp;<input type="text" name="price1" class="smallinput" /></span>
+                            <span class="field">套餐名&nbsp; &nbsp;<input type="text" name="title2" class="smallinput" style="width:200px;" value="专家" />&nbsp; &nbsp;价格&nbsp; &nbsp;<input type="text" name="price2" class="smallinput" /></span>
                             <small class="desc">单位“元”</small>
                         </p>
                         <p>

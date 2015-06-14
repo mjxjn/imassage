@@ -295,10 +295,16 @@ input, select{
 	font-size: 14px;
 	margin-top: 5px;
 	background: #fff;
+	
+	line-height: 44px;
+	text-align: left;
+}
+.couponstitle{
 	height: 44px;
 	line-height: 44px;
 	text-align: left;
 	padding-left: 10px;
+	border-bottom: 1px solid #249caa;
 }
 .money{
 	font-size: 14px;

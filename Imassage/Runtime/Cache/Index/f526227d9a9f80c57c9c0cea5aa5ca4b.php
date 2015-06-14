@@ -3,7 +3,7 @@
 <html>
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>功夫熊</title>
+	<title>Imassage爱按摩</title>
 	<meta name="viewport" content="width=320,user-scalable=no">
 	<meta name="format-detection" content="telephone=no">
 	
@@ -297,7 +297,18 @@ function currentFile(skip, stack){
 		<div class="step_one" id="order_step">
 			<img src="__PUBLIC__/img/order3.png" width="100%" />
 		</div>
-		<div class="coupons">优惠券: <?php echo (($cinfo["title"])?($cinfo["title"]):"暂无优惠券可用"); ?></div>
+		<div class="coupons">
+			<div class="couponstitle">优惠券:</div> 
+			<?php if(is_array($coulist)): $i = 0; $__LIST__ = $coulist;if( count($__LIST__)==0 ) : echo "暂无优惠券可用" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><div class="pay" onclick="selectcoupons(this,<?php echo ($vo["id"]); ?>,<?php echo (incprc($vo["price"])); ?>)" style="overflow: hidden;">
+				<div style="float:left;padding-left:10px;line-height:44px;"><?php echo ($vo["title"]); ?> (金额：￥<?php echo (incprc($vo["price"])); ?>)</div>
+				<div class="coupons_list" style="float:right;line-height:44px; padding:5px 10px 0 0;">
+						<?php if(($key) == "0"): ?><img src="__PUBLIC__/img/checked.png" height="23" width="23">
+						<?php else: ?>
+						<img src="__PUBLIC__/img/uncheck.png" height="23" width="23"><?php endif; ?>
+				</div>
+			</div><?php endforeach; endif; else: echo "暂无优惠券可用" ;endif; ?>
+		</div>
+		<div class="clear"></div>
 		<div class="money">
 			<span>会员卡余额: <?php echo (incprc($money)); ?>元</span>
 		</div>
@@ -329,7 +340,7 @@ function currentFile(skip, stack){
             </li>
             <div class="total">
             	<p>总计：￥<?php echo (incprc($total)); ?></p>
-            	<p>折扣: -￥<?php echo (incprc($cinfo["price"])); ?></p>
+            	<p>折扣: -￥<span class="cou"><?php echo (incprc($coulist["0"]["price"])); ?></span></p>
             </div>
 		</div>
 	</div>
@@ -364,7 +375,7 @@ function currentFile(skip, stack){
 		<input type="hidden" name="stime" value="<?php echo ($stime); ?>">
 		<input type="hidden" name="timestep" value="<?php echo ($timestep); ?>">
 
-		<input type="hidden" name="cid" value="<?php echo ($cinfo["coupons"]); ?>">
+		<input type="hidden" name="cid" value="<?php echo ($coulist["0"]["id"]); ?>">
 	</div>
 </form>
 <div id="DebugLog" style="display:none;">
@@ -372,43 +383,15 @@ function currentFile(skip, stack){
 				<a onclick="document.querySelector('#DebugLog').style.display ='none';return false;">关闭</a>
 			</div>
 		</div>
-	<script type="text/javascript" src="__PUBLIC__/js/jweixin-1.0.0.js"></script>
-		<script type="text/javascript">
-			var wx_success = true;
-			jWeixin.ready(function (){
-				console.log('init weixin object callback');
-				if(!wx_success){
-					alert('微信分享接口初始化失败，请您升级微信版本再试。');
-					return;
-				}
-				console.log('init weixin success');
-				if(window.$){
-					$(document).trigger('wxready');
-				}
-			});
-			jWeixin.error(function (res){
-				if(window.$){
-					$(document).trigger('wxerror', res);
-				}
-				wx_success = false;
-			});
-			jWeixin.config({
-				debug    : CONSTANT.isDebugEnv, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-				appId    : '<?php echo ($signPackage["appId"]); ?>', // 必填，公众号的唯一标识
-				timestamp: <?php echo ($signPackage["timestamp"]); ?>, // 必填，生成签名的时间戳
-				nonceStr : '<?php echo ($signPackage["nonceStr"]); ?>', // 必填，生成签名的随机串
-				signature: '<?php echo ($signPackage["signature"]); ?>',// 必填，签名，见附录1
-				jsApiList: [
-					'onMenuShareTimeline',
-					'onMenuShareAppMessage',
-					'previewImage',
-					'getNetworkType',
-					'getLocation',
-					'openLocation',
-					'hideOptionMenu',
-					'scanQRCode',
-					'chooseWXPay'
-				] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-			});
-		</script>
+	<script type="text/javascript" crossorigin="anonymous">
+
+function selectcoupons(self,id,price){
+	$('.coupons_list').empty().html('<img src="__PUBLIC__/img/uncheck.png" height="23" width="23">');
+	$(self).find('.coupons_list').empty().html('<img src="__PUBLIC__/img/checked.png" height="23" width="23">');
+	$('input[name=cid]').val(id);
+	$('.cou').empty().html(price);
+	var total = <?php echo (incprc($total)); ?> - price;
+	$('.price').empty().html(total);
+}
+</script>
 </body></html>

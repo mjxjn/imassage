@@ -24,7 +24,9 @@ class BlindmanAction extends CommonAction
 				$list[$key] = $Product->where('id='.$value['pid'])->find();
 			}
 		}
-		
+		$Comment = M('Comment');
+		$ccount = $Comment->where('bid='.$id)->count();
+		$this->assign('ccount',$ccount);
 		$this->assign('list',$list);
 		$this->assign('info',$info);
 		$this->display();

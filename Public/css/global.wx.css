@@ -11,7 +11,7 @@ html {
 	text-align:center
 }
 body {
-	background:#ededed;
+	background:#fff;
 	-webkit-touch-callout:none !important
 }
 body {
@@ -44,7 +44,7 @@ body.iOs {
 	height:49px
 }
 #BottomMenu td.active>a {
-	color:#249caa
+	color:#2fdec7
 }
 #BottomMenu td .red-point {
 	position:relative
