@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- saved from url=(0035)http://w.gfxiong.com/wx/lst/product -->
 <html>
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -13,7 +12,7 @@
 	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/global.css">
 	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/global.wx.css">
 
-	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/order.css">
+	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/Order.css">
 		
 	
 	<script type="text/javascript" crossorigin="anonymous">
@@ -38,6 +37,33 @@
 		}
 	})
 	</script>
+	<style type="text/css">
+		.inputbox{
+			height: 25px;
+			line-height: 25px;
+			color: #666;
+			font-size: 14px;
+			border: 1px solid #ddd;
+		}
+		.inputbox:disabled{
+			color: #666;
+		}
+		 .line_number {
+	padding:10px 0 10px;
+	line-height:35px;
+	height:35px
+}
+ .line_number .number_input {
+	border:#e4e4e4 1px solid;
+	color:#484d57;
+	line-height:35px;
+	height:35px;
+	width:110px
+}
+ .line_number .number_input input {
+	color:#484d57
+}
+	</style>
 </head>
 <body class="">
 <form action="__URL__/step2" method="post" onsubmit="return check_input();">
@@ -56,35 +82,46 @@
 		</div>
 		<div class="p-dt-tab-box">
 			<div class="p-dt-tab-ct">
-				
+				<eq name="selectnum" value="1">
+					<div class="line_input">
+						<span class="name">购买数量:</span>
+						<div class="input">
+							
+							<input type="number" style="width:50px;" min="{$pinfo.minpeople}" class="inputbox" max="6" id="multiply" name="num" value="{$pinfo.minpeople}">
+							
+						</div>
+					</div>
+				<else />
+				<input type="hidden" name="num" value="{$num}">
+				</eq>
 					<div class="line_input">
 						<span class="name">手机号:</span>
 						<div class="input" id="tab-box">
-							<input type="text" id="tab-box1" class="tab_box active" name="phone" disabled="disabled" value="{$phone}">
+							<input type="number" id="tab-box1" class="tab_box active inputbox" name="phone" readonly value="{$userinfo.phone}">
 						</div>
 					</div>
 					<div class="line_input">
 						<span class="name">街道名:</span>
 						<div class="input">
-							<input type="text" name="address" placeholder="街道或小区名" value="">
+							<input type="text" class="inputbox" name="address" placeholder="街道或小区名" value="{$userinfo.address}">
 						</div>
 					</div>
 					<div class="line_input">
 						<span class="name">门牌号:</span>
 						<div class="input">
-							<input type="text" name="lou" placeholder="楼号、单元号、门牌号" value="">
+							<input type="text" class="inputbox" name="lou" placeholder="楼号、单元号、门牌号" value="{$userinfo.lou}">
 						</div>
 					</div>
 					<div class="line_input">
 						<span class="name">联系人:</span>
 						<div class="input">
-							<input type="text" name="name" placeholder="联系人称呼" value="">
+							<input type="text" class="inputbox" name="name" placeholder="联系人称呼" value="{$userinfo.name}">
 						</div>
 					</div>
 					<div class="line_input">
 						<span class="name" style="width:40%">备注（选填）:</span><br />
 						<div class="input">
-							<input type="text" name="beizhu" placeholder="如给他人预约，请留下相应联系方式。" value="" style="width:90%">
+							<input type="text" class="inputbox" name="beizhu" placeholder="如给他人预约，请留下相应联系方式。" value="" style="width:90%">
 						</div>
 					</div>
 				
@@ -93,14 +130,15 @@
 	</div>
 	<div id="BottomMenuSpace"></div>
 	<div class="p-dt-submit">
-		<input class="medium_button primary" type="submit" value="下一步">
+		<input class="medium_button primary" type="submit" value="选择服务时间">
 		<input type="hidden" name="uid" value="{$uid}">
 		<input type="hidden" name="pid" value="{$pid}">
-		<input type="hidden" name="num" value="{$num}">
+		
 		<input type="hidden" name="level" value="{$level}">
 		<input type="hidden" name="bid" value="{$bid}">
 	</div>
 </form>
+
 <script>
 	function tab_change(self, value){
 		//var tab_box = $(".tab_box.active");
@@ -113,19 +151,40 @@
 		self.classList.add('active');
 		$("#tab-box").empty();
 		if (value == 'tab-box1') {
-			$("#tab-box").append('<input type="text" name="phone" disabled="disabled" value="{$phone}">');
+			$("#tab-box").append('<input type="number" name="phone" class="tab_box active inputbox" readonly value="{$userinfo.phone}">');
+			$('input[name=address]').val({$userinfo.address});
+			$('input[name=lou]').val({$userinfo.lou});
+			$('input[name=name]').val({$userinfo.name});
 		};
 		if (value == 'tab-box2') {
-			$("#tab-box").append('<input type="text" name="phone" placeholder="请输入手机号" value="">');
+			$("#tab-box").append('<input type="number" name="phone" class="tab_box active inputbox" placeholder="请输入手机号" value="">');
+			$('input[name=address]').val('');
+			$('input[name=lou]').val('');
+			$('input[name=name]').val('');
 		};
 		//document.querySelector(value).classList.add('active');
 
 	}
 	function check_input(){
+		var num = $('input[name=num]').val();
 		var phone = $('input[name=phone]').val();
 		var address = $('input[name=address]').val();
 		var lou = $('input[name=lou]').val();
 		var name = $('input[name=name]').val();
+
+		if(num.length <= 0){
+			alert("购买数量请输入数字!");
+			return false;
+		}
+		if(!/^[0-9]*$/.test(num)){
+	        alert("请输入数字!");
+	        return false;
+	    }
+	    var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/;
+		 if (!reg.test(phone)) {
+		      alert("手机号号码有误~");
+		      return false;
+		 };
 		if (phone.length <= 0) {
 			alert("手机号不能为空");
 			return false;

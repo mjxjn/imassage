@@ -7,14 +7,53 @@ class OrderAction extends Action
 	
 	function index()
 	{
-		$uid = I('uid');
-		if(empty($uid)){
-			Header("Location: http://".$_SERVER['HTTP_HOST']."/index.php");
-			exit();
+		//$uid = I('uid');
+		//if(empty($uid)){
+			Vendor('Weixin.WxPayPubHelper.WxPayPubHelper');
+			//使用jsapi接口
+			$jsApi = new JsApi_pub();
+
+			//=========步骤1：网页授权获取用户openid============
+			//通过code获得openid
+			if (!isset($_GET['code']))
+			{
+				$callbackurl = json_encode($_GET);
+				
+				//触发微信返回code码
+				$url = $jsApi->createOauthUrlForCode("http://w.jiningjianye.com/index.php/order",$callbackurl);
+				Header("Location: $url"); 
+				exit();
+			}
+			else
+			{
+				//获取code码，以获取openid
+			    $code = $_GET['code'];
+			    $state = $_GET['state'];
+				$jsApi->setCode($code);
+				$openid = $jsApi->getOpenId();
+			}
+			if (empty($openid)) {
+				echo "没有openid";
+				exit();
+			}
+			$User = M('User');
+			$userinfo = $User->field('id,phone,name,address,lou')->where('openid="'.$openid.'"')->find();
+			$uid = $userinfo['id'];
+		//}
+		$state = json_decode($state,true);
+		
+		$pid = $state['pid'];
+		
+		$level = $state['e'];
+		$num = $state['multiplier'];
+		if(empty($num)){
+			$selectnum = 1; //添加数量选择
+		}else{
+			$selectnum = 2;
 		}
-		$pid = I('id');
-		$level = I('e');
-		$bid = I('bid');
+		$bid = $state['bid'];
+		$Product = M('Product');
+		$pinfo = $Product->field('minpeople')->where('id='.$pid)->find();
 		if(empty($bid)){
 			$level = getLevel($level);
 		}else{
@@ -22,15 +61,17 @@ class OrderAction extends Action
 			$binfo = $Blindman->field('level')->where('id='.$bid)->find();
 			$level = $binfo['level'];
 		}
-		$num = I('multiplier');
-		$User = M('User');
-		$uinfo = $User->field('phone')->where('id='.$uid)->find();
+
+		//$User = M('User');
+		//$uinfo = $User->field('phone')->where('id='.$uid)->find();
 		$this->assign('pid',$pid);
 		$this->assign('num',$num);
+		$this->assign('selectnum',$selectnum);
 		$this->assign('level',$level);
 		$this->assign('bid',$bid);
 		$this->assign('uid',$uid);
-		$this->assign('phone',$uinfo['phone']);
+		$this->assign('userinfo',$userinfo);
+		$this->assign('pinfo',$pinfo);
 		$this->display();
 	}
 
@@ -46,10 +87,14 @@ class OrderAction extends Action
 		$lou = I('lou');
 		$beizhu = I('beizhu');
 
-		if (empty($phone)) {
-			$User = M('User');
-			$uinfo = $User->field('phone')->where('id='.$uid)->find();
-			$phone = $uinfo['phone'];
+		
+		$User = M('User');
+		$uinfo = $User->field('address')->where('id='.$uid)->find();
+		if(empty($uinfo)){
+			$udata['address'] = $address;
+			$udata['name'] = $name;
+			$udata['lou'] = $lou;
+			$User->where('id='.$uid)->save($udata);
 		}
 
 		$this->assign('pid',$pid);
@@ -71,24 +116,70 @@ class OrderAction extends Action
 		//车程时间
 		$System = M('System');
 		$config = $System->field('addtime')->where('id=1')->find();
+		$Product = M('Product');
+		$pinfo = $Product->field('timelong')->where('id='.$pid)->find();
 
-		$k = 24;
+		$g = 24;
 		$Btime = M('Btime');
+		
 		if (empty($bid)) {
 			//没有特定按摩师
+			$Blindman = M('Blindman');
+			$bllist = $Blindman->field('id')->where('level = "'.$level.'"')->select(); //(7，9)
+			$bllistarr = array();
+			foreach ($bllist as $key => $value) {
+				array_push($bllistarr, $value['id']);
+			}
+			sort($bllistarr);
 			// 今天
-			for ($i=0; $i < $k; $i++) {
+			for ($i=0; $i < $g; $i++) {
 				$nowtime = strtotime(date('Y-m-d H:i').":00");
 				if ($nowtime < $today + 1800*$i - $config['addtime']){
-					$info = $Btime->field('isok')->where('tid='.$i." and bdate=".$today)->find();
-					if(empty($info)){
-						$todayarr[$i]['status'] = "isok";
+					// $info = $Btime->field('isok')->where('tid='.$i." and bdate=".$today)->find();
+					// if(empty($info)){
+					// 	$todayarr[$i]['status'] = "isok";
+					// }else{
+					// 	if ($info['isok']==1) {
+					// 		$todayarr[$i]['status'] = "isok";
+					// 	}else{
+					// 		$todayarr[$i]['status'] = "";
+					// 	}
+					// }
+					
+
+					$info = $Btime->field('blindmans')->where('tid='.$i." and bdate=".$today)->find();
+					$blist = json_decode($info['blindmans'],true); //(1,5)
+					sort($blist);
+					if ($bllistarr == array_intersect($blist, $bllistarr)) { //()
+						//没按摩师了
+						
+						$todayarr[$i]['status'] = "";
 					}else{
-						if ($info['isok']==1) {
-							$todayarr[$i]['status'] = "isok";
-						}else{
-							$todayarr[$i]['status'] = "";
+						$j = ceil(($pinfo['timelong']*60*$num + $config['addtime'])/1800);
+						$barr = array();
+						
+						for ($k = 0; $k <= $j; $k++) { 
+							$newstiem = $i+$k;
+							
+							$info = $Btime->field('blindmans')->where('tid='.$newstiem.' and bdate='.$today)->find();
+							//echo $Btime->getlastsql();
+
+							$blindmansarr = json_decode($info['blindmans'],true); // (7，9)
+							
+							sort($blindmansarr);
+							if ($bllistarr == array_intersect($blindmansarr, $bllistarr)) { //()
+								//没按摩师了
+								$flag = 1;
+								$todayarr[$i]['status'] = "";
+								break;
+							}else{
+								$flag = 2;
+								$todayarr[$i]['status'] = "isok";
+							}
+							
 						}
+						
+
 					}
 				}else{
 					$todayarr[$i]['status'] = "";
@@ -96,53 +187,113 @@ class OrderAction extends Action
 				$todayarr[$i]['timeclock'] = date('H:i',$today + 1800*$i);
 			}
 			// 明天
-			for ($i=0; $i < $k; $i++) {
-				$info = $Btime->field('isok')->where('tid='.$i." and bdate=".$tomorrow)->find();
-				if(empty($info)){
-					$tomorrowarr[$i]['status'] = "isok";
+			for ($i=0; $i < $g; $i++) {
+				$info = $Btime->field('blindmans')->where('tid='.$i." and bdate=".$tomorrow)->find();
+				$blist = json_decode($info['blindmans'],true); //(1,5)
+				sort($blist);
+				if ($bllist == array_intersect($blist, $bllist)) { //()
+					//没按摩师了
+					$tomorrowarr[$i]['status'] = "";
 				}else{
-					if ($info['isok']==1) {
-						$tomorrowarr[$i]['status'] = "isok";
-					}else{
-						$tomorrowarr[$i]['status'] = "";
-					}
+					$j = ceil(($pinfo['timelong']*60*$num + $config['addtime'])/1800);
+						$barr = array();
+						
+						for ($k = 0; $k <= $j; $k++) { 
+							$newstiem = $i+$k;
+							
+							$info = $Btime->field('blindmans')->where('tid='.$newstiem.' and bdate='.$tomorrow)->find();
+							//echo $Btime->getlastsql();
+
+							$blindmansarr = json_decode($info['blindmans'],true); // (7，9)
+							
+							sort($blindmansarr);
+							if ($bllistarr == array_intersect($blindmansarr, $bllistarr)) { //()
+								//没按摩师了
+								$flag = 1;
+								$tomorrowarr[$i]['status'] = "";
+								break;
+							}else{
+								$flag = 2;
+								$tomorrowarr[$i]['status'] = "isok";
+							}
+							
+						}
+					
 				}
+				// if(empty($info)){
+				// 	$tomorrowarr[$i]['status'] = "isok";
+				// }else{
+				// 	if ($info['isok']==1) {
+				// 		$tomorrowarr[$i]['status'] = "isok";
+				// 	}else{
+				// 		$tomorrowarr[$i]['status'] = "";
+				// 	}
+				// }
+
 				$tomorrowarr[$i]['timeclock'] = date('H:i',$tomorrow + 1800*$i);
 			}
 			// 后天
-			for ($i=0; $i < $k; $i++) {
-				$info = $Btime->field('isok')->where('tid='.$i." and bdate=".$aftertomorrow)->find();
-				if(empty($info)){
-					$aftertomorrowarr[$i]['status'] = "isok";
+			for ($i=0; $i < $g; $i++) {
+				$info = $Btime->field('blindmans')->where('tid='.$i." and bdate=".$aftertomorrow)->find();
+				$blist = json_decode($info['blindmans'],true); //(1,5)
+				if ($bllist == array_intersect($blist, $bllist)) { //()
+					//没按摩师了
+					$aftertomorrowarr[$i]['status'] = "";
 				}else{
-					if ($info['isok']==1) {
-						$aftertomorrowarr[$i]['status'] = "isok";
-					}else{
-						$aftertomorrowarr[$i]['status'] = "";
-					}
+					$j = ceil(($pinfo['timelong']*60*$num + $config['addtime'])/1800);
+						$barr = array();
+						
+						for ($k = 0; $k <= $j; $k++) { 
+							$newstiem = $i+$k;
+							
+							$info = $Btime->field('blindmans')->where('tid='.$newstiem.' and bdate='.$aftertomorrow)->find();
+							//echo $Btime->getlastsql();
+
+							$blindmansarr = json_decode($info['blindmans'],true); // (7，9)
+							
+							sort($blindmansarr);
+							if ($bllistarr == array_intersect($blindmansarr, $bllistarr)) { //()
+								//没按摩师了
+								$flag = 1;
+								$aftertomorrowarr[$i]['status'] = "";
+								break;
+							}else{
+								$flag = 2;
+								$aftertomorrowarr[$i]['status'] = "isok";
+							}
+							
+						}
+					
 				}
+				// if(empty($info)){
+				// 	$aftertomorrowarr[$i]['status'] = "isok";
+				// }else{
+				// 	if ($info['isok']==1) {
+				// 		$aftertomorrowarr[$i]['status'] = "isok";
+				// 	}else{
+				// 		$aftertomorrowarr[$i]['status'] = "";
+				// 	}
+				// }
 				$aftertomorrowarr[$i]['timeclock'] = date('H:i',$aftertomorrow + 1800*$i);
 			}
 		}else{
 			// 有固定按摩师
 			// 今天
-			for ($i=0; $i < $k; $i++) {
+			for ($i=0; $i < $g; $i++) {
 				$nowtime = strtotime(date('Y-m-d H:i').":00");
 				if ($nowtime < $today + 1800*$i - $config['addtime']){
-					$info = $Btime->field('isok,blindmans')->where('tid='.$i." and bdate=".$today)->find();
+					$info = $Btime->field('blindmans')->where('tid='.$i." and bdate=".$today)->find();
 					if(empty($info)){
 						$todayarr[$i]['status'] = "isok";
 					}else{
-						if ($info['isok']==1) {
-							$blindmansarr = json_decode($info['blindmans'],true);
-							if(in_array($bid,$blindmansarr)){
-								$todayarr[$i]['status'] = "";
-							} else{
-								$todayarr[$i]['status'] = "isok";
-							}
-						}else{
+						
+						$blindmansarr = json_decode($info['blindmans'],true);
+						if(in_array($bid,$blindmansarr)){
 							$todayarr[$i]['status'] = "";
+						} else{
+							$todayarr[$i]['status'] = "isok";
 						}
+						
 					}
 				}else{
 					$todayarr[$i]['status'] = "";
@@ -150,40 +301,36 @@ class OrderAction extends Action
 				$todayarr[$i]['timeclock'] = date('H:i',$today + 1800*$i);
 			}
 			// 明天
-			for ($i=0; $i < $k; $i++) {
-				$info = $Btime->field('isok,blindmans')->where('tid='.$i." and bdate=".$tomorrow)->find();
+			for ($i=0; $i < $g; $i++) {
+				$info = $Btime->field('blindmans')->where('tid='.$i." and bdate=".$tomorrow)->find();
 				if(empty($info)){
 					$tomorrowarr[$i]['status'] = "isok";
 				}else{
-					if ($info['isok']==1) {
+					
 						$blindmansarr = json_decode($info['blindmans'],true);
 						if(in_array($bid,$blindmansarr)){
 							$tomorrowarr[$i]['status'] = "";
 						} else{
 							$tomorrowarr[$i]['status'] = "isok";
 						}
-					}else{
-						$tomorrowarr[$i]['status'] = "";
-					}
+					
 				}
 				$tomorrowarr[$i]['timeclock'] = date('H:i',$tomorrow + 1800*$i);
 			}
 			// 后天
-			for ($i=0; $i < $k; $i++) {
-				$info = $Btime->field('isok,blindmans')->where('tid='.$i." and bdate=".$aftertomorrow)->find();
+			for ($i=0; $i < $g; $i++) {
+				$info = $Btime->field('blindmans')->where('tid='.$i." and bdate=".$aftertomorrow)->find();
 				if(empty($info)){
 					$aftertomorrowarr[$i]['status'] = "isok";
 				}else{
-					if ($info['isok']==1) {
+					
 						$blindmansarr = json_decode($info['blindmans'],true);
 						if(in_array($bid,$blindmansarr)){
 							$aftertomorrowarr[$i]['status'] = "";
 						} else{
 							$aftertomorrowarr[$i]['status'] = "isok";
 						}
-					}else{
-						$aftertomorrowarr[$i]['status'] = "";
-					}
+					
 				}
 				$aftertomorrowarr[$i]['timeclock'] = date('H:i',$aftertomorrow + 1800*$i);
 			}
@@ -232,16 +379,21 @@ class OrderAction extends Action
 		$System = M('System');
 		$config = $System->field('addtime')->where('id=1')->find();
 		$Btime = M('Btime');
-
+		$barr = array();
 		switch ($sdate) {
 			case '0':
 				$starttime = date("m月d号 H:i",$today + $stime * 1800);
 				$endtime = date("H:i",$today + $stime * 1800 + $pinfo['timelong']*60*$num);
 				$j = ceil(($pinfo['timelong']*60*$num + $config['addtime'])/1800);
+				
 				for ($i=0; $i <= $j; $i++) { 
-					$info = $Btime->field('blindmans')->where('tid='.$stime+$i.' and bdate='.$today)->find();
+					$newstiem = $stime+$i;
+					$info = $Btime->field('blindmans')->where('tid='.$newstiem.' and bdate='.$today)->find();
+					//echo $Btime->getlastsql();
 					$blindmansarr = json_decode($info['blindmans'],true);
-					$barr = array_merge($blindmansarr,$barr);
+					if (!empty($blindmansarr)) {
+						$barr = array_unique(array_merge($blindmansarr,$barr));
+					}
 				}
 				break;
 			case '1':
@@ -249,9 +401,14 @@ class OrderAction extends Action
 				$endtime = date("H:i",$tomorrow + $stime * 1800 + $pinfo['timelong']*60*$num);
 				$j = ceil(($pinfo['timelong']*60*$num + $config['addtime'])/1800);
 				for ($i=0; $i <= $j; $i++) { 
-					$info = $Btime->field('blindmans')->where('tid='.$stime+$i.' and bdate='.$tomorrow)->find();
+					$newstiem = $stime+$i;
+					$info = $Btime->field('blindmans')->where('tid='.$newstiem.' and bdate='.$tomorrow)->find();
 					$blindmansarr = json_decode($info['blindmans'],true);
-					$barr = array_merge($blindmansarr,$barr);
+					
+					if (!empty($blindmansarr)) {
+						$barr = array_unique(array_merge($blindmansarr,$barr));
+					}
+
 				}
 				break;
 			case '2':
@@ -259,16 +416,19 @@ class OrderAction extends Action
 				$endtime = date("H:i",$aftertomorrow + $stime * 1800 + $pinfo['timelong']*60*$num);
 				$j = ceil(($pinfo['timelong']*60*$num + $config['addtime'])/1800);
 				for ($i=0; $i <= $j; $i++) { 
-					$info = $Btime->field('blindmans')->where('tid='.$stime+$i.' and bdate='.$aftertomorrow)->find();
+					$newstiem = $stime+$i;
+					$info = $Btime->field('blindmans')->where('tid='.$newstiem.' and bdate='.$aftertomorrow)->find();
 					$blindmansarr = json_decode($info['blindmans'],true);
-					$barr = array_merge($blindmansarr,$barr);
+					if (!empty($blindmansarr)) {
+						$barr = array_unique(array_merge($blindmansarr,$barr));
+					}
 				}
 				break;
 			default:
 				$this->error('参数错误');
 				break;
 		}
-
+		
 		$this->assign('starttime',$starttime);
 		$this->assign('endtime',$endtime);
 		$this->assign('timestep',$j);
@@ -280,6 +440,7 @@ class OrderAction extends Action
 			$map['id'] = array('not in',$barr);
 			$list = $Blindman->field('img,id,name,ordernum,sex')->where($map)->select();
 		}
+		
 		$this->assign('bid',$list['0']['id']);
 		$this->assign('list',$list);
 		$this->display();
@@ -353,7 +514,7 @@ class OrderAction extends Action
 		$this->assign('money',$uinfo['money']);
 
 		$Product = M('Product');
-		$prinfo = $Product->field('img,title')->where('id='.$pid)->find();
+		$prinfo = $Product->field('img,title,typeid')->where('id='.$pid)->find();
 		$this->assign('prinfo',$prinfo);
 
 		$Blindman = M('Blindman');
@@ -425,10 +586,15 @@ class OrderAction extends Action
 		$Package = M('Package');
 		$pinfo = $Package->field('price')->where('pid = '.$pid.' and title="'.$level.'"')->find();
 
-		$Coupons_info = M('Coupons_info');
-		$Coupons = M('Coupons');
-		$cinfo = $Coupons_info->field('cid')->where('id='.$cid)->find();
-		$couinfo = $Coupons->field('price')->where('id='.$cinfo['cid'])->find();
+		if (!empty($cid)) {
+			$Coupons_info = M('Coupons_info');
+			$Coupons = M('Coupons');
+			$cinfo = $Coupons_info->field('cid')->where('id='.$cid)->find();
+			$couinfo = $Coupons->field('price')->where('id='.$cinfo['cid'])->find();
+			$cprice = $couinfo['price'];
+		}else{
+			$cprice = 0;
+		}
 
 		$Btime = M('Btime');
 			for ($i=0; $i <= $timestep; $i++) {
@@ -438,7 +604,6 @@ class OrderAction extends Action
 					$btdata['tid'] = $stime;
 					$btdata['blindmans'] = json_encode(array($bid));
 					$btdata['bdate'] = $bdate;
-					$btdata['isok'] = 1;
 					$Btime->add($btdata);
 				}else{
 					$blindmans = json_decode($btinfo['blindmans'],true);
@@ -450,12 +615,6 @@ class OrderAction extends Action
 						exit();
 					}else{
 						array_push($blindmans, $bid);
-						$newlen = $blindmans.count();
-						$Blindman = M('Blindman');
-						$bmlen = $Blindman->count();
-						if($newlen >= $bmlen){
-							$btdata['isok'] = 0;
-						}
 						$btdata['blindmans'] = json_encode($blindmans);
 						$Btime->where('id='.$btinfo['id'])->save($btdata);
 					}	
@@ -469,7 +628,7 @@ class OrderAction extends Action
 		$data['pid'] = $pid;
 		$data['num'] = $num;
 		$data['price'] = $pinfo['price'];
-		$data['total'] = $pinfo['price']*$num - $couinfo['price'];
+		$data['total'] = $pinfo['price']*$num - $cprice;
 		$data['cid'] = $cid;
 		$data['status'] = 1;
 		$data['addtime'] = time();
@@ -481,8 +640,11 @@ class OrderAction extends Action
 		$data['phone'] = $phone;
 		$data['beizhu'] = $beizhu;
 		if ($Orders->add($data)) {
-			$couponsdata['usetime'] = time();
-			$Coupons_info->where('id='.$cid)->save($couponsdata);
+			if (!empty($cid)) {
+				$couponsdata['usetime'] = time();
+				$Coupons_info->where('id='.$cid)->save($couponsdata);
+			}
+			
 
 			$Blindman = M('Blindman');
 			$Blindman->where('id='.$bid)->setInc('ordernum');

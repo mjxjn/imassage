@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- saved from url=(0035)http://w.gfxiong.com/wx/lst/product -->
 <html>
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -54,17 +53,17 @@
 			<ul>
 				<volist name="list" id="vo">
 				<li onclick="selectblindman(this,{$vo.id})">
-					<div class="blindpic"><img src="{$vo.img}" width="70" /></div>
+					<div class="blindpic"><img src="{$vo.img|substr=###,1}" width="70" /></div>
 					<div class="blindinfo">
-						<p>{$vo.name} {$vo.sex|getSex}</p>
-						<p>{$vo.ordernum}</p>
+						<p>{$vo.name}</p>
+						<p><img src="__PUBLIC__/img/andriod_icon_dingdan.png" width="11" style="padding-right:5px;">{$vo.ordernum}单</p>
 						<p></p>
 					</div>
 					<div class="selectblind">
 						<eq name="key" value="0">
-						<img src="__PUBLIC__/img/checked.png" height="23" width="23">
+						<img src="__PUBLIC__/img/andriod_select_click.png" height="23" width="23">
 						<else />
-						<img src="__PUBLIC__/img/uncheck.png" height="23" width="23">
+						<img src="__PUBLIC__/img/andriod_select_normal.png" height="23" width="23">
 						</eq>
 					</div>
 				</li>
@@ -101,8 +100,8 @@
 <script type="text/javascript" crossorigin="anonymous">
 
 function selectblindman(self,id){
-	$('.selectblind').empty().html('<img src="__PUBLIC__/img/uncheck.png" height="23" width="23">');
-	$(self).find('.selectblind').empty().html('<img src="__PUBLIC__/img/checked.png" height="23" width="23">');
+	$('.selectblind').empty().html('<img src="__PUBLIC__/img/andriod_select_normal.png" height="23" width="23">');
+	$(self).find('.selectblind').empty().html('<img src="__PUBLIC__/img/andriod_select_click.png" height="23" width="23">');
 	$('input[name=bid]').val(id);
 }
 </script>

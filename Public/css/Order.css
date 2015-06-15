@@ -37,10 +37,10 @@
 	font-size:14px
 }
 .p-dt-tab-btn .p-dt-tab-li.active span {
-	border-bottom:3px solid #249caa;
+	border-bottom:3px solid #ff5629;
 	display:inline-block;
-	width:75px;
-	color:#249caa
+	width:100%;
+	color:#ff5629
 }
 .p-dt-tab-btn .p-dt-tab-li span {
 	border-bottom:3px solid #fff;
@@ -104,7 +104,7 @@ input, select{
 	font-size:0;
 	white-space:nowrap;
 	background:#f1f2f6;
-	border-top:1px solid #dcdada;
+	border-top:1px solid #ff5629;
 	width:100%;
 	height:49px;
 	text-align:center
@@ -112,7 +112,7 @@ input, select{
 .p-dt-submit .medium_button {
 	position:relative;
 	border:none;
-	background:#249caa;
+	background:#ff5629;
 	
 	height:35px;
 	margin:7px 10px;
@@ -141,9 +141,12 @@ input, select{
 	margin: 10px 4px;
 	font-size: 16px;
 	line-height: 30px;
+	-moz-border-radius: 4px;      /* Gecko browsers */
+    -webkit-border-radius: 4px;   /* Webkit browsers */
+	border-radius:4px;
 }
 .today span.active{
-	background-color: #249caa;
+	background-color: #ff5629;
 	color:#fff;
 }
 .times{
@@ -176,7 +179,7 @@ input, select{
     border-radius:4px;            /* W3C syntax */
 }
 .timeul li.isok{
-	background-color: #249caa;
+	background-color: #ff5629;
 	color: #fff;
 }
 .yydate{
@@ -186,7 +189,7 @@ input, select{
 	overflow: hidden;
 }
 .yydate span{
-	border: 1px solid #249caa;
+	border: 1px solid #ff5629;
     -moz-border-radius: 14px;      /* Gecko browsers */
     -webkit-border-radius: 14px;   /* Webkit browsers */
     border-radius:14px;            /* W3C syntax */
@@ -201,7 +204,7 @@ input, select{
 }
 .blindman{
 	font-size: 14px;
-	color: #249caa;
+	color: #ff5629;
 	line-height: 25px;
 	line-height: 25px;
 	text-align: left;
@@ -260,7 +263,7 @@ input, select{
 .p-dt-submit3 .medium_button {
 	position:relative;
 	border:none;
-	background:#249caa;
+	background:#ff5629;
 	width:135px;
 	height:35px;
 	margin:7px 10px;
@@ -304,7 +307,7 @@ input, select{
 	line-height: 44px;
 	text-align: left;
 	padding-left: 10px;
-	border-bottom: 1px solid #249caa;
+	border-bottom: 1px solid #ff5629;
 }
 .money{
 	font-size: 14px;
@@ -314,6 +317,7 @@ input, select{
 	line-height: 44px;
 	text-align: left;
 	padding-left: 10px;
+	border-bottom: 1px solid #ff5629;
 }
 .payway{
 	font-size: 14px;
@@ -325,7 +329,7 @@ input, select{
 	line-height: 44px;
 	text-align: left;
 	padding-left: 10px;
-	border-bottom: 1px solid #249caa;
+	border-bottom: 1px solid #ff5629;
 }
 .payway .pay{
 	line-height: 44px;
@@ -340,19 +344,25 @@ input, select{
 	padding-left: 10px;
 	margin-top: 5px;
 }
+.address{
+	padding:10px;
+	background-color: #e4e4e4;
+}
 .address p {
 	padding: 0;
 	margin: 0;
 }
 .orderinfo{
 	font-size: 14px;
-	line-height: 44px;
-	border-bottom: 1px solid #249caa;
+	line-height: 30px;
+	border-bottom: 1px solid #ff5629;
 	text-align: left;
 	padding-left: 10px;
+	
 }
-.container li{list-style: none;}
-.total{
+
+.container li{list-style: none;position: relative;}
+.container .total{
 	clear: both;
 	border-top: 1px dashed #249caa;
 	font-size: 12px;
@@ -360,3 +370,10 @@ input, select{
 	text-align: left;
 	padding-left: 10px;
 }
+.pose{
+	position: absolute;
+	left: 0px;
+	top: 10px;
+	z-index: 10;
+}
+

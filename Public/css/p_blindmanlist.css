@@ -90,7 +90,7 @@
 	overflow:hidden;
 	border-bottom:2px solid #ededed
 }
-.iOs #Main li {
+#Main li {
 	padding:10px 0px 11px 10px;
 }
 #Main li .clear {

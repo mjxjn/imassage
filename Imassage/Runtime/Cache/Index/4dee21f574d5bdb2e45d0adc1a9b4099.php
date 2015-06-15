@@ -2,7 +2,7 @@
 <html>
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Imassage爱按摩</title>
+	<title><?php echo ($info["title"]); ?></title>
 	<meta name="viewport" content="width=320,user-scalable=no">
 	<meta name="format-detection" content="telephone=no">
 	
@@ -42,7 +42,7 @@
 	</script>
 </head>
 <body class="">
-		<div id="AppointType">
+		<!-- <div id="AppointType">
 		<div class="wrap">
 			<div style="line-height:45px; color:#fff;"><?php echo ($info["title"]); ?></div>
 			<div id="citySelect" class="back-select">
@@ -50,7 +50,7 @@
 			</div>
 		</div>
 		</div>
-		<div id="AppointTypeSpace"></div>
+		<div id="AppointTypeSpace"></div> -->
 <form id="product_submit_form" style="display:block" action="__APP__/Order" method="get" onsubmit="return check_input();">
 	<input id="id" type="hidden" name="id" value="<?php echo ($info["id"]); ?>">
 	<div class="p-dt">
@@ -176,7 +176,7 @@
 	</div>
 
 	
-	
+	<div id="BottomMenuSpace"></div>
 
 	<div class="p-dt-submit">			
 		<div class="submit-l">

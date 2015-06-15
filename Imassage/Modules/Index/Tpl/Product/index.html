@@ -2,7 +2,7 @@
 <html>
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Imassage爱按摩</title>
+	<title>{$info.title}</title>
 	<meta name="viewport" content="width=320,user-scalable=no">
 	<meta name="format-detection" content="telephone=no">
 	
@@ -42,7 +42,7 @@
 	</script>
 </head>
 <body class="">
-		<div id="AppointType">
+		<!-- <div id="AppointType">
 		<div class="wrap">
 			<div style="line-height:45px; color:#fff;">{$info.title}</div>
 			<div id="citySelect" class="back-select">
@@ -50,9 +50,9 @@
 			</div>
 		</div>
 		</div>
-		<div id="AppointTypeSpace"></div>
+		<div id="AppointTypeSpace"></div> -->
 <form id="product_submit_form" style="display:block" action="__APP__/Order" method="get" onsubmit="return check_input();">
-	<input id="id" type="hidden" name="id" value="{$info.id}">
+	<input id="id" type="hidden" name="pid" value="{$info.id}">
 	<div class="p-dt">
 		<div class="p-dt-box">
 			<img class="pose" async-src="__PUBLIC__/img/andriod_tag_{$info.typeid}.png" height="50" src="__PUBLIC__/img/andriod_tag_{$info.typeid}.png">
@@ -180,7 +180,7 @@
 	</div>
 
 	
-	
+	<div id="BottomMenuSpace"></div>
 
 	<div class="p-dt-submit">			
 		<div class="submit-l">
@@ -233,11 +233,7 @@
 		options      : {}
 	};
 </script>
-<div id="DebugLog" style="display:none;">
-	<div>
-		<a onclick="document.querySelector('#DebugLog').style.display = 'none';return false;">关闭</a>
-	</div>
-</div>
+
 
 	<script type="text/javascript" src="__PUBLIC__/js/jweixin-1.0.0.js"></script>
 	<script type="text/javascript">

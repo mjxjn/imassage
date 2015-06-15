@@ -61,10 +61,18 @@ class LoginAction extends Action
 			$data['used'] = 1;
 			$Verfiy->where('id='.$info['id'])->save($data);
 			$User = M('User');
-			$udata['phone'] = $phone;
-			$udata['openid'] = $openid;
-			$udata['lastlogin'] = time();
-			$User->add($udata);
+			$uinfo = $User->field('id')->where('phone = "'.$phone.'"')->find();
+			if(empty($uinfo)){
+				$udata['phone'] = $phone;
+				$udata['openid'] = $openid;
+				$udata['lastlogin'] = time();
+				$User->add($udata);
+			}else{
+				$udata['openid'] = $openid;
+				$udata['lastlogin'] = time();
+				$User->where('id='.$uinfo['id'])->save($udata);
+			}
+			
 			Header("Location: http://".$_SERVER['HTTP_HOST']."/index.php/user"); 
 		}
 	}

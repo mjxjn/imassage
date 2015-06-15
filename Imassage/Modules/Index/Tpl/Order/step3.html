@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- saved from url=(0035)http://w.gfxiong.com/wx/lst/product -->
 <html>
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -12,7 +11,7 @@
 
 	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/global.css">
 	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/global.wx.css">
-	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/p_list.css">
+	
 	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/order.css">
 	
 		
@@ -40,8 +39,15 @@
 	})
 	</script>
 	<style type="text/css">
-	#Main .title{font-size: 12px;}
-	</style>
+		.title{font-size: 14px; color: #666; }
+		.titleImage{
+	float: left;
+	padding-right: 15px;
+}
+.pay{
+	border-bottom: 1px solid #ddd; 
+}
+</style>
 </head>
 <body class="">
 <form action="__URL__/submitorder/" method="post" onsubmit="return check_input();">
@@ -56,9 +62,9 @@
 				<div style="float:left;padding-left:10px;line-height:44px;">{$vo.title} (金额：￥{$vo.price|incPrc})</div>
 				<div class="coupons_list" style="float:right;line-height:44px; padding:5px 10px 0 0;">
 						<eq name="key" value="0">
-						<img src="__PUBLIC__/img/checked.png" height="23" width="23">
+						<img src="__PUBLIC__/img/andriod_select_click.png" height="23" width="23">
 						<else />
-						<img src="__PUBLIC__/img/uncheck.png" height="23" width="23">
+						<img src="__PUBLIC__/img/andriod_select_normal.png" height="23" width="23">
 						</eq>
 				</div>
 			</div>
@@ -80,7 +86,8 @@
 		<div class="blindmanlist container">
 			<div class="orderinfo">订单详情</div>
 			<li>
-			<img async-src="{$prinfo.img}" height="75" width="75" title="{$prinfo.title}" class="titleImage" src="{$prinfo.img}">
+			<img class="pose" async-src="__PUBLIC__/img/andriod_tag_{$prinfo.typeid}.png" height="30" src="__PUBLIC__/img/andriod_tag_{$prinfo.typeid}.png">
+			<img async-src="{$prinfo.img|substr=###,1}" height="75" width="75" title="{$prinfo.title}" class="titleImage" src="{$prinfo.img|substr=###,1}">
             <div class="title">
             服务：{$prinfo.title}
             </div>
@@ -94,6 +101,7 @@
           	项目时间：{$starttime}
             </div>
             </li>
+            <div class="clear"></div>
             <div class="total">
             	<p>总计：￥{$total|incPrc}</p>
             	<p>折扣: -￥<span class="cou">{$coulist.0.price|incPrc}</span></p>
@@ -101,7 +109,7 @@
 		</div>
 	</div>
 	<div id="BottomMenuSpace"></div>
-	<div class="p-dt-submit3">			
+	<div class="p-dt-submit3 p-dt-submit">			
 		<div class="submit-l">
 			<div class="price_display">
 				<div class="line_total_price">
@@ -138,8 +146,8 @@
 	<script type="text/javascript" crossorigin="anonymous">
 
 function selectcoupons(self,id,price){
-	$('.coupons_list').empty().html('<img src="__PUBLIC__/img/uncheck.png" height="23" width="23">');
-	$(self).find('.coupons_list').empty().html('<img src="__PUBLIC__/img/checked.png" height="23" width="23">');
+	$('.coupons_list').empty().html('<img src="__PUBLIC__/img/andriod_select_normal.png" height="23" width="23">');
+	$(self).find('.coupons_list').empty().html('<img src="__PUBLIC__/img/andriod_select_click.png" height="23" width="23">');
 	$('input[name=cid]').val(id);
 	$('.cou').empty().html(price);
 	var total = {$total|incPrc} - price;

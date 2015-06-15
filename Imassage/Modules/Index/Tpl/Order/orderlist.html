@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<!-- saved from url=(0063)http://w.gfxiong.com/wx/detail/product/5491b86be4b0c4895219f2c1 -->
 <html>
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Imassage爱按摩</title>
+	<title>订单列表</title>
 	<meta name="viewport" content="width=320,user-scalable=no">
 	<meta name="format-detection" content="telephone=no">
 	
@@ -40,12 +39,7 @@
 	</script>
 </head>
 <body class="">
-	<div id="AppointType">
-		<div class="wrap" style="line-height:45px; color:#fff;">
-			订单列表
-		</div>
-	</div>
-	<div id="AppointTypeSpace"></div>
+	
 	<eq name="isempty" value="1">
 		<ul id="Main" class="container">
 			<volist name="list" id="vo">
@@ -70,8 +64,8 @@
         	</volist>
 		</ul>
 	<else />
-		<div class="f40">暂无订单</div>
-		<div class="btn"><a href="__APP__/index">去预约</a></div>
+		<div class="f40" style="margin-top:50px; font-size:40px;">暂无订单</div>
+		<div class="" onclick="location.href='__APP__/index'" style="width:150px; height:30px; line-height:30px;background:#ff5629;display:block; border-radius:5px; color:#fff;text-align:center; margin:20px auto">去预约</div>
 	</eq>
 	<div id="BottomMenuSpace"></div>
 		<table id="BottomMenu">
@@ -80,25 +74,25 @@
 			<td id="home" class="">
 				<a href="__APP__/index">
 				<span class="icon">
-				<img async-src="__PUBLIC__/img/home.png" width="20" height="20" src="__PUBLIC__/img/home.png">
+				<img async-src="__PUBLIC__/img/andriod_icon_subject_normal.png" width="20" height="20" src="__PUBLIC__/img/andriod_icon_subject_normal.png">
 				</span>
-				<span class="title">预约</span>
+				<span class="title">推拿项目</span>
 				</a>
 			</td>
-			<td id="myorder" class="active">
+			<td id="myorder" class="">
+				<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx20ec6953f13e5975&redirect_uri=http://w.jiningjianye.com/index.php/blindman&response_type=code&scope=snsapi_base&state=1#wechat_redirect">
+				<span class="icon">
+				<img async-src="__PUBLIC__/img/andriod_icon_doctor_normal.png" width="20" height="20" src="__PUBLIC__/img/andriod_icon_doctor_normal.png">
+				</span>
+				<span class="title">按摩师</span>
+				</a>
+			</td>
+			<td id="people" class="active">
 				<a href="###">
 				<span class="icon">
-				<img async-src="__PUBLIC__/img/myorder.active.png" width="20" height="20" src="__PUBLIC__/img/myorder.active.png">
+				<img async-src="__PUBLIC__/img/andriod_icon_me_click.png" width="20" height="20" src="__PUBLIC__/img/andriod_icon_me_click.png">
 				</span>
-				<span class="title">订单</span>
-				</a>
-			</td>
-			<td id="people" class="">
-				<a href="__APP__/Check/index?state=/user/index">
-				<span class="icon">
-				<img async-src="__PUBLIC__/img/people.png" width="20" height="20" src="__PUBLIC__/img/people.png">
-				</span>
-				<span class="title">个人</span>
+				<span class="title">个人中心</span>
 				</a>
 			</td>
 		</tr>
