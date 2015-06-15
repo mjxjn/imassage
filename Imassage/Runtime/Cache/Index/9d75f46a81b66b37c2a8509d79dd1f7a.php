@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
 <html>
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -40,23 +40,21 @@
 		<div class="couponslist">
 			<div class="conpostitle">已有优惠券</div>
 			<ul id="Main" class="container">
-			<volist name="list" id="vo">
-				<li id="p{$vo.id}">
-	            		<div class="title">{$vo.title}
-	            			<span class="price">优惠金额：￥{$vo.price|incPrc}
+			<?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><li id="p<?php echo ($vo["id"]); ?>">
+	            		<div class="title"><?php echo ($vo["title"]); ?>
+	            			<span class="price">优惠金额：￥<?php echo (incprc($vo["price"])); ?>
 	            			</span>
-	            			<span class="font-smaller">截止：{$vo.endtime|date='y-m-d',###}</span>
+	            			<span class="font-smaller">截止：<?php echo (date('y-m-d',$vo["endtime"])); ?></span>
 	            		</div>
 	            		<div class="desc">使用条件：
 	            			<span>
-	                            订单金额 >￥{$vo.minprice|incPrc}元   
-	            				订单人数 >{$vo.minnum}人
+	                            订单金额 >￥<?php echo (incprc($vo["minprice"])); ?>元   
+	            				订单人数 ><?php echo ($vo["minnum"]); ?>人
 	            			</span>
 	            		</div>
 	            		<div class="clear"></div>
-	        	</li>
-	        </volist>
+	        	</li><?php endforeach; endif; else: echo "" ;endif; ?>
 			</ul>
 		</div>
 	</body>
-</html>	
+</html>

@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<!-- saved from url=(0035)http://w.gfxiong.com/wx/lst/product -->
 <html>
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Imassage爱按摩</title>
+	<title>订单详情</title>
 	<meta name="viewport" content="width=320,user-scalable=no">
 	<meta name="format-detection" content="telephone=no">
 	
@@ -12,8 +11,8 @@
 
 	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/global.css">
 	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/global.wx.css">
+	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/p_detail.css">
 	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/p_list.css">
-	<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/order.css">
 
 	<script type="text/javascript" crossorigin="anonymous" src="__PUBLIC__/js/jquery.min.js"></script>
 
@@ -27,46 +26,56 @@
 	</script>
 	<style type="text/css">
 	#Main .title{font-size: 12px;}
+	.orderinfo{
+		font-size: 14px;
+		text-align: left;
+		height: 200px;
+		line-height: 25px;
+		padding-left:10px;
+		
+	}
+	.orderinfo p{
+		margin:0;
+		padding:0;
+	}
+	
 	</style>
 </head>
 <body class="">
 <form action="__URL__/changeorder/" method="post">
-	<div id="Main" class="container">
-		<div class="step_one" id="order_step">
-			<img src="__PUBLIC__/img/order3.png" width="100%" />
+	<div class="p-dt">
+		<div class="p-dt-box">
+			<img class="pose" async-src="__PUBLIC__/img/andriod_tag_{$pinfo.typeid}.png" height="50" src="__PUBLIC__/img/andriod_tag_{$pinfo.typeid}.png">
+			<img async-src="{$pinfo.img|substr=###,1}" width="100%" title="{$pinfo.title}" class="titleImage" src="{$pinfo.img|substr=###,1}">
+			
 		</div>
-		<div class="coupons">优惠券: {$cinfo.title|default="暂无优惠券可用"}</div>
-		<div class="address">
-			<p>地址: {$oinfo.address}-{$oinfo.lou}</p> 
-			<p>联系人: {$oinfo.name}</p> 
-			<p>电话: {$oinfo.phone}</p>
+		<div class="p-dt-box-r">
+				<div class="line1"><strong>{$pinfo.title}</strong></div>
+				<div class="line2">
+					
+					<span>{$pinfo.timelong}分钟</span>
+				</div>
+				<div class="clear"></div>
+				<div class="line3">
+					<span id="singlePrice">￥{$oinfo.total|incPrc}</span>
+				</div>
+				<div class="line4">{$oinfo.num}人
+				</div>
 		</div>
-		<div class="blindmanlist container">
-			<div class="orderinfo">订单详情</div>
-			<li>
-			<img async-src="{$pinfo.img}" height="75" width="75" title="{$pinfo.title}" class="titleImage" src="{$pinfo.img}">
-            <div class="title">
-            服务：{$pinfo.title}
-            </div>
-            <div class="title">
-            按摩师：{$binfo.name}
-            </div>
-            <div class="title">
-            项目数量：{$oinfo.num}
-            </div>
-          	<div class="title">
-          	项目时间：{$oinfo.starttime|date="m-d H:i",###}
-            </div>
-            <div class="title">
-            订单状态：{$oinfo.status|payStatus}
-            </div>
-            </li>
-            <div class="total">
-            	<p>折扣: -￥{$cinfo.price|incPrc}</p>
-            	<p>总计：￥{$oinfo.total|incPrc}</p>
-            </div>
+		<div class="clear"></div>
+		<div class="orderinfo">
+			<p>优惠券: {$cinfo.title|default="没有使用"}</p>
+			<p>地址: {$oinfo.address}-{$oinfo.lou}</p>
+			<p>联系人: {$oinfo.name} - 电话: {$oinfo.phone}</p>
+			<p>按摩师：{$binfo.name}</p>
+			<p>预约时间：{$oinfo.starttime|date="m-d H:i",###}</p>
+			<p>订单状态：{$oinfo.status|payStatus}</p>
+			<p>折扣: -￥{$cinfo.price|incPrc}</p>
+			<p>总计：￥{$oinfo.total|incPrc}</p>
 		</div>
-	</div>
+		<div id="BottomMenuSpace"></div>
+
+	<div class="p-dt-submit">
 	<eq name="oinfo.status" value="1"><input class="medium_button primary" type="submit" value="去付款" ></eq>
 	<eq name="oinfo.status" value="2"><input class="medium_button primary" type="submit" value="申请退款" ></eq>
 	<eq name="oinfo.status" value="3"><input class="medium_button primary" type="submit" value="申请退款" ></eq>
@@ -82,5 +91,8 @@
 	</eq>
 	<input type="hidden" name="id" value="{$oinfo.id}" />
 	<input type="hidden" name="uid" value="{$oinfo.uid}" />
+	</div>
+	</div>
+	
 </form>
 </body></html>

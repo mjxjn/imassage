@@ -1,0 +1,65 @@
+.addcoupon{
+	background: #e4e4e4;
+	padding: 20px 10px;
+	text-align: left;
+	font-size: 14px;
+}
+.addcoupontitle{
+	font-size: 16px;
+	line-height: 30px;
+}
+.input{
+	height: 30px;
+	line-height: 30px;
+	width: 60%;
+	border: 1px solid #ff5629
+}
+.btn{
+	  height: 35px;
+	  line-height: 30px;
+	  padding: 0 20px;
+	  margin-left: 6px;
+	  background:#ff5629;
+	  border-radius:5px;
+	  color: #fff;
+	  font-size: 14px;
+	  border: 1px solid #ff5629
+}
+.conpostitle{
+	font-size: 16px;
+	border-bottom: 1px solid #ff5629;
+	text-align: left;
+	padding-left: 10px;
+	height: 35px;
+	line-height: 35px;
+}
+ul , li{
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.couponslist li{
+	border-bottom: 1px solid #e4e4e4;
+	text-align: left;
+	padding: 10px;
+	font-size: 14px;
+}
+.title{
+	clear: both;
+}
+.price{
+	color: #ff5629;
+	font-size: 16px;
+	padding-left: 20px;
+}
+.font-smaller{
+	float: right;
+	font-size: 12px;
+}
+.desc{
+	text-align: right;
+	line-height: 30px;
+	height: 30px;
+	color: #aaa;
+	font-size: 12px;
+}

@@ -724,8 +724,38 @@ class OrderAction extends Action
 	}
 
 	function orderlist(){
+		Vendor('Weixin.WxPayPubHelper.WxPayPubHelper');
+			//使用jsapi接口
+			$jsApi = new JsApi_pub();
+
+			//=========步骤1：网页授权获取用户openid============
+			//通过code获得openid
+			if (!isset($_GET['code']))
+			{
+				$callbackurl = json_encode($_GET);
+				
+				//触发微信返回code码
+				$url = $jsApi->createOauthUrlForCode("http://w.jiningjianye.com/index.php/order/orderlist",$callbackurl);
+				Header("Location: $url"); 
+				exit();
+			}
+			else
+			{
+				//获取code码，以获取openid
+			    $code = $_GET['code'];
+			    $state = $_GET['state'];
+				$jsApi->setCode($code);
+				$openid = $jsApi->getOpenId();
+			}
+			if (empty($openid)) {
+				echo "没有openid";
+				exit();
+			}
+			$User = M('User');
+			$userinfo = $User->field('id')->where('openid="'.$openid.'"')->find();
+			$uid = $userinfo['id'];
 		$Orders = M('Orders');
-		$uid = I('uid');
+		//$uid = I('uid');
 		$page = I('page','1');
 		$count = 5;
 		$list = $Orders->where('uid='.$uid)->order('id desc')->limit($count * ($page-1).','.$count)->select();
@@ -734,10 +764,11 @@ class OrderAction extends Action
 		}else{
 			$Product = M('Product');
 			foreach ($list as $key => $value) {
-				 $pinfo = $Product->field('title,timelong,img')->where('id='.$value['pid'])->find();
+				 $pinfo = $Product->field('title,timelong,img,typeid')->where('id='.$value['pid'])->find();
 				 $list[$key]['title'] = $pinfo['title'];
 				 $list[$key]['timelong'] = $pinfo['timelong'];
 				 $list[$key]['img'] = $pinfo['img'];
+				 $list[$key]['typeid'] = $pinfo['typeid'];
 			}
 			$isempty = 1;
 		}
@@ -908,6 +939,7 @@ class OrderAction extends Action
 	}
 
 	public function comment(){
+		header("Content-Type: text/html; charset=utf-8");
 		$uid = I('uid'); 
 		$oid = I('id');
 		if($_POST){

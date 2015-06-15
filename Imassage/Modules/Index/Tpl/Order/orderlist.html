@@ -28,7 +28,7 @@
 		}
 	</script>
 	<script type="text/javascript" crossorigin="anonymous" src="__PUBLIC__/js/jquery.min.js"></script>
-<script type="text/javascript" crossorigin="anonymous" src="__PUBLIC__/js/detail.product.create.js"></script>
+
 <script type="text/javascript" crossorigin="anonymous">
 	$(document).ready(function(){
 		var u = navigator.userAgent
@@ -44,21 +44,26 @@
 		<ul id="Main" class="container">
 			<volist name="list" id="vo">
 			<li id="p{$vo.id}" onclick="location.href='__APP__/Check/index?state=/Order/orderinfo/id/{$vo.id}'">
-            		<img async-src="{$vo.img}" height="75" width="75" title="{$vo.title}" class="titleImage" src="{$vo.img}">
+            		<img class="pose" async-src="__PUBLIC__/img/andriod_tag_{$vo.typeid}.png" height="50" src="__PUBLIC__/img/andriod_tag_{$vo.typeid}.png">
+            		<img async-src="{$vo.img|substr=###,1}" width="100%" title="{$vo.title}" class="titleImage" src="{$vo.img|substr=###,1}">
+            		<img async-src="__PUBLIC__/img/ios_picture_mask.png" width="100%" title="{$vo.title}" class="bgImage" src="__PUBLIC__/img/ios_picture_mask.png">
             		<div class="title">{$vo.title}
-            			<span class="price">￥{$vo.total|incPrc}
-            			<span class="font-smaller">({$vo.status|payStatus})</span>
-            			</span>
-            		</div>
-            		<div class="desc">
-            			<img async-src="__PUBLIC__/img/clock.png" height="13" src="__PUBLIC__/img/clock.png">
-            			<span>
-                            {$vo.timelong}分钟
-            			</span>
-            		</div>
-            		<div class="btn">
-            			<a>查看详细</a>
-            		</div>
+	            			
+	            	</div>
+            		
+	            		<div class="desc">
+	            			<span class="price">￥{$vo.total|incPrc}
+	            				<span class="font-smaller">({$vo.status|payStatus})</span>
+	            			</span>
+	            			<span class="timelong">
+	                            {$vo.timelong}分钟
+	            			({$vo.num}人)
+	            			</span>
+	            			<span class="btn">
+	            			<a>查看详细 ></a>
+	            			</span>
+	            		</div>
+	            	
             		<div class="clear"></div>
         	</li>
         	</volist>
